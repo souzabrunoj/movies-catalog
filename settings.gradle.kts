@@ -4,6 +4,7 @@ rootProject.name = "movie-catalog"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             mavenContent {
@@ -29,6 +30,10 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+
+include(":core:navigator")
+include(":core:design-system")
+include(":core:ui-model")
 
 include(":composeApp")
 include(":androidApp")

@@ -1,0 +1,27 @@
+name: KMP Gradle check
+description: JDK 21, Gradle wrapper, run one ./gradlew task (repo must be checked out first).
+
+inputs:
+  gradle-args:
+    description: Arguments passed to ./gradlew (e.g. detekt, ktlintCheck, :composeApp:jvmTest)
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        distribution: zulu
+        java-version: 21
+
+    - name: Set up Gradle
+      uses: gradle/actions/setup-gradle@v4
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      shell: bash
+
+    - name: Run Gradle
+      run: ./gradlew ${{ inputs.gradle-args }} --stacktrace --no-daemon
+      shell: bash
