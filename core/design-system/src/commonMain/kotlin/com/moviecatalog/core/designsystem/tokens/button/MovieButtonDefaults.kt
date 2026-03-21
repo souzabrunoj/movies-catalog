@@ -3,12 +3,10 @@ package com.moviecatalog.core.designsystem.tokens.button
 import androidx.compose.ui.graphics.Color
 import com.moviecatalog.core.designsystem.tokens.color.MovieSemanticColors
 
-
 internal data class MovieButtonColors(
     val background: Color,
     val content: Color,
 )
-
 
 internal object MovieButtonDefaults {
     fun colors(
@@ -22,7 +20,7 @@ internal object MovieButtonDefaults {
             MovieButtonVariant.Primary ->
                 if (showAsDisabled) {
                     MovieButtonColors(
-                        background = semantic.buttonPrimaryDisabledBackground,
+                        background = semantic.fillPrimaryDisabled,
                         content = semantic.contentDisabled,
                     )
                 } else {
@@ -34,25 +32,25 @@ internal object MovieButtonDefaults {
             MovieButtonVariant.Neutral ->
                 if (showAsDisabled) {
                     MovieButtonColors(
-                        background = semantic.buttonNeutralDisabledBackground,
+                        background = semantic.fillNeutralDisabled,
                         content = semantic.contentDisabled,
                     )
                 } else {
                     MovieButtonColors(
-                        background = semantic.buttonNeutralEnabledBackground,
+                        background = semantic.fillNeutral,
                         content = semantic.contentHigh,
                     )
                 }
             MovieButtonVariant.Destructive ->
                 if (showAsDisabled) {
                     MovieButtonColors(
-                        background = semantic.buttonDestructiveDisabledBackground,
+                        background = semantic.fillDestructiveDisabled,
                         content = semantic.contentDisabled,
                     )
                 } else {
                     MovieButtonColors(
-                        background = semantic.buttonDestructiveEnabledBackground,
-                        content = semantic.buttonDestructiveContent,
+                        background = semantic.fillDestructive,
+                        content = semantic.contentOnSaturated,
                     )
                 }
             MovieButtonVariant.Ghost ->

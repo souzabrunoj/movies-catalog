@@ -9,10 +9,9 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items as lazyGridItems
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
@@ -28,6 +27,7 @@ import com.moviecatalog.core.designsystem.tokens.action.MovieActionButtonGroupIt
 import com.moviecatalog.core.designsystem.tokens.action.MovieActionButtonGroupOverflowMode
 import com.moviecatalog.core.designsystem.tokens.size.MovieSpace
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextStyle
+import androidx.compose.foundation.lazy.grid.items as lazyGridItems
 
 @Composable
 fun <T> MovieActionButtonGroup(
@@ -89,8 +89,8 @@ private fun MovieActionChipCell(
     onClick: () -> Unit,
 ) {
     val semantic = MovieTheme.colors
-    val container = if (selected) semantic.contentPositive else semantic.textFieldFilledBackground
-    val label = if (selected) semantic.contentOnSecondaryFill else semantic.contentMedium
+    val container = if (selected) semantic.contentPositive else semantic.fillNeutral
+    val label = if (selected) semantic.contentOnSaturated else semantic.contentMedium
     val shape = RoundedCornerShape(percent = 50)
     val interactionSource = remember { MutableInteractionSource() }
     Row(

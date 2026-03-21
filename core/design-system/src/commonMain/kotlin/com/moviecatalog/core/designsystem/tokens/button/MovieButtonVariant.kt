@@ -1,6 +1,5 @@
 package com.moviecatalog.core.designsystem.tokens.button
 
-
 enum class MovieButtonVariant {
     Primary,
     Neutral,

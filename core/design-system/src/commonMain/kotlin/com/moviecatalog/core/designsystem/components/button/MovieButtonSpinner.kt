@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.Dp
 import com.moviecatalog.core.designsystem.tokens.size.MovieComponentSize
 
-
 @Composable
 internal fun MovieButtonSpinner(
     color: Color,

@@ -26,7 +26,6 @@ import com.moviecatalog.core.designsystem.tokens.size.MovieCornerRadius
 import com.moviecatalog.core.designsystem.tokens.size.MovieSpace
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextStyle
 
-
 @Composable
 fun MovieButton(
     text: String,

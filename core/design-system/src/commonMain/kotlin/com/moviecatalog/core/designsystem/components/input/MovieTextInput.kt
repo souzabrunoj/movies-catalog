@@ -245,8 +245,8 @@ private fun MovieTextInputDecoration(
 ) {
     val bg =
         when (state) {
-            MovieTextInputUiState.Disabled -> semantic.buttonNeutralDisabledBackground
-            else -> semantic.textFieldFilledBackground
+            MovieTextInputUiState.Disabled -> semantic.fillNeutralDisabled
+            else -> semantic.fillNeutral
         }
     val hasError = state == MovieTextInputUiState.Error
     val rowModifier =
@@ -258,7 +258,7 @@ private fun MovieTextInputDecoration(
                 if (hasError) {
                     Modifier.border(
                         width = MovieStrokeWidth.Hairline,
-                        color = semantic.textFieldErrorIndicator,
+                        color = semantic.fillDestructive,
                         shape = fieldShape,
                     )
                 } else {
@@ -336,7 +336,7 @@ private fun MovieTextInputErrorBadge() {
             Modifier
                 .size(MovieTextInputTokens.errorIndicatorDiameter)
                 .clip(CircleShape)
-                .background(c.textFieldErrorIndicator),
+                .background(c.fillDestructive),
         contentAlignment = Alignment.Center,
     ) {
         BasicText(
@@ -377,7 +377,7 @@ private fun MovieTextInputFooter(
                 if (hasError) {
                     MovieTextVariant(
                         textStyle = MovieTextStyle.TextSmall,
-                        color = MovieTheme.colors.textFieldErrorIndicator,
+                        color = MovieTheme.colors.fillDestructive,
                     )
                 } else {
                     MovieTextVariant(
