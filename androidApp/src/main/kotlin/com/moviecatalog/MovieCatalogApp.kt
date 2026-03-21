@@ -3,7 +3,7 @@ package com.moviecatalog
 import android.app.Application
 import com.moviecatalog.di.initKoin
 
-class MuseumApp : Application() {
+class MovieCatalogApp : Application() {
     override fun onCreate() {
         super.onCreate()
         initKoin()

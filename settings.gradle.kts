@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 rootProject.name = "movie-catalog"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
@@ -29,3 +31,4 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
+include(":androidApp")
