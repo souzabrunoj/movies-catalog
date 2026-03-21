@@ -16,4 +16,5 @@ internal object MovieColorPrimitives {
     val DestructiveFillDisabled: Color = Color(0xFF352428)
     val BrandFillDisabled: Color = Color(0xFF2A1518)
     val InkOnSaturated: Color = Color(0xFF0A0A0A)
+    val ProgressTrack: Color = Color(0xFF2C2424)
 }

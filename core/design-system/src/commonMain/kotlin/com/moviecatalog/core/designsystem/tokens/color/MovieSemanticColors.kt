@@ -23,6 +23,7 @@ data class MovieSemanticColors(
     val fillDestructive: Color,
     val fillDestructiveDisabled: Color,
     val fillPrimaryDisabled: Color,
+    val fillProgressTrack: Color,
     val contentOnSaturated: Color,
 ) {
     companion object {
@@ -47,6 +48,7 @@ data class MovieSemanticColors(
                 fillDestructive = p.DestructiveFill,
                 fillDestructiveDisabled = p.DestructiveFillDisabled,
                 fillPrimaryDisabled = p.BrandFillDisabled,
+                fillProgressTrack = p.ProgressTrack,
                 contentOnSaturated = p.InkOnSaturated,
             )
         }
