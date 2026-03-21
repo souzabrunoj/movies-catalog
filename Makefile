@@ -82,5 +82,5 @@ test: ## Run JVM/unit tests (all modules)
 	$(GRADLE) test
 
 .PHONY: build
-build: ## Alias: same as check (detekt + ktlint + debug APK)
+build: ## Alias: same as check (detekt + ktlint + jvmTest)
 	@$(MAKE) check

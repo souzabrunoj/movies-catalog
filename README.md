@@ -14,13 +14,25 @@
 
 ## CI (GitHub Actions)
 
-Workflow **`.github/workflows/ci.yml`** runs on **push to `main`** and on **pull requests targeting `main`**: **Detekt** → **ktlintCheck** → **`:composeApp:jvmTest`** → **`:androidApp:assembleDebug`** (Ubuntu, Android SDK via `android-actions/setup-android`, Gradle cache via `gradle/actions/setup-gradle`).
+Workflow **`.github/workflows/development.yaml`** runs on **push to `main`** and on **pull requests targeting `main`**. Each quality step is a **separate job** so GitHub shows **one status check per job** (easy to require in branch protection):
 
-Local equivalent: `make check` (or `make ci`).
+| Check name on PR | What it runs |
+|------------------|--------------|
+| **`CI / Detekt`** | `./gradlew detekt` |
+| **`CI / KtLint Check`** | `./gradlew ktlintCheck` |
+| **`CI / JVM Unit Tests`** | `./gradlew :composeApp:jvmTest` |
+
+**iOS:** **`.github/workflows/build-ios.yml`** → check **`Build iOS app / Xcode build`**.
+
+Runners: Ubuntu + `gradle/actions/setup-gradle` (no Android SDK in CI).
+
+Local equivalent: `make check` (or `make ci`). Use **`make assembleDebug`** when you need a debug APK.
+
+**Branch protection:** Enable **Require status checks to pass**, then add the three **`CI / …`** names above (after at least one run), plus **`Build iOS app / Xcode build`** if you want iOS blocking merges too.
 
 ## Android
 
-Using **Make** (same style as `mobile-banking-android`: `make help` lists targets):
+Using **Make** (`make help` lists targets):
 
 ```bash
 make assembleDebug    # debug APK
@@ -28,8 +40,8 @@ make runAppDebug      # assemble + install + open (needs device + adb)
 make detekt
 make ktlintCheck      # Kotlin style (CI)
 make ktlintFormat     # auto-fix style
-make lint             # format + check (like Stone `make lint` idea)
-make check            # detekt + ktlintCheck + :composeApp:jvmTest + assembleDebug (same as CI)
+make lint             # ktlintFormat + ktlintCheck
+make check            # detekt + ktlintCheck + jvmTest (same as CI)
 ```
 
 Or Gradle directly:
