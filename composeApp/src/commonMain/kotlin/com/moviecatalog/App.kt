@@ -10,7 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.moviecatalog.core.designsystem.theme.MovieCatalogTheme
+import com.moviecatalog.core.designsystem.theme.MovieTheme
 import com.moviecatalog.screens.detail.DetailScreen
 import com.moviecatalog.screens.list.ListScreen
 import kotlinx.serialization.Serializable
@@ -23,11 +23,11 @@ data class DetailDestination(val objectId: Int)
 
 @Composable
 fun App() {
-    MovieCatalogTheme {
+    MovieTheme {
         Box(
             Modifier
                 .fillMaxSize()
-                .background(MovieCatalogTheme.colors.backgroundBody),
+                .background(MovieTheme.colors.backgroundBody),
         ) {
             val navController: NavHostController = rememberNavController()
             NavHost(navController = navController, startDestination = ListDestination) {

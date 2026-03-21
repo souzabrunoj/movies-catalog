@@ -2,7 +2,7 @@ package com.moviecatalog.core.designsystem.tokens.color
 
 import androidx.compose.ui.graphics.Color
 
-object MovieCatalogColorPrimitives {
+object MovieColorPrimitives {
     val Primary: Color = Color(0xFFE50914)
     val Secondary: Color = Color(0xFF45FEC9)
     val Surface: Color = Color(0xFF0E0E0E)

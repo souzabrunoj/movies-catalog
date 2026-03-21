@@ -4,7 +4,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Suppress("unused")
-object MovieCatalogSpace {
+object MovieSpace {
     val None: Dp = 0.dp
     val XSmall3: Dp = 2.dp
     val XSmall2: Dp = 4.dp

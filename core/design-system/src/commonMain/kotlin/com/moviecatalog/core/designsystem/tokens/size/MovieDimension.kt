@@ -4,7 +4,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Suppress("unused")
-object MovieCatalogDimension {
+object MovieDimension {
     val D56: Dp = 56.dp
     val D64: Dp = 64.dp
     val D72: Dp = 72.dp

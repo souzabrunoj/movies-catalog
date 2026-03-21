@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
 @Immutable
-data class MovieCatalogSemanticColors(
+data class MovieSemanticColors(
     val contentHigh: Color,
     val contentMedium: Color,
     val contentLow: Color,
@@ -40,9 +40,9 @@ data class MovieCatalogSemanticColors(
     // endregion
 ) {
     companion object {
-        fun darkDefault(): MovieCatalogSemanticColors {
-            val p = MovieCatalogColorPrimitives
-            return MovieCatalogSemanticColors(
+        fun darkDefault(): MovieSemanticColors {
+            val p = MovieColorPrimitives
+            return MovieSemanticColors(
                 contentHigh = Color(0xFFF5F5F5),
                 contentMedium = Color(0xFFA3A3A3),
                 contentLow = Color(0xFF737373),

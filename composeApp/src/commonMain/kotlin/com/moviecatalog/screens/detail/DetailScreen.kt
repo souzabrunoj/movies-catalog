@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -27,17 +26,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
-import com.moviecatalog.core.designsystem.theme.MovieCatalogTheme
-import com.moviecatalog.core.designsystem.tokens.size.MovieCatalogComponentSize
-import com.moviecatalog.core.designsystem.tokens.size.MovieCatalogSpace
-import com.moviecatalog.core.designsystem.tokens.type.MovieCatalogTextStyle
+import com.moviecatalog.core.designsystem.components.text.MovieText
+import com.moviecatalog.core.designsystem.theme.MovieTheme
+import com.moviecatalog.core.designsystem.tokens.size.MovieComponentSize
+import com.moviecatalog.core.designsystem.tokens.size.MovieSpace
+import com.moviecatalog.core.designsystem.tokens.type.MovieTextColor
+import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
 import com.moviecatalog.data.MuseumObject
 import com.moviecatalog.generated.resources.Res
 import com.moviecatalog.generated.resources.back
@@ -76,7 +76,7 @@ private fun ObjectDetails(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val colors = MovieCatalogTheme.colors
+    val colors = MovieTheme.colors
     Column(
         modifier
             .fillMaxSize()
@@ -86,7 +86,7 @@ private fun ObjectDetails(
             Modifier
                 .fillMaxWidth()
                 .background(colors.backgroundSurface)
-                .padding(horizontal = MovieCatalogSpace.XSmall2, vertical = MovieCatalogSpace.XSmall),
+                .padding(horizontal = MovieSpace.XSmall2, vertical = MovieSpace.XSmall),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
@@ -94,8 +94,8 @@ private fun ObjectDetails(
                 contentDescription = stringResource(Res.string.back),
                 modifier = Modifier
                     .clickable(onClick = onBackClick)
-                    .padding(MovieCatalogSpace.Small)
-                    .size(MovieCatalogComponentSize.IconMedium),
+                    .padding(MovieSpace.Small)
+                    .size(MovieComponentSize.IconMedium),
                 colorFilter = ColorFilter.tint(colors.contentHigh),
             )
         }
@@ -115,12 +115,13 @@ private fun ObjectDetails(
             )
 
             SelectionContainer {
-                Column(Modifier.padding(MovieCatalogSpace.Small)) {
-                    BasicText(
-                        AnnotatedString(obj.title),
-                        style = MovieCatalogTheme.textStyle(MovieCatalogTextStyle.HeadingMedium),
+                Column(Modifier.padding(MovieSpace.Small)) {
+                    MovieText(
+                        text = obj.title,
+                        variant = MovieTextVariant.HeadingMedium(),
+                        contentColor = MovieTextColor.High,
                     )
-                    Spacer(Modifier.height(MovieCatalogSpace.XSmall2 + MovieCatalogSpace.XSmall3))
+                    Spacer(Modifier.height(MovieSpace.XSmall2 + MovieSpace.XSmall3))
                     LabeledInfo(stringResource(Res.string.label_title), obj.title)
                     LabeledInfo(stringResource(Res.string.label_artist), obj.artistDisplayName)
                     LabeledInfo(stringResource(Res.string.label_date), obj.objectDate)
@@ -141,16 +142,17 @@ private fun LabeledInfo(
     data: String,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier.padding(vertical = MovieCatalogSpace.XSmall2)) {
-        Spacer(Modifier.height(MovieCatalogSpace.XSmall2 + MovieCatalogSpace.XSmall3))
-        BasicText(
+    Column(modifier.padding(vertical = MovieSpace.XSmall2)) {
+        Spacer(Modifier.height(MovieSpace.XSmall2 + MovieSpace.XSmall3))
+        MovieText(
             text = buildAnnotatedString {
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                     append("$label: ")
                 }
                 append(data)
             },
-            style = MovieCatalogTheme.textStyle(MovieCatalogTextStyle.TextMedium),
+            variant = MovieTextVariant.TextMedium(),
+            contentColor = MovieTextColor.Medium,
         )
     }
 }

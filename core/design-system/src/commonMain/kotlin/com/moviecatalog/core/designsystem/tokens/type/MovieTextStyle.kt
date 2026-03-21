@@ -2,13 +2,13 @@ package com.moviecatalog.core.designsystem.tokens.type
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import com.moviecatalog.core.designsystem.tokens.color.MovieCatalogSemanticColors
+import com.moviecatalog.core.designsystem.tokens.color.MovieSemanticColors
 
-enum class MovieCatalogTextStyle(
+enum class MovieTextStyle(
     internal val fontSizeSp: Float,
     internal val lineHeightSp: Float,
     internal val defaultWeight: FontWeight,
-    internal val defaultColor: (MovieCatalogSemanticColors) -> Color,
+    internal val defaultColor: (MovieSemanticColors) -> Color,
 ) {
     DisplayMedium(
         fontSizeSp = 45f,

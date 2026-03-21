@@ -4,7 +4,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Suppress("unused")
-object MovieCatalogComponentSize {
+object MovieComponentSize {
     val MinTouchTarget: Dp = 48.dp
     val IconSmall: Dp = 16.dp
     val IconMedium: Dp = 24.dp

@@ -16,19 +16,19 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
-import com.moviecatalog.core.designsystem.theme.MovieCatalogTheme
-import com.moviecatalog.core.designsystem.tokens.size.MovieCatalogSpace
-import com.moviecatalog.core.designsystem.tokens.type.MovieCatalogTextStyle
+import com.moviecatalog.core.designsystem.components.text.MovieText
+import com.moviecatalog.core.designsystem.theme.MovieTheme
+import com.moviecatalog.core.designsystem.tokens.size.MovieSpace
+import com.moviecatalog.core.designsystem.tokens.type.MovieTextColor
+import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
 import com.moviecatalog.data.MuseumObject
 import com.moviecatalog.screens.EmptyScreenContent
 import org.koin.compose.viewmodel.koinViewModel
@@ -80,7 +80,7 @@ private fun ObjectFrame(
 ) {
     Column(
         modifier
-            .padding(MovieCatalogSpace.XSmall)
+            .padding(MovieSpace.XSmall)
             .clickable { onClick() },
     ) {
         AsyncImage(
@@ -90,25 +90,25 @@ private fun ObjectFrame(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1f)
-                .background(MovieCatalogTheme.colors.backgroundSurface),
+                .background(MovieTheme.colors.backgroundSurface),
         )
 
-        Spacer(Modifier.height(MovieCatalogSpace.XSmall3))
+        Spacer(Modifier.height(MovieSpace.XSmall3))
 
-        BasicText(
-            AnnotatedString(obj.title),
-            style = MovieCatalogTheme.textStyle(
-                style = MovieCatalogTextStyle.TextMedium,
-                fontWeight = FontWeight.Medium,
-            ),
+        MovieText(
+            text = obj.title,
+            variant = MovieTextVariant.TextMedium(FontWeight.Medium),
+            contentColor = MovieTextColor.High,
         )
-        BasicText(
-            AnnotatedString(obj.artistDisplayName),
-            style = MovieCatalogTheme.textStyle(MovieCatalogTextStyle.TextMedium),
+        MovieText(
+            text = obj.artistDisplayName,
+            variant = MovieTextVariant.TextMedium(),
+            contentColor = MovieTextColor.Medium,
         )
-        BasicText(
-            AnnotatedString(obj.objectDate),
-            style = MovieCatalogTheme.textStyle(MovieCatalogTextStyle.TextSmall),
+        MovieText(
+            text = obj.objectDate,
+            variant = MovieTextVariant.TextSmall(),
+            contentColor = MovieTextColor.Low,
         )
     }
 }

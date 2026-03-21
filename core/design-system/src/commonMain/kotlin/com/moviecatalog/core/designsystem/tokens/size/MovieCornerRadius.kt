@@ -4,7 +4,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Suppress("unused")
-object MovieCatalogCornerRadius {
+object MovieCornerRadius {
     val None: Dp = 0.dp
     val XSmall: Dp = 6.dp
     val Small: Dp = 8.dp
