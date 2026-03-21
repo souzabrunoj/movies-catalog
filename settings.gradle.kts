@@ -30,5 +30,9 @@ dependencyResolutionManagement {
     }
 }
 
+include(":core:navigator")
+include(":core:design-system")
+include(":core:ui-model")
+
 include(":composeApp")
 include(":androidApp")

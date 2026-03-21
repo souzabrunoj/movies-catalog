@@ -66,6 +66,10 @@ kotlin {
             implementation(libs.ktor.client.darwin)
         }
         commonMain.dependencies {
+            implementation(projects.core.navigator)
+            implementation(projects.core.designSystem)
+            implementation(projects.core.uiModel)
+
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.ui)
