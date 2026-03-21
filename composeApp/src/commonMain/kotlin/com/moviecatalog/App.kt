@@ -13,7 +13,11 @@ import androidx.navigation.toRoute
 import com.moviecatalog.core.designsystem.theme.MovieTheme
 import com.moviecatalog.screens.detail.DetailScreen
 import com.moviecatalog.screens.list.ListScreen
+import com.moviecatalog.screens.splash.SplashScreen
 import kotlinx.serialization.Serializable
+
+@Serializable
+object SplashDestination
 
 @Serializable
 object ListDestination
@@ -30,7 +34,16 @@ fun App() {
                 .background(MovieTheme.colors.backgroundBody),
         ) {
             val navController: NavHostController = rememberNavController()
-            NavHost(navController = navController, startDestination = ListDestination) {
+            NavHost(navController = navController, startDestination = SplashDestination) {
+                composable<SplashDestination> {
+                    SplashScreen(
+                        onLoadingComplete = {
+                            navController.navigate(ListDestination) {
+                                popUpTo<SplashDestination> { inclusive = true }
+                            }
+                        },
+                    )
+                }
                 composable<ListDestination> {
                     ListScreen(navigateToDetails = { objectId ->
                         navController.navigate(DetailDestination(objectId))

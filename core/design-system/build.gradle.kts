@@ -36,6 +36,8 @@ kotlin {
             implementation(libs.compose.animation)
             implementation(libs.compose.foundation)
             implementation(libs.compose.ui)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor)
         }
     }
 }
