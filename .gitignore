@@ -31,7 +31,7 @@ keystore.properties
 # --- IntelliJ / Android Studio ---
 *.iml
 .idea/
-# Stone-style partial commit (optional):
+# Optional: commit selected IDE settings only
 # .idea/*
 # !.idea/codeInsightSettings.xml
 
