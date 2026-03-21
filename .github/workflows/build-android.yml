@@ -20,5 +20,5 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 21
-      - name: Android debug build
-        run: ./gradlew assembleDebug --stacktrace
+      - name: Detekt + Android debug build
+        run: make check GRADLE='./gradlew --stacktrace'

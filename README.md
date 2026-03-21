@@ -14,8 +14,20 @@
 
 ## Android
 
+Using **Make** (same style as `mobile-banking-android`: `make help` lists targets):
+
+```bash
+make assembleDebug    # debug APK
+make runAppDebug      # assemble + install + open (needs device + adb)
+make detekt
+make check            # detekt + assembleDebug
+```
+
+Or Gradle directly:
+
 ```bash
 ./gradlew :androidApp:assembleDebug
+./gradlew detekt
 ```
 
 ## iOS

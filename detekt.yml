@@ -1,0 +1,54 @@
+config:
+  validation: true
+
+build:
+  maxIssues: 0
+
+complexity:
+  CyclomaticComplexMethod:
+    threshold: 20
+  LongMethod:
+    active: false
+  LargeClass:
+    active: false
+  LongParameterList:
+    functionThreshold: 8
+    constructorThreshold: 10
+    ignoreDefaultParameters: true
+  TooManyFunctions:
+    active: false
+
+style:
+  MaxLineLength:
+    maxLineLength: 140
+    excludePackageStatements: true
+    excludeImportStatements: true
+  WildcardImport:
+    active: false
+  ReturnCount:
+    max: 4
+  UnusedImports:
+    active: true
+
+naming:
+  FunctionNaming:
+    ignoreAnnotated:
+      - Composable
+
+comments:
+  UndocumentedPublicClass:
+    active: false
+  UndocumentedPublicFunction:
+    active: false
+  UndocumentedPublicProperty:
+    active: false
+
+exceptions:
+  TooGenericExceptionCaught:
+    active: false
+  SwallowedException:
+    active: false
+
+empty-blocks:
+  EmptyFunctionBlock:
+    active: false
