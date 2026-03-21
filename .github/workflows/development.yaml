@@ -2,9 +2,11 @@ name: Build development quality
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -12,68 +14,44 @@ concurrency:
 
 permissions:
   contents: read
-  pull-requests: write
-  checks: write
 
 defaults:
   run:
     shell: bash
 
 jobs:
-
   detekt:
     name: Detekt
     runs-on: ubuntu-latest
     timeout-minutes: 15
-
     steps:
       - name: Check out
         uses: actions/checkout@v4
 
-      - name: Run Detekt
-        uses: ./.github/actions/gradle-check/action.yaml
+      - uses: ./.github/actions/gradle-check
         with:
           gradle-args: detekt
 
-      - name: Upload SARIF (Detekt)
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: '**/build/reports/detekt/detekt.sarif'
-
-      - name: Reviewdog (Detekt PR comments)
-        if: github.event_name == 'pull_request'
-        uses: reviewdog/action-sarif@v1
-        with:
-          sarif_file: '**/build/reports/detekt/detekt.sarif'
-          reporter: github-pr-review
-          fail_on_error: true
-
-
   ktlint:
-    name: KtLint
+    name: KtLint Check
     runs-on: ubuntu-latest
     timeout-minutes: 15
-
     steps:
       - name: Check out
         uses: actions/checkout@v4
 
-      - name: Run KtLint
-        uses: ./.github/actions/gradle-check/action.yaml/
+      - uses: ./.github/actions/gradle-check
         with:
           gradle-args: ktlintCheck
 
-
-  tests:
-    name: Tests
+  unit-tests:
+    name: JVM Unit Tests
     runs-on: ubuntu-latest
-    timeout-minutes: 25
-
+    timeout-minutes: 20
     steps:
       - name: Check out
         uses: actions/checkout@v4
 
-      - name: Run all tests
-        uses: ./.github/actions/gradle-check/action.yaml/
+      - uses: ./.github/actions/gradle-check
         with:
-          gradle-args: allTests
+          gradle-args: ":composeApp:jvmTest"

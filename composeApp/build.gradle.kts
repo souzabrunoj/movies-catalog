@@ -1,4 +1,3 @@
-import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -8,20 +7,8 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinxSerialization)
-    alias(libs.plugins.detekt)
-    alias(libs.plugins.ktlint)
-}
-
-detekt {
-    parallel = true
-    buildUponDefaultConfig = true
-    allRules = false
-    config.setFrom(rootProject.files("detekt.yml"))
-}
-
-tasks.withType<Detekt>().configureEach {
-    jvmTarget = "11"
-    exclude("**/build/**")
+    alias(libs.plugins.platform.detekt)
+    alias(libs.plugins.platform.ktlint)
 }
 
 compose {
@@ -98,11 +85,4 @@ kotlin {
 
 dependencies {
     androidRuntimeClasspath(libs.androidx.compose.ui.tooling)
-}
-
-ktlint {
-    filter {
-        exclude("**/generated/**")
-        exclude("**/build/**")
-    }
 }

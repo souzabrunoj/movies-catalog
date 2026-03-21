@@ -6,6 +6,24 @@
 - **Gradle project name:** `movie-catalog`
 - **iOS bundle:** `com.moviecatalog.app` — change in `iosApp/Configuration/Config.xcconfig` if needed
 
+## Build logic (`build-logic/`)
+
+Gradle composite included via `pluginManagement { includeBuild("build-logic") }`.
+
+| Catalog alias | Plugin id | Purpose |
+|---------------|-------------|---------|
+| **`libs.plugins.platform.detekt`** | `com.moviecatalog.convention.detekt` | Detekt, `config/detekt/detekt.yml`, SARIF, JVM 11 for Detekt tasks. |
+| **`libs.plugins.platform.ktlint`** | `com.moviecatalog.convention.ktlint` | ktlint-gradle, excludes `generated/` and `build/`. |
+
+Add to any new module (with Kotlin/Android/Compose as needed):
+
+```kotlin
+plugins {
+    alias(libs.plugins.platform.detekt)
+    alias(libs.plugins.platform.ktlint)
+}
+```
+
 ## Requirements
 
 - JDK 17+
