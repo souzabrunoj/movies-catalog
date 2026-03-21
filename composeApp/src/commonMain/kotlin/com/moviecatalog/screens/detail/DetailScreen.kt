@@ -47,8 +47,6 @@ import com.moviecatalog.generated.resources.label_medium
 import com.moviecatalog.generated.resources.label_repository
 import com.moviecatalog.generated.resources.label_title
 import com.moviecatalog.screens.EmptyScreenContent
-import com.moviecatalog.screens.EmptyScreenContent
-import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
