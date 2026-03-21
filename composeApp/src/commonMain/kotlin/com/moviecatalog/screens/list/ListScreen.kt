@@ -16,23 +16,26 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
+import com.moviecatalog.core.designsystem.theme.MovieCatalogTheme
+import com.moviecatalog.core.designsystem.tokens.size.MovieCatalogSpace
+import com.moviecatalog.core.designsystem.tokens.type.MovieCatalogTextStyle
 import com.moviecatalog.data.MuseumObject
 import com.moviecatalog.screens.EmptyScreenContent
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ListScreen(
-    navigateToDetails: (objectId: Int) -> Unit
+    navigateToDetails: (objectId: Int) -> Unit,
 ) {
     val viewModel = koinViewModel<ListViewModel>()
     val objects by viewModel.objects.collectAsStateWithLifecycle()
@@ -77,8 +80,8 @@ private fun ObjectFrame(
 ) {
     Column(
         modifier
-            .padding(8.dp)
-            .clickable { onClick() }
+            .padding(MovieCatalogSpace.XSmall)
+            .clickable { onClick() },
     ) {
         AsyncImage(
             model = obj.primaryImageSmall,
@@ -87,13 +90,25 @@ private fun ObjectFrame(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1f)
-                .background(Color.LightGray),
+                .background(MovieCatalogTheme.colors.backgroundSurface),
         )
 
-        Spacer(Modifier.height(2.dp))
+        Spacer(Modifier.height(MovieCatalogSpace.XSmall3))
 
-        Text(obj.title, style = MaterialTheme.typography.titleMedium)
-        Text(obj.artistDisplayName, style = MaterialTheme.typography.bodyMedium)
-        Text(obj.objectDate, style = MaterialTheme.typography.bodySmall)
+        BasicText(
+            AnnotatedString(obj.title),
+            style = MovieCatalogTheme.textStyle(
+                style = MovieCatalogTextStyle.TextMedium,
+                fontWeight = FontWeight.Medium,
+            ),
+        )
+        BasicText(
+            AnnotatedString(obj.artistDisplayName),
+            style = MovieCatalogTheme.textStyle(MovieCatalogTextStyle.TextMedium),
+        )
+        BasicText(
+            AnnotatedString(obj.objectDate),
+            style = MovieCatalogTheme.textStyle(MovieCatalogTextStyle.TextSmall),
+        )
     }
 }
