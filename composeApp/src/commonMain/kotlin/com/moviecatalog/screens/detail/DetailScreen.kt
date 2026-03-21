@@ -36,7 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.moviecatalog.data.MuseumObject
-import com.moviecatalog.screens.EmptyScreenContent
 import com.moviecatalog.generated.resources.Res
 import com.moviecatalog.generated.resources.back
 import com.moviecatalog.generated.resources.label_artist
@@ -47,6 +46,9 @@ import com.moviecatalog.generated.resources.label_dimensions
 import com.moviecatalog.generated.resources.label_medium
 import com.moviecatalog.generated.resources.label_repository
 import com.moviecatalog.generated.resources.label_title
+import com.moviecatalog.screens.EmptyScreenContent
+import com.moviecatalog.screens.EmptyScreenContent
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
