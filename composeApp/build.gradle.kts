@@ -45,6 +45,8 @@ kotlin {
         }
     }
 
+    jvm()
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -83,6 +85,9 @@ kotlin {
             implementation(libs.coil.network.ktor)
             implementation(libs.koin.core)
             implementation(libs.koin.compose.viewmodel)
+        }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
         }
     }
 }

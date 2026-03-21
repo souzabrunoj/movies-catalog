@@ -56,8 +56,12 @@ lint: ## ktlintFormat + ktlintCheck
 	$(GRADLE) ktlintFormat ktlintCheck
 
 .PHONY: check
-check: ## detekt + ktlintCheck + assembleDebug (handy before push / CI)
-	$(GRADLE) detekt ktlintCheck $(ANDROID_APP):assembleDebug
+check: ## detekt + ktlintCheck + jvmTest + assembleDebug
+	$(GRADLE) detekt ktlintCheck :composeApp:jvmTest $(ANDROID_APP):assembleDebug
+
+.PHONY: ci
+ci: ## Same as check (explicit name for pipelines)
+	@$(MAKE) check
 
 # --- Gradle housekeeping ---
 
