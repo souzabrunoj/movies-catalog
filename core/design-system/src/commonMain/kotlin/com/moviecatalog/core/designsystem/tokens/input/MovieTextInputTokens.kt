@@ -4,7 +4,7 @@ import androidx.compose.ui.unit.Dp
 import com.moviecatalog.core.designsystem.tokens.size.MovieComponentSize
 import com.moviecatalog.core.designsystem.tokens.size.MovieSpace
 
-object MovieTextInputTokens {
+internal object MovieTextInputTokens {
     val wrapperVerticalSpacing: Dp = MovieSpace.XSmall2
     val fieldHorizontalPadding: Dp = MovieSpace.Small
     val fieldVerticalPadding: Dp = MovieSpace.XSmall

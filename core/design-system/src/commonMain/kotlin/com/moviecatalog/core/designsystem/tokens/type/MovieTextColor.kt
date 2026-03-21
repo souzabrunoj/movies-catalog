@@ -15,7 +15,7 @@ enum class MovieTextColor {
     Warning,
     ;
 
-    fun resolve(colors: MovieSemanticColors): Color =
+    internal fun resolve(colors: MovieSemanticColors): Color =
         when (this) {
             High -> colors.contentHigh
             Medium -> colors.contentMedium

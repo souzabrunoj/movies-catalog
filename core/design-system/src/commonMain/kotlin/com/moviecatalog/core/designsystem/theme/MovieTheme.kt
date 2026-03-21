@@ -11,7 +11,7 @@ import com.moviecatalog.core.designsystem.tokens.color.MovieSemanticColors
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextStyle
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
 
-val LocalMovieSemanticColors =
+internal val LocalMovieSemanticColors =
     staticCompositionLocalOf<MovieSemanticColors> {
         error("MovieTheme not provided — wrap UI with MovieTheme { }")
     }

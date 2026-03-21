@@ -14,7 +14,7 @@ data class MovieTextVariant(
     val fontWeight: FontWeight? = null,
     val color: Color? = null,
 ) {
-    fun resolve(colors: MovieSemanticColors): TextStyle {
+    internal fun resolve(colors: MovieSemanticColors): TextStyle {
         val token = textStyle
         return TextStyle(
             fontSize = token.fontSizeSp.sp,
@@ -24,7 +24,7 @@ data class MovieTextVariant(
         )
     }
 
-    fun resolve(
+    internal fun resolve(
         colors: MovieSemanticColors,
         contentColor: MovieTextColor,
         textAlign: TextAlign = TextAlign.Start,
