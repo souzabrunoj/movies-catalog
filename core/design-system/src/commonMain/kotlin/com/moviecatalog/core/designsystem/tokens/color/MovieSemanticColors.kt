@@ -43,6 +43,8 @@ data class MovieSemanticColors(
     val buttonDestructiveDisabledBackground: Color,
     val buttonPrimaryDisabledBackground: Color,
     val buttonDestructiveContent: Color,
+    val textFieldFilledBackground: Color,
+    val textFieldErrorIndicator: Color,
 ) {
     companion object {
         fun darkDefault(): MovieSemanticColors {
@@ -86,6 +88,8 @@ data class MovieSemanticColors(
                 buttonDestructiveDisabledBackground = p.DestructiveFillDisabled,
                 buttonPrimaryDisabledBackground = p.BrandFillDisabled,
                 buttonDestructiveContent = p.InkOnSaturated,
+                textFieldFilledBackground = p.NeutralFill,
+                textFieldErrorIndicator = p.DestructiveFill,
             )
         }
     }
