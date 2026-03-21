@@ -37,7 +37,12 @@ data class MovieSemanticColors(
     val backgroundWarningSubtleHover: Color,
     val backgroundInfoSubtle: Color,
     val backgroundInfoSubtleHover: Color,
-    // endregion
+    val buttonNeutralEnabledBackground: Color,
+    val buttonNeutralDisabledBackground: Color,
+    val buttonDestructiveEnabledBackground: Color,
+    val buttonDestructiveDisabledBackground: Color,
+    val buttonPrimaryDisabledBackground: Color,
+    val buttonDestructiveContent: Color,
 ) {
     companion object {
         fun darkDefault(): MovieSemanticColors {
@@ -60,7 +65,7 @@ data class MovieSemanticColors(
                 backgroundBrandHover = Color(0xFFFF1A26),
                 backgroundBrandSubtle = Color(0x33E50914),
                 backgroundBrandSubtleHover = Color(0x4DE50914),
-                borderHigh = Color(0xFF3D3D3D),
+                borderHigh = p.NeutralFill,
                 borderMedium = p.SurfaceBright,
                 borderLow = Color(0xFF1F1F1F),
                 contentPositive = p.Secondary,
@@ -75,6 +80,12 @@ data class MovieSemanticColors(
                 backgroundWarningSubtleHover = Color(0x4DFFB547),
                 backgroundInfoSubtle = Color(0x33D7A0FF),
                 backgroundInfoSubtleHover = Color(0x4DD7A0FF),
+                buttonNeutralEnabledBackground = p.NeutralFill,
+                buttonNeutralDisabledBackground = p.NeutralFillDisabled,
+                buttonDestructiveEnabledBackground = p.DestructiveFill,
+                buttonDestructiveDisabledBackground = p.DestructiveFillDisabled,
+                buttonPrimaryDisabledBackground = p.BrandFillDisabled,
+                buttonDestructiveContent = p.InkOnSaturated,
             )
         }
     }
