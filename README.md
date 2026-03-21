@@ -20,7 +20,10 @@ Using **Make** (same style as `mobile-banking-android`: `make help` lists target
 make assembleDebug    # debug APK
 make runAppDebug      # assemble + install + open (needs device + adb)
 make detekt
-make check            # detekt + assembleDebug
+make ktlintCheck      # Kotlin style (CI)
+make ktlintFormat     # auto-fix style
+make lint             # format + check (like Stone `make lint` idea)
+make check            # detekt + ktlintCheck + assembleDebug
 ```
 
 Or Gradle directly:

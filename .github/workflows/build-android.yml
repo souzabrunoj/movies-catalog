@@ -20,5 +20,5 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 21
-      - name: Detekt + Android debug build
+      - name: Detekt + ktlint + Android debug build
         run: make check GRADLE='./gradlew --stacktrace'

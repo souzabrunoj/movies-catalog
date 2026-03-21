@@ -43,9 +43,21 @@ embedIosFramework: ## Build Compose framework for Xcode (expects Xcode/Gradle in
 detekt: ## Run Detekt on all modules that apply the plugin
 	$(GRADLE) detekt
 
+.PHONY: ktlintFormat
+ktlintFormat: ## Auto-fix Kotlin style (ktlint via JLLeitschuh plugin)
+	$(GRADLE) ktlintFormat
+
+.PHONY: ktlintCheck
+ktlintCheck: ## Verify Kotlin style (CI-friendly)
+	$(GRADLE) ktlintCheck
+
+.PHONY: lint
+lint: ## ktlintFormat + ktlintCheck
+	$(GRADLE) ktlintFormat ktlintCheck
+
 .PHONY: check
-check: ## detekt + assembleDebug (handy before push / CI)
-	$(GRADLE) detekt $(ANDROID_APP):assembleDebug
+check: ## detekt + ktlintCheck + assembleDebug (handy before push / CI)
+	$(GRADLE) detekt ktlintCheck $(ANDROID_APP):assembleDebug
 
 # --- Gradle housekeeping ---
 
@@ -66,5 +78,5 @@ test: ## Run JVM/unit tests (all modules)
 	$(GRADLE) test
 
 .PHONY: build
-build: ## Alias: same as check (detekt + debug APK)
+build: ## Alias: same as check (detekt + ktlint + debug APK)
 	@$(MAKE) check

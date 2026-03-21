@@ -66,3 +66,5 @@ Pods/
 # --- Editors / tooling ---
 .vscode/
 *.focus
+
+/docs

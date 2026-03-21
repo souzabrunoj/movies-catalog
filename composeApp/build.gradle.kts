@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.ktlint)
 }
 
 detekt {
@@ -88,4 +89,11 @@ kotlin {
 
 dependencies {
     androidRuntimeClasspath(libs.androidx.compose.ui.tooling)
+}
+
+ktlint {
+    filter {
+        exclude("**/generated/**")
+        exclude("**/build/**")
+    }
 }

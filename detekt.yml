@@ -20,7 +20,7 @@ complexity:
 
 style:
   MaxLineLength:
-    maxLineLength: 140
+    maxLineLength: 120
     excludePackageStatements: true
     excludeImportStatements: true
   WildcardImport:
