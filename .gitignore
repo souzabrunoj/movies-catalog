@@ -1,0 +1,68 @@
+# --- Gradle / Kotlin Multiplatform ---
+.gradle/
+build/
+!src/**/build/
+.kotlin/
+local.properties
+gradle-local.properties
+*.hprof
+
+# --- Android ---
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+out/
+.navigation/
+captures/
+.externalNativeBuild/
+.cxx/
+*.log
+stacktrace.txt
+
+# Signing (never commit secrets)
+*.jks
+*.keystore
+keystore.properties
+
+# --- IntelliJ / Android Studio ---
+*.iml
+.idea/
+# Stone-style partial commit (optional):
+# .idea/*
+# !.idea/codeInsightSettings.xml
+
+# --- macOS ---
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# --- Xcode / iOS (KMP Compose framework) ---
+xcuserdata/
+*.xcuserstate
+DerivedData/
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Keep Xcode project structure; ignore user-local noise inside .xcodeproj
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
+!*.xcworkspace/contents.xcworkspacedata
+**/xcshareddata/WorkspaceSettings.xcsettings
+
+# CocoaPods / SPM (uncomment or extend when you adopt them)
+Pods/
+# Keep Podfile.lock committed for reproducible iOS deps when using CocoaPods.
+.swiftpm/configuration/
+**/.build/
+
+# --- Editors / tooling ---
+.vscode/
+*.focus
