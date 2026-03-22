@@ -16,23 +16,26 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
+import com.moviecatalog.core.designsystem.components.text.MovieText
+import com.moviecatalog.core.designsystem.theme.MovieTheme
+import com.moviecatalog.core.designsystem.tokens.size.MovieSpace
+import com.moviecatalog.core.designsystem.tokens.type.MovieTextColor
+import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
 import com.moviecatalog.data.MuseumObject
 import com.moviecatalog.screens.EmptyScreenContent
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ListScreen(
-    navigateToDetails: (objectId: Int) -> Unit
+    navigateToDetails: (objectId: Int) -> Unit,
 ) {
     val viewModel = koinViewModel<ListViewModel>()
     val objects by viewModel.objects.collectAsStateWithLifecycle()
@@ -77,8 +80,8 @@ private fun ObjectFrame(
 ) {
     Column(
         modifier
-            .padding(8.dp)
-            .clickable { onClick() }
+            .padding(MovieSpace.XSmall)
+            .clickable { onClick() },
     ) {
         AsyncImage(
             model = obj.primaryImageSmall,
@@ -87,13 +90,25 @@ private fun ObjectFrame(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1f)
-                .background(Color.LightGray),
+                .background(MovieTheme.colors.backgroundSurface),
         )
 
-        Spacer(Modifier.height(2.dp))
+        Spacer(Modifier.height(MovieSpace.XSmall3))
 
-        Text(obj.title, style = MaterialTheme.typography.titleMedium)
-        Text(obj.artistDisplayName, style = MaterialTheme.typography.bodyMedium)
-        Text(obj.objectDate, style = MaterialTheme.typography.bodySmall)
+        MovieText(
+            text = obj.title,
+            variant = MovieTextVariant.TextMedium(FontWeight.Medium),
+            contentColor = MovieTextColor.High,
+        )
+        MovieText(
+            text = obj.artistDisplayName,
+            variant = MovieTextVariant.TextMedium(),
+            contentColor = MovieTextColor.Medium,
+        )
+        MovieText(
+            text = obj.objectDate,
+            variant = MovieTextVariant.TextSmall(),
+            contentColor = MovieTextColor.Low,
+        )
     }
 }

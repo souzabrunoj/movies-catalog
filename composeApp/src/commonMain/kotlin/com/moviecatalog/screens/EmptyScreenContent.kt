@@ -1,10 +1,12 @@
 package com.moviecatalog.screens
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.moviecatalog.core.designsystem.components.text.MovieText
+import com.moviecatalog.core.designsystem.tokens.type.MovieTextColor
+import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
 import com.moviecatalog.generated.resources.Res
 import com.moviecatalog.generated.resources.no_data_available
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -19,6 +21,10 @@ fun EmptyScreenContent(
         modifier = modifier,
         contentAlignment = Alignment.Center,
     ) {
-        Text(stringResource(Res.string.no_data_available))
+        MovieText(
+            text = stringResource(Res.string.no_data_available),
+            variant = MovieTextVariant.TextMedium(),
+            contentColor = MovieTextColor.Medium,
+        )
     }
 }

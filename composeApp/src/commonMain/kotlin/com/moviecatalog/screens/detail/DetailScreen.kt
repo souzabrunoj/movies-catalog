@@ -1,14 +1,18 @@
 package com.moviecatalog.screens.detail
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
@@ -16,25 +20,24 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
+import com.moviecatalog.core.designsystem.components.text.MovieText
+import com.moviecatalog.core.designsystem.theme.MovieTheme
+import com.moviecatalog.core.designsystem.tokens.size.MovieComponentSize
+import com.moviecatalog.core.designsystem.tokens.size.MovieSpace
+import com.moviecatalog.core.designsystem.tokens.type.MovieTextColor
+import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
 import com.moviecatalog.data.MuseumObject
 import com.moviecatalog.generated.resources.Res
 import com.moviecatalog.generated.resources.back
@@ -73,24 +76,34 @@ private fun ObjectDetails(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Scaffold(
-        topBar = {
-            @OptIn(ExperimentalMaterial3Api::class)
-            TopAppBar(
-                title = {},
-                navigationIcon = {
-                    IconButton(onClick = onBackClick) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(Res.string.back))
-                    }
-                }
+    val colors = MovieTheme.colors
+    Column(
+        modifier
+            .fillMaxSize()
+            .windowInsetsPadding(WindowInsets.systemBars),
+    ) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .background(colors.backgroundSurface)
+                .padding(horizontal = MovieSpace.XSmall2, vertical = MovieSpace.XSmall),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Image(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = stringResource(Res.string.back),
+                modifier = Modifier
+                    .clickable(onClick = onBackClick)
+                    .padding(MovieSpace.Small)
+                    .size(MovieComponentSize.IconMedium),
+                colorFilter = ColorFilter.tint(colors.contentHigh),
             )
-        },
-        modifier = modifier.windowInsetsPadding(WindowInsets.systemBars),
-    ) { paddingValues ->
+        }
+
         Column(
             Modifier
                 .verticalScroll(rememberScrollState())
-                .padding(paddingValues)
+                .fillMaxWidth(),
         ) {
             AsyncImage(
                 model = obj.primaryImageSmall,
@@ -98,13 +111,17 @@ private fun ObjectDetails(
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.LightGray)
+                    .background(colors.backgroundSurface),
             )
 
             SelectionContainer {
-                Column(Modifier.padding(12.dp)) {
-                    Text(obj.title, style = MaterialTheme.typography.headlineMedium)
-                    Spacer(Modifier.height(6.dp))
+                Column(Modifier.padding(MovieSpace.Small)) {
+                    MovieText(
+                        text = obj.title,
+                        variant = MovieTextVariant.HeadingMedium(),
+                        contentColor = MovieTextColor.High,
+                    )
+                    Spacer(Modifier.height(MovieSpace.XSmall2 + MovieSpace.XSmall3))
                     LabeledInfo(stringResource(Res.string.label_title), obj.title)
                     LabeledInfo(stringResource(Res.string.label_artist), obj.artistDisplayName)
                     LabeledInfo(stringResource(Res.string.label_date), obj.objectDate)
@@ -125,15 +142,17 @@ private fun LabeledInfo(
     data: String,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier.padding(vertical = 4.dp)) {
-        Spacer(Modifier.height(6.dp))
-        Text(
-            buildAnnotatedString {
+    Column(modifier.padding(vertical = MovieSpace.XSmall2)) {
+        Spacer(Modifier.height(MovieSpace.XSmall2 + MovieSpace.XSmall3))
+        MovieText(
+            text = buildAnnotatedString {
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                     append("$label: ")
                 }
                 append(data)
-            }
+            },
+            variant = MovieTextVariant.TextMedium(),
+            contentColor = MovieTextColor.Medium,
         )
     }
 }
