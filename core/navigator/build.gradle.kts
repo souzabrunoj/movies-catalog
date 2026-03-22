@@ -32,6 +32,7 @@ kotlin {
         commonMain.dependencies {
             api(libs.koin.core)
             api(libs.voyager.core)
+            api(libs.voyager.navigator)
         }
     }
 }

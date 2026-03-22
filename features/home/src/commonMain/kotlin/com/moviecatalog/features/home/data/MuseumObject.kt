@@ -1,9 +1,9 @@
-package com.moviecatalog.data
+package com.moviecatalog.features.home.data
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MuseumObject(
+public data class MuseumObject(
     val objectID: Int,
     val title: String,
     val artistDisplayName: String,

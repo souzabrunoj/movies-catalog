@@ -1,18 +1,18 @@
-package com.moviecatalog.data
+package com.moviecatalog.features.home.data
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
-interface MuseumStorage {
-    suspend fun saveObjects(newObjects: List<MuseumObject>)
+public interface MuseumStorage {
+    public suspend fun saveObjects(newObjects: List<MuseumObject>)
 
-    fun getObjectById(objectId: Int): Flow<MuseumObject?>
+    public fun getObjectById(objectId: Int): Flow<MuseumObject?>
 
-    fun getObjects(): Flow<List<MuseumObject>>
+    public fun getObjects(): Flow<List<MuseumObject>>
 }
 
-class InMemoryMuseumStorage : MuseumStorage {
+public class InMemoryMuseumStorage : MuseumStorage {
     private val storedObjects = MutableStateFlow(emptyList<MuseumObject>())
 
     override suspend fun saveObjects(newObjects: List<MuseumObject>) {

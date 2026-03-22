@@ -1,16 +1,16 @@
-package com.moviecatalog.data
+package com.moviecatalog.features.home.data
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.utils.io.CancellationException
 
-interface MuseumApi {
-    suspend fun getData(): List<MuseumObject>
+public interface MuseumApi {
+    public suspend fun getData(): List<MuseumObject>
 }
 
-class KtorMuseumApi(private val client: HttpClient) : MuseumApi {
-    companion object {
+public class KtorMuseumApi(private val client: HttpClient) : MuseumApi {
+    public companion object {
         private const val API_URL = "https://raw.githubusercontent.com/Kotlin/KMP-App-Template/main/list.json"
     }
 

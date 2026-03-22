@@ -1,4 +1,4 @@
-package com.moviecatalog.screens.detail
+package com.moviecatalog.features.home.ui.detail
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.Image
@@ -30,6 +30,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.moviecatalog.core.designsystem.components.text.MovieText
@@ -38,23 +39,23 @@ import com.moviecatalog.core.designsystem.tokens.size.MovieComponentSize
 import com.moviecatalog.core.designsystem.tokens.size.MovieSpace
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextColor
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
-import com.moviecatalog.data.MuseumObject
-import com.moviecatalog.generated.resources.Res
-import com.moviecatalog.generated.resources.back
-import com.moviecatalog.generated.resources.label_artist
-import com.moviecatalog.generated.resources.label_credits
-import com.moviecatalog.generated.resources.label_date
-import com.moviecatalog.generated.resources.label_department
-import com.moviecatalog.generated.resources.label_dimensions
-import com.moviecatalog.generated.resources.label_medium
-import com.moviecatalog.generated.resources.label_repository
-import com.moviecatalog.generated.resources.label_title
-import com.moviecatalog.screens.EmptyScreenContent
+import com.moviecatalog.features.home.data.MuseumObject
+import com.moviecatalog.features.home.generated.resources.Res
+import com.moviecatalog.features.home.generated.resources.back
+import com.moviecatalog.features.home.generated.resources.label_artist
+import com.moviecatalog.features.home.generated.resources.label_credits
+import com.moviecatalog.features.home.generated.resources.label_date
+import com.moviecatalog.features.home.generated.resources.label_department
+import com.moviecatalog.features.home.generated.resources.label_dimensions
+import com.moviecatalog.features.home.generated.resources.label_medium
+import com.moviecatalog.features.home.generated.resources.label_repository
+import com.moviecatalog.features.home.generated.resources.label_title
+import com.moviecatalog.features.home.ui.EmptyScreenContent
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun DetailScreen(
+public fun DetailScreen(
     objectId: Int,
     navigateBack: () -> Unit,
 ) {

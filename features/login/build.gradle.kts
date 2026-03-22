@@ -34,6 +34,11 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.core.designSystem)
             implementation(projects.core.navigator)
+
+            implementation(libs.compose.runtime)
+            implementation(libs.compose.foundation)
+            implementation(libs.compose.ui)
+            implementation(libs.koin.compose.viewmodel)
         }
     }
 }
