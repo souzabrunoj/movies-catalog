@@ -1,5 +1,6 @@
 package com.moviecatalog.di
 
+import com.moviecatalog.core.navigator.navigatorRegistryModule
 import com.moviecatalog.data.InMemoryMuseumStorage
 import com.moviecatalog.data.KtorMuseumApi
 import com.moviecatalog.data.MuseumApi
@@ -21,6 +22,7 @@ val dataModule = module {
         val json = Json { ignoreUnknownKeys = true }
         HttpClient {
             install(ContentNegotiation) {
+                // TODO Fix API so it serves application/json
                 json(json, contentType = ContentType.Any)
             }
         }
@@ -43,6 +45,7 @@ val viewModelModule = module {
 fun initKoin() {
     startKoin {
         modules(
+            navigatorRegistryModule,
             dataModule,
             viewModelModule,
         )

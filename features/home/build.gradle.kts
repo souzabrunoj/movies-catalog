@@ -33,6 +33,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.core.designSystem)
+            implementation(projects.core.navigator)
         }
     }
 }

@@ -27,4 +27,11 @@ kotlin {
     iosX64()
     iosArm64()
     iosSimulatorArm64()
+
+    sourceSets {
+        commonMain.dependencies {
+            api(libs.koin.core)
+            api(libs.voyager.core)
+        }
+    }
 }
