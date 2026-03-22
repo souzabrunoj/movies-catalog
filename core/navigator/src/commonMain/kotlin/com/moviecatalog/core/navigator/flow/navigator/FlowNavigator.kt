@@ -5,7 +5,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
-import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
 import com.moviecatalog.core.uimodel.flow.step.Step
@@ -17,14 +16,14 @@ public class FlowNavigator private constructor(
     private val voyagerNavigator: Navigator,
 ) {
 
-    public fun push(item: Screen) {
+    public fun push(item: Step) {
         voyagerNavigator.push(item)
     }
 
     public fun pop(): Boolean =
         voyagerNavigator.pop()
 
-    public fun replaceAll(item: Screen) {
+    public fun replaceAll(item: Step) {
         voyagerNavigator.replaceAll(item)
     }
 
@@ -33,7 +32,7 @@ public class FlowNavigator private constructor(
 
     public companion object {
 
-        public fun bind(navigator: Navigator): FlowNavigator =
+        internal fun bind(navigator: Navigator): FlowNavigator =
             FlowNavigator(navigator)
 
         @Composable

@@ -56,7 +56,6 @@ import com.moviecatalog.features.home.ui.EmptyScreenContent
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
-
 internal data class MovieCatalogDetailsStep(val movieId: Int) : Step() {
 
     override val key: StepKey = "MovieCatalogDetailsStep-$movieId"

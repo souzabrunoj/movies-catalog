@@ -6,7 +6,6 @@ import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-
 public fun <D : NavDestination> Module.importDestinations(vararg entries: Pair<D, () -> Step>) {
     importDestinations(entries.toMap())
 }
@@ -26,7 +25,6 @@ public fun <D : NavDestination> Module.importDestinations(map: Map<D, () -> Step
 public fun <D : NavDestination> Koin.replaceDestination(pair: Pair<D, () -> Step>) {
     get<DestinationRegistry>().replaceDestination(pair.first, pair.second)
 }
-
 
 public val navigatorRegistryModule: Module = module {
     single { DestinationRegistry() }

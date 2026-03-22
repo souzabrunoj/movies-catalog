@@ -33,10 +33,10 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.core.uiModel)
-            api(libs.compose.runtime)
-            api(libs.koin.core)
-            api(libs.voyager.core)
-            api(libs.voyager.navigator)
+            implementation(libs.compose.runtime)
+            implementation(libs.koin.core)
+            implementation(libs.voyager.core)
+            implementation(libs.voyager.navigator)
         }
     }
 }

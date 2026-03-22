@@ -1,0 +1,22 @@
+package com.moviecatalog.core.navigator
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
+import cafe.adriel.voyager.navigator.CurrentScreen
+import cafe.adriel.voyager.navigator.Navigator
+import com.moviecatalog.core.navigator.flow.navigator.FlowNavigator
+import com.moviecatalog.core.navigator.flow.navigator.LocalFlowNavigator
+import com.moviecatalog.core.uimodel.flow.step.Step
+
+@Composable
+public fun AppNavigationHost(initialStep: Step) {
+    Navigator(screen = initialStep) { navigator ->
+        val flowNavigator = remember(navigator) {
+            FlowNavigator.bind(navigator)
+        }
+        CompositionLocalProvider(LocalFlowNavigator provides flowNavigator) {
+            CurrentScreen()
+        }
+    }
+}

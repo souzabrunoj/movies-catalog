@@ -27,8 +27,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.moviecatalog.core.designsystem.components.image.MovieImage
 import com.moviecatalog.core.designsystem.components.progress.MovieProgressBar
 import com.moviecatalog.core.designsystem.components.text.MovieText
@@ -39,6 +37,7 @@ import com.moviecatalog.core.designsystem.tokens.type.MovieTextColor
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
 import com.moviecatalog.core.navigator.DestinationRegistry
 import com.moviecatalog.core.navigator.LoginDestination
+import com.moviecatalog.core.navigator.flow.navigator.LocalFlowNavigator
 import com.moviecatalog.core.uimodel.flow.step.Step
 import kotlinx.coroutines.delay
 import org.koin.compose.koinInject
@@ -59,7 +58,7 @@ internal data object MovieCatalogSplashStep : Step() {
     override fun Content() {
 
         val registry: DestinationRegistry = koinInject()
-        val navigator = LocalNavigator.currentOrThrow
+        val navigator = LocalFlowNavigator.current
 
         val semantic = MovieTheme.colors
         var targetProgress by remember { mutableFloatStateOf(0f) }
@@ -70,11 +69,9 @@ internal data object MovieCatalogSplashStep : Step() {
         )
 
         LaunchedEffect(Unit) {
-            targetProgress = 1f
             delay(SPLASH_PROGRESS_MS + SPLASH_HOLD_AFTER_PROGRESS_MS)
             navigator.replaceAll(registry.createStep(LoginDestination.Login))
         }
-
 
         Box(
             modifier = Modifier.fillMaxSize().background(splashVerticalGradient(semantic)),

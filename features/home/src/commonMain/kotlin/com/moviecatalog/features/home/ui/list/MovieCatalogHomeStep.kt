@@ -36,7 +36,6 @@ import com.moviecatalog.features.home.ui.EmptyScreenContent
 import com.moviecatalog.features.home.ui.detail.MovieCatalogDetailsStep
 import org.koin.compose.viewmodel.koinViewModel
 
-
 internal data object MovieCatalogHomeStep : Step() {
 
     @Composable

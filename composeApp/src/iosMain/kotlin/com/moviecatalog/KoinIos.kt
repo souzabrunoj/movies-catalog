@@ -6,7 +6,6 @@ import com.moviecatalog.features.login.di.loginFeatureModule
 import org.koin.core.context.GlobalContext
 import org.koin.core.context.startKoin
 
-
 internal fun ensureKoinStarted() {
     if (GlobalContext.getOrNull() != null) return
     startKoin {
