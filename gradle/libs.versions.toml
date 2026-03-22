@@ -1,6 +1,7 @@
 [versions]
 agp = "9.1.0"
 androidx-activityCompose = "1.13.0"
+androidx-core-splashscreen = "1.2.0"
 androidx-ui-tooling = "1.10.5"
 coil = "3.4.0"
 detekt = "1.23.8"
@@ -27,6 +28,7 @@ compose-animation = { module = "org.jetbrains.compose.animation:animation", vers
 compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-multiplatform" }
 compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-multiplatform" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidx-core-splashscreen" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-ui-tooling" }
 androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "androidx-ui-tooling" }
 
