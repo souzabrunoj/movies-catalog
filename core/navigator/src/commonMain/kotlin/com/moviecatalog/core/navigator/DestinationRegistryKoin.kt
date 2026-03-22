@@ -1,6 +1,6 @@
 package com.moviecatalog.core.navigator
 
-import com.moviecatalog.core.uimodel.flow.step.Step
+import com.moviecatalog.core.navigator.step.Step
 import org.koin.core.Koin
 import org.koin.core.module.Module
 import org.koin.core.qualifier.named

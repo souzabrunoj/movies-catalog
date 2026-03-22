@@ -32,7 +32,6 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(projects.core.uiModel)
             implementation(libs.compose.runtime)
             implementation(libs.koin.core)
             implementation(libs.voyager.core)

@@ -30,7 +30,7 @@ import com.moviecatalog.core.designsystem.tokens.size.MovieSpace
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextColor
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
 import com.moviecatalog.core.navigator.flow.navigator.LocalFlowNavigator
-import com.moviecatalog.core.uimodel.flow.step.Step
+import com.moviecatalog.core.navigator.step.Step
 import com.moviecatalog.features.home.data.MuseumObject
 import com.moviecatalog.features.home.ui.EmptyScreenContent
 import com.moviecatalog.features.home.ui.detail.MovieCatalogDetailsStep

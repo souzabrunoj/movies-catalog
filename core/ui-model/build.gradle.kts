@@ -4,8 +4,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidMultiplatformLibrary)
-    alias(libs.plugins.composeMultiplatform)
-    alias(libs.plugins.composeCompiler)
     alias(libs.plugins.platform.detekt)
     alias(libs.plugins.platform.ktlint)
 }
@@ -32,8 +30,6 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(libs.voyager.core)
-            implementation(libs.compose.runtime)
         }
     }
 }

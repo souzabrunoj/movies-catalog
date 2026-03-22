@@ -45,11 +45,8 @@ kotlin {
     }
 
     sourceSets {
-        androidMain.dependencies {
-            implementation(libs.ktor.client.okhttp)
-        }
-        iosMain.dependencies {
-            implementation(libs.ktor.client.darwin)
+        commonTest.dependencies {
+            implementation(kotlin("test"))
         }
         commonMain.dependencies {
             implementation(projects.core.navigator)
@@ -74,9 +71,6 @@ kotlin {
             implementation(projects.features.login)
             implementation(projects.features.home)
             implementation(libs.koin.core)
-        }
-        commonTest.dependencies {
-            implementation(kotlin("test"))
         }
     }
 }

@@ -38,7 +38,7 @@ import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
 import com.moviecatalog.core.navigator.DestinationRegistry
 import com.moviecatalog.core.navigator.LoginDestination
 import com.moviecatalog.core.navigator.flow.navigator.LocalFlowNavigator
-import com.moviecatalog.core.uimodel.flow.step.Step
+import com.moviecatalog.core.navigator.step.Step
 import kotlinx.coroutines.delay
 import org.koin.compose.koinInject
 

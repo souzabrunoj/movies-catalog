@@ -7,11 +7,12 @@ import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
 import com.moviecatalog.core.navigator.flow.navigator.FlowNavigator
 import com.moviecatalog.core.navigator.flow.navigator.LocalFlowNavigator
-import com.moviecatalog.core.uimodel.flow.step.Step
+import com.moviecatalog.core.navigator.step.Step
+import com.moviecatalog.core.navigator.step.StepBackedScreen
 
 @Composable
 public fun AppNavigationHost(initialStep: Step) {
-    Navigator(screen = initialStep) { navigator ->
+    Navigator(screen = StepBackedScreen(initialStep)) { navigator ->
         val flowNavigator = remember(navigator) {
             FlowNavigator.bind(navigator)
         }

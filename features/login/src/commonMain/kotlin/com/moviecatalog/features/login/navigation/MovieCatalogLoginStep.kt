@@ -10,10 +10,10 @@ import com.moviecatalog.core.designsystem.tokens.button.MovieButtonVariant
 import com.moviecatalog.core.navigator.DestinationRegistry
 import com.moviecatalog.core.navigator.HomeDestination
 import com.moviecatalog.core.navigator.flow.navigator.LocalFlowNavigator
-import com.moviecatalog.core.uimodel.flow.step.Step
+import com.moviecatalog.core.navigator.step.Step
 import org.koin.compose.koinInject
 
-internal object MovieCatalogLoginStep : Step() {
+internal data object MovieCatalogLoginStep : Step() {
 
     @Composable
     override fun Content() {

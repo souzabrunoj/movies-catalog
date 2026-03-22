@@ -1,6 +1,6 @@
 package com.moviecatalog.core.navigator
 
-import com.moviecatalog.core.uimodel.flow.step.Step
+import com.moviecatalog.core.navigator.step.Step
 
 public class DestinationRegistry {
     private val factories = mutableMapOf<NavDestination, () -> Step>()

@@ -7,7 +7,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
-import com.moviecatalog.core.uimodel.flow.step.Step
+import com.moviecatalog.core.navigator.step.Step
+import com.moviecatalog.core.navigator.step.StepBackedScreen
 
 public val LocalFlowNavigator: ProvidableCompositionLocal<FlowNavigator> =
     staticCompositionLocalOf { error("FlowNavigator not provided") }
@@ -17,14 +18,14 @@ public class FlowNavigator private constructor(
 ) {
 
     public fun push(item: Step) {
-        voyagerNavigator.push(item)
+        voyagerNavigator.push(StepBackedScreen(item))
     }
 
     public fun pop(): Boolean =
         voyagerNavigator.pop()
 
     public fun replaceAll(item: Step) {
-        voyagerNavigator.replaceAll(item)
+        voyagerNavigator.replaceAll(StepBackedScreen(item))
     }
 
     public val canPop: Boolean
@@ -37,7 +38,7 @@ public class FlowNavigator private constructor(
 
         @Composable
         public operator fun invoke(initialStep: Step) {
-            Navigator(screen = initialStep) { navigator ->
+            Navigator(screen = StepBackedScreen(initialStep)) { navigator ->
                 val flowNavigator = remember(navigator) {
                     FlowNavigator(navigator)
                 }

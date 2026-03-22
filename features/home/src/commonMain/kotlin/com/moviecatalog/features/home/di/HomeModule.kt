@@ -2,7 +2,7 @@ package com.moviecatalog.features.home.di
 
 import com.moviecatalog.core.navigator.HomeDestination
 import com.moviecatalog.core.navigator.importDestinations
-import com.moviecatalog.core.uimodel.flow.step.Step
+import com.moviecatalog.core.navigator.step.Step
 import com.moviecatalog.features.home.data.InMemoryMuseumStorage
 import com.moviecatalog.features.home.data.KtorMuseumApi
 import com.moviecatalog.features.home.data.MuseumApi
