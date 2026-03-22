@@ -56,10 +56,7 @@ internal data object MovieCatalogSplashStep : Step() {
 
     @Composable
     override fun Content() {
-
-        val registry: DestinationRegistry = koinInject()
         val navigator = LocalFlowNavigator.current
-
         val semantic = MovieTheme.colors
         var targetProgress by remember { mutableFloatStateOf(0f) }
         val animatedProgress by animateFloatAsState(
@@ -70,7 +67,7 @@ internal data object MovieCatalogSplashStep : Step() {
 
         LaunchedEffect(Unit) {
             delay(SPLASH_PROGRESS_MS + SPLASH_HOLD_AFTER_PROGRESS_MS)
-            navigator.replaceAll(registry.createStep(LoginDestination.Login))
+            navigator.replaceAll(LoginDestination.Login)
         }
 
         Box(

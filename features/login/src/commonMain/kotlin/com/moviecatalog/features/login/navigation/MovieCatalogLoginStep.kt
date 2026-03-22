@@ -7,17 +7,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.moviecatalog.core.designsystem.components.button.MovieButton
 import com.moviecatalog.core.designsystem.tokens.button.MovieButtonVariant
-import com.moviecatalog.core.navigator.DestinationRegistry
 import com.moviecatalog.core.navigator.HomeDestination
 import com.moviecatalog.core.navigator.flow.navigator.LocalFlowNavigator
 import com.moviecatalog.core.navigator.step.Step
-import org.koin.compose.koinInject
 
-internal data object MovieCatalogLoginStep : Step() {
+internal object MovieCatalogLoginStep : Step() {
 
     @Composable
     override fun Content() {
-        val registry: DestinationRegistry = koinInject()
         val navigator = LocalFlowNavigator.current
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -26,7 +23,7 @@ internal data object MovieCatalogLoginStep : Step() {
             MovieButton(
                 text = "Continue",
                 onClick = {
-                    navigator.replaceAll(registry.createStep(HomeDestination.Home))
+                    navigator.replaceAll(HomeDestination.Home)
                 },
                 variant = MovieButtonVariant.Primary,
             )

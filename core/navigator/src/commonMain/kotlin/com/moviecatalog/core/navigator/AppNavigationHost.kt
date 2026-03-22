@@ -11,10 +11,10 @@ import com.moviecatalog.core.navigator.step.Step
 import com.moviecatalog.core.navigator.step.StepBackedScreen
 
 @Composable
-public fun AppNavigationHost(initialStep: Step) {
+public fun AppNavigationHost(initialStep: Step, destinationRegistry: DestinationRegistry) {
     Navigator(screen = StepBackedScreen(initialStep)) { navigator ->
-        val flowNavigator = remember(navigator) {
-            FlowNavigator.bind(navigator)
+        val flowNavigator = remember(navigator, destinationRegistry) {
+            FlowNavigator.bind(navigator, destinationRegistry)
         }
         CompositionLocalProvider(LocalFlowNavigator provides flowNavigator) {
             CurrentScreen()
