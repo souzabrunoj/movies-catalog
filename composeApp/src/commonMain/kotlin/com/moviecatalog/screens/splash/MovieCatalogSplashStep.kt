@@ -35,12 +35,10 @@ import com.moviecatalog.core.designsystem.tokens.color.MovieSemanticColors
 import com.moviecatalog.core.designsystem.tokens.size.MovieSpace
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextColor
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
-import com.moviecatalog.core.navigator.DestinationRegistry
 import com.moviecatalog.core.navigator.LoginDestination
 import com.moviecatalog.core.navigator.flow.navigator.LocalFlowNavigator
 import com.moviecatalog.core.navigator.step.Step
 import kotlinx.coroutines.delay
-import org.koin.compose.koinInject
 
 private const val SPLASH_PROGRESS_MS = 2000
 private const val SPLASH_HOLD_AFTER_PROGRESS_MS = 500L
@@ -66,6 +64,7 @@ internal data object MovieCatalogSplashStep : Step() {
         )
 
         LaunchedEffect(Unit) {
+            targetProgress = 1f
             delay(SPLASH_PROGRESS_MS + SPLASH_HOLD_AFTER_PROGRESS_MS)
             navigator.replaceAll(LoginDestination.Login)
         }
@@ -89,13 +88,13 @@ internal data object MovieCatalogSplashStep : Step() {
                     )
                     Box(
                         modifier = Modifier.matchParentSize().background(
-                                Brush.radialGradient(
-                                    colors = listOf(
-                                        semantic.contentBrand.copy(alpha = 0.15f),
-                                        Color.Transparent,
-                                    ),
+                            Brush.radialGradient(
+                                colors = listOf(
+                                    semantic.contentBrand.copy(alpha = 0.15f),
+                                    Color.Transparent,
                                 ),
                             ),
+                        ),
                     )
                 }
 
