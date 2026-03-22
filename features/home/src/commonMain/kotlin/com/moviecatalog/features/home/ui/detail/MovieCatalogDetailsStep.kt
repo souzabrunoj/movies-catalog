@@ -30,7 +30,6 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.moviecatalog.core.designsystem.components.text.MovieText
@@ -39,6 +38,9 @@ import com.moviecatalog.core.designsystem.tokens.size.MovieComponentSize
 import com.moviecatalog.core.designsystem.tokens.size.MovieSpace
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextColor
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
+import com.moviecatalog.core.navigator.flow.navigator.LocalFlowNavigator
+import com.moviecatalog.core.uimodel.flow.step.Step
+import com.moviecatalog.core.uimodel.flow.step.StepKey
 import com.moviecatalog.features.home.data.MuseumObject
 import com.moviecatalog.features.home.generated.resources.Res
 import com.moviecatalog.features.home.generated.resources.back
@@ -54,25 +56,29 @@ import com.moviecatalog.features.home.ui.EmptyScreenContent
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
-@Composable
-public fun DetailScreen(
-    objectId: Int,
-    navigateBack: () -> Unit,
-) {
-    val viewModel = koinViewModel<DetailViewModel>()
 
-    val obj by viewModel.getObject(objectId).collectAsStateWithLifecycle(initialValue = null)
-    AnimatedContent(obj != null) { objectAvailable ->
-        if (objectAvailable) {
-            ObjectDetails(obj!!, onBackClick = navigateBack)
-        } else {
-            EmptyScreenContent(Modifier.fillMaxSize())
+internal data class MovieCatalogDetailsStep(val movieId: Int) : Step() {
+
+    override val key: StepKey = "MovieCatalogDetailsStep-$movieId"
+
+    @Composable
+    override fun Content() {
+        val viewModel = koinViewModel<MovieCatalogDetailsViewModel>()
+        val flowNavigator = LocalFlowNavigator.current
+
+        val obj by viewModel.getObject(movieId).collectAsStateWithLifecycle(initialValue = null)
+        AnimatedContent(obj != null) { objectAvailable ->
+            if (objectAvailable) {
+                MovieDetailsDetails(obj!!, onBackClick = { flowNavigator.pop() })
+            } else {
+                EmptyScreenContent(Modifier.fillMaxSize())
+            }
         }
     }
 }
 
 @Composable
-private fun ObjectDetails(
+private fun MovieDetailsDetails(
     obj: MuseumObject,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,

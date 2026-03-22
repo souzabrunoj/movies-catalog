@@ -23,37 +23,40 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import coil3.compose.AsyncImage
 import com.moviecatalog.core.designsystem.components.text.MovieText
 import com.moviecatalog.core.designsystem.theme.MovieTheme
 import com.moviecatalog.core.designsystem.tokens.size.MovieSpace
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextColor
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
+import com.moviecatalog.core.navigator.flow.navigator.LocalFlowNavigator
+import com.moviecatalog.core.uimodel.flow.step.Step
 import com.moviecatalog.features.home.data.MuseumObject
-import com.moviecatalog.features.home.navigation.DetailNavScreen
 import com.moviecatalog.features.home.ui.EmptyScreenContent
+import com.moviecatalog.features.home.ui.detail.MovieCatalogDetailsStep
 import org.koin.compose.viewmodel.koinViewModel
 
-@Composable
-internal fun ListScreen() {
-    val viewModel = koinViewModel<ListViewModel>()
-    val objects by viewModel.objects.collectAsStateWithLifecycle()
-    val navigator = LocalNavigator.currentOrThrow
 
-    AnimatedContent(objects.isNotEmpty()) { objectsAvailable ->
-        if (objectsAvailable) {
-            ObjectGrid(
-                objects = objects,
-                onObjectClick = { objectId -> navigator.push(DetailNavScreen(objectId)) },
-            )
-        } else {
-            EmptyScreenContent(Modifier.fillMaxSize())
+internal data object MovieCatalogHomeStep : Step() {
+
+    @Composable
+    override fun Content() {
+        val viewModel = koinViewModel<ListViewModel>()
+        val objects by viewModel.objects.collectAsStateWithLifecycle()
+        val flowNavigator = LocalFlowNavigator.current
+
+        AnimatedContent(objects.isNotEmpty()) { objectsAvailable ->
+            if (objectsAvailable) {
+                ObjectGrid(
+                    objects = objects,
+                    onObjectClick = { id -> flowNavigator.push(MovieCatalogDetailsStep(movieId = id)) },
+                )
+            } else {
+                EmptyScreenContent(Modifier.fillMaxSize())
+            }
         }
     }
 }
-
 @Composable
 private fun ObjectGrid(
     objects: List<MuseumObject>,

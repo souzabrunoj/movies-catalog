@@ -1,7 +1,10 @@
 package com.moviecatalog.core.navigator
 
-sealed class RootDestination : NavDestination {
-    data object Login : RootDestination()
-    data object Home : RootDestination()
-    data object Catalog : RootDestination()
+public sealed class LoginDestination : NavDestination {
+    public data object Login : LoginDestination()
+}
+
+
+public sealed class HomeDestination : NavDestination {
+    public data object Home : HomeDestination()
 }

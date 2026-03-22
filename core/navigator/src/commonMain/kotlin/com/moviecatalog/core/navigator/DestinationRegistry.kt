@@ -1,36 +1,30 @@
 package com.moviecatalog.core.navigator
 
-import cafe.adriel.voyager.core.screen.Screen
+import com.moviecatalog.core.uimodel.flow.step.Step
 
-/**
- * Central registry mapping [RootDestination] to Voyager [Screen] factories (same role as [ScreenRegistry] in mobile-banking-android).
- *
- * Populate during app startup (e.g. Koin) on a single thread; avoid concurrent register/read on Kotlin/Native.
- */
 public class DestinationRegistry {
-    private val factories = mutableMapOf<RootDestination, () -> Screen>()
+    private val factories = mutableMapOf<NavDestination, () -> Step>()
 
-    public fun register(destination: RootDestination, factory: () -> Screen) {
+    public fun register(destination: NavDestination, factory: () -> Step) {
         val previous = factories.put(destination, factory)
         if (previous != null) {
             throw DestinationRegisterException("Destination $destination was already registered.")
         }
     }
 
-    public fun registerAll(entries: Map<RootDestination, () -> Screen>) {
+    public fun <D : NavDestination> registerAll(entries: Map<D, () -> Step>) {
         entries.forEach { (destination, factory) -> register(destination, factory) }
     }
 
-    /** Overwrites an existing factory (same idea as [ScreenRegistry.replaceScreen] in mobile-banking-android). */
-    public fun replaceDestination(destination: RootDestination, factory: () -> Screen) {
+    public fun replaceDestination(destination: NavDestination, factory: () -> Step) {
         factories[destination] = factory
     }
 
-    public fun createScreen(destination: RootDestination): Screen {
+    public fun createStep(destination: NavDestination): Step {
         val factory = factories[destination]
         return factory?.invoke()
             ?: throw DestinationRegisterException("No factory registered for $destination.")
     }
 
-    public fun isRegistered(destination: RootDestination): Boolean = destination in factories
+    public fun isRegistered(destination: NavDestination): Boolean = destination in factories
 }

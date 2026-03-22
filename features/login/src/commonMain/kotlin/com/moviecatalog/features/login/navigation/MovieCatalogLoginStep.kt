@@ -5,25 +5,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.moviecatalog.core.designsystem.components.button.MovieButton
 import com.moviecatalog.core.designsystem.tokens.button.MovieButtonVariant
 import com.moviecatalog.core.navigator.DestinationRegistry
-import com.moviecatalog.core.navigator.RootDestination
+import com.moviecatalog.core.navigator.HomeDestination
+import com.moviecatalog.core.navigator.flow.navigator.LocalFlowNavigator
+import com.moviecatalog.core.uimodel.flow.step.Step
 import org.koin.compose.koinInject
 
-/**
- * Login step: user confirms to open the catalog ([RootDestination.Catalog] → list).
- * Does not depend on `:features:home`; only uses [DestinationRegistry] + [RootDestination].
- */
-public object LoginNavScreen : Screen {
+internal object MovieCatalogLoginStep : Step() {
 
     @Composable
     override fun Content() {
         val registry: DestinationRegistry = koinInject()
-        val navigator = LocalNavigator.currentOrThrow
+        val navigator = LocalFlowNavigator.current
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center,
@@ -31,7 +26,7 @@ public object LoginNavScreen : Screen {
             MovieButton(
                 text = "Continue",
                 onClick = {
-                    navigator.replaceAll(registry.createScreen(RootDestination.Catalog))
+                    navigator.replaceAll(registry.createStep(HomeDestination.Home))
                 },
                 variant = MovieButtonVariant.Primary,
             )

@@ -1,25 +1,34 @@
 package com.moviecatalog.features.home.di
 
-import com.moviecatalog.core.navigator.RootDestination
+import com.moviecatalog.core.navigator.HomeDestination
 import com.moviecatalog.core.navigator.importDestinations
 import com.moviecatalog.features.home.data.InMemoryMuseumStorage
 import com.moviecatalog.features.home.data.KtorMuseumApi
 import com.moviecatalog.features.home.data.MuseumApi
 import com.moviecatalog.features.home.data.MuseumRepository
 import com.moviecatalog.features.home.data.MuseumStorage
-import com.moviecatalog.features.home.navigation.CatalogListNavScreen
-import com.moviecatalog.features.home.ui.detail.DetailViewModel
+import com.moviecatalog.features.home.ui.detail.MovieCatalogDetailsViewModel
 import com.moviecatalog.features.home.ui.list.ListViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.http.ContentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import com.moviecatalog.core.uimodel.flow.step.Step
+import com.moviecatalog.features.home.ui.list.MovieCatalogHomeStep
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
-public val homeDataModule: Module = module {
+private val homeScreenFactories: Map<HomeDestination, () -> Step> = mapOf(
+    HomeDestination.Home to { MovieCatalogHomeStep },
+)
+
+public val homeFeatureModule: Module = module {
+    factoryOf(::ListViewModel)
+    factoryOf(::MovieCatalogDetailsViewModel)
+    importDestinations(homeScreenFactories)
+
     single {
         val json = Json { ignoreUnknownKeys = true }
         HttpClient {
@@ -38,8 +47,3 @@ public val homeDataModule: Module = module {
     }
 }
 
-public val homeViewModelModule: Module = module {
-    factoryOf(::ListViewModel)
-    factoryOf(::DetailViewModel)
-    importDestinations(RootDestination.Catalog to { CatalogListNavScreen })
-}

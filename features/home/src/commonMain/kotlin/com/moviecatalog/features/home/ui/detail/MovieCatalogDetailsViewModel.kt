@@ -5,7 +5,7 @@ import com.moviecatalog.features.home.data.MuseumObject
 import com.moviecatalog.features.home.data.MuseumRepository
 import kotlinx.coroutines.flow.Flow
 
-public class DetailViewModel(private val museumRepository: MuseumRepository) : ViewModel() {
+public class MovieCatalogDetailsViewModel(private val museumRepository: MuseumRepository) : ViewModel() {
     public fun getObject(objectId: Int): Flow<MuseumObject?> =
         museumRepository.getObjectById(objectId)
 }
