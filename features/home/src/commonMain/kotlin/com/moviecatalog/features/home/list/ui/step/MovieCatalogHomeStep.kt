@@ -43,7 +43,7 @@ internal data object MovieCatalogHomeStep : Step() {
         val data by uiModel.collectDataAsState()
         val flowNavigator = LocalFlowNavigator.current
 
-        LaunchedEffect(key1 = Unit) { uiModel.getMovies() }
+        LaunchedEffect(key1 = Unit) { data.items.ifEmpty { uiModel.getMovies() } }
 
         if (data.items.isNotEmpty()) {
             MovieCatalogGrid(

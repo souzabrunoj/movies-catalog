@@ -44,6 +44,7 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.voyager.core)
             implementation(libs.voyager.navigator)
+            implementation(libs.voyager.transitions)
         }
     }
 }

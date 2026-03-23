@@ -16,9 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import cafe.adriel.voyager.transitions.SlideTransition
 import com.moviecatalog.core.designsystem.components.appbar.MovieStepTopAppBar
 import com.moviecatalog.core.designsystem.components.text.MovieText
 import com.moviecatalog.core.designsystem.theme.MovieTheme
@@ -57,7 +57,10 @@ internal fun MovieAppStepHost() {
         ) {
             val contentAlpha = if (reportedMode is UiMode.Content) 1f else 0f
             Box(Modifier.fillMaxSize().alpha(contentAlpha)) {
-                CurrentScreen()
+                SlideTransition(
+                    navigator = navigator,
+                    modifier = Modifier.fillMaxSize(),
+                )
             }
             StepSurfaceOverlay(reportedMode)
         }
