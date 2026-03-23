@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.platform.detekt)
     alias(libs.plugins.platform.ktlint)
 }
@@ -32,6 +33,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(projects.core.dataBase)
             implementation(projects.core.designSystem)
             implementation(projects.core.navigator)
             implementation(projects.core.uiModel)
@@ -41,6 +43,7 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.koin.core)
             implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.kotlinx.serialization.json)
         }
         androidMain.dependencies {
             implementation(libs.androidx.compose.ui.tooling.preview)

@@ -49,6 +49,7 @@ kotlin {
             implementation(kotlin("test"))
         }
         commonMain.dependencies {
+            implementation(projects.core.dataBase)
             implementation(projects.core.navigator)
             implementation(projects.core.designSystem)
             implementation(projects.core.uiModel)

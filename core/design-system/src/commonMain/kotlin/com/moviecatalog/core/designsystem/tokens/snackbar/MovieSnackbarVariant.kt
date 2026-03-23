@@ -6,7 +6,6 @@ import androidx.compose.ui.unit.dp
 import com.moviecatalog.core.designsystem.icons.MovieIcons
 import com.moviecatalog.core.designsystem.tokens.color.MovieSemanticColors
 
-
 public enum class MovieSnackbarVariant {
     Success,
     Critical,

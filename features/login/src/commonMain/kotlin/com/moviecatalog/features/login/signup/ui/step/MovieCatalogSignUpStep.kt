@@ -37,6 +37,9 @@ import com.moviecatalog.core.designsystem.components.button.MovieButton
 import com.moviecatalog.core.designsystem.components.divider.MovieDivider
 import com.moviecatalog.core.designsystem.components.icon.MovieIcon
 import com.moviecatalog.core.designsystem.components.input.MovieTextInput
+import com.moviecatalog.core.designsystem.components.snackbar.MovieSnackbarAction
+import com.moviecatalog.core.designsystem.components.snackbar.MovieSnackbarHost
+import com.moviecatalog.core.designsystem.components.snackbar.rememberMovieSnackbarHostState
 import com.moviecatalog.core.designsystem.components.text.MovieText
 import com.moviecatalog.core.designsystem.icons.MovieIcons
 import com.moviecatalog.core.designsystem.theme.MovieTheme
@@ -44,6 +47,8 @@ import com.moviecatalog.core.designsystem.tokens.button.MovieButtonVariant
 import com.moviecatalog.core.designsystem.tokens.divider.MovieDividerSize
 import com.moviecatalog.core.designsystem.tokens.size.MovieCornerRadius
 import com.moviecatalog.core.designsystem.tokens.size.MovieSpace
+import com.moviecatalog.core.designsystem.tokens.snackbar.MovieSnackbarDuration
+import com.moviecatalog.core.designsystem.tokens.snackbar.MovieSnackbarVariant
 import com.moviecatalog.core.designsystem.tokens.type.MovieIconColor
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextColor
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
@@ -53,6 +58,7 @@ import com.moviecatalog.core.navigator.step.Step
 import com.moviecatalog.core.navigator.step.StepNavigationOptions
 import com.moviecatalog.features.login.signup.domain.model.MoviePasswordRulesState
 import com.moviecatalog.features.login.signup.ui.uiModel.MovieSignUpUiModel
+import com.moviecatalog.features.login.signup.ui.uiModel.state.MovieSignUpFeedbackEvent
 import com.moviecatalog.features.login.signup.ui.uiModel.state.MovieSignUpUiState
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -81,9 +87,9 @@ internal data object MovieCatalogSignUpStep : Step() {
             onConfirmPasswordChange = uiModel::onConfirmPasswordChange,
             onTogglePasswordVisible = uiModel::togglePasswordVisible,
             onToggleConfirmPasswordVisible = uiModel::toggleConfirmPasswordVisible,
-            onCompleteRegistration = {
-                uiModel.completeRegistration { navigator.pop() }
-            },
+            onCompleteRegistration = uiModel::completeRegistration,
+            onConsumeFeedback = uiModel::consumeFeedback,
+            onAfterSuccessfulRegistration = { navigator.pop() },
         )
     }
 }
@@ -97,10 +103,42 @@ private fun SignUpScreen(
     onTogglePasswordVisible: () -> Unit,
     onToggleConfirmPasswordVisible: () -> Unit,
     onCompleteRegistration: () -> Unit,
+    onConsumeFeedback: () -> Unit,
+    onAfterSuccessfulRegistration: () -> Unit,
 ) {
     val semantic = MovieTheme.colors
     val scroll = rememberScrollState()
     val rules = data.passwordRules
+    val snackbarHostState = rememberMovieSnackbarHostState()
+
+    LaunchedEffect(data.feedbackEvent) {
+        when (val event = data.feedbackEvent) {
+            is MovieSignUpFeedbackEvent.Success -> {
+                snackbarHostState.show(
+                    message = event.message,
+                    duration = MovieSnackbarDuration.Short,
+                    variant = MovieSnackbarVariant.Success,
+                )
+                onConsumeFeedback()
+                onAfterSuccessfulRegistration()
+            }
+
+            is MovieSignUpFeedbackEvent.UsernameTaken -> {
+                snackbarHostState.show(
+                    message = event.message,
+                    duration = MovieSnackbarDuration.Long,
+                    variant = MovieSnackbarVariant.Critical,
+                    action =
+                        MovieSnackbarAction.DismissIcon(
+                            onClick = { snackbarHostState.dismiss() },
+                        ),
+                )
+                onConsumeFeedback()
+            }
+
+            null -> Unit
+        }
+    }
 
     var usernameTf by remember { mutableStateOf(TextFieldValue()) }
     var passwordTf by remember { mutableStateOf(TextFieldValue()) }
@@ -131,124 +169,135 @@ private fun SignUpScreen(
         }
     }
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(semantic.backgroundBody)
-            .verticalScroll(scroll)
-            .padding(horizontal = MovieSpace.Medium, vertical = MovieSpace.Medium),
+            .background(semantic.backgroundBody),
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.Top,
-        ) {
-            MovieText(
-                text = "Secure Your Account",
-                variant = MovieTextVariant.HeadingLarge(FontWeight.Bold),
-                contentColor = MovieTextColor.High,
-                modifier = Modifier.fillMaxHeight()
-            )
-        }
-        Spacer(Modifier.height(MovieSpace.Small))
-        MovieDivider(size = MovieDividerSize.Medium)
-        Spacer(Modifier.height(MovieSpace.Large))
-
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(MovieCornerRadius.Large))
-                .background(semantic.backgroundSurface)
-                .padding(MovieSpace.Large),
-            verticalArrangement = Arrangement.spacedBy(MovieSpace.Medium),
+                .fillMaxSize()
+                .verticalScroll(scroll)
+                .padding(horizontal = MovieSpace.Medium, vertical = MovieSpace.Medium),
         ) {
-            MovieTextInput(
-                value = usernameTf,
-                onValueChange = {
-                    usernameTf = it
-                    onUsernameChange(it.text)
-                },
-                label = "Username",
-                placeholder = "Choose a username",
-                leading = { MovieIcon(icon = MovieIcons.Person) },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            )
-            MovieTextInput(
-                value = passwordTf,
-                onValueChange = {
-                    passwordTf = it
-                    onPasswordChange(it.text)
-                },
-                label = "Create Password",
-                placeholder = "••••••••",
-                leading = { MovieIcon(icon = MovieIcons.Lock) },
-                visualTransformation = if (data.passwordVisible) {
-                    VisualTransformation.None
-                } else {
-                    PasswordVisualTransformation()
-                },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                trailing = {
-                    PasswordVisibilityToggle(
-                        visible = data.passwordVisible,
-                        onToggle = onTogglePasswordVisible,
-                    )
-                },
-            )
-            MovieTextInput(
-                value = confirmTf,
-                onValueChange = {
-                    confirmTf = it
-                    onConfirmPasswordChange(it.text)
-                },
-                label = "Confirm Password",
-                placeholder = "••••••••",
-                leading = { MovieIcon(icon = MovieIcons.Lock) },
-                visualTransformation = if (data.confirmPasswordVisible) {
-                    VisualTransformation.None
-                } else {
-                    PasswordVisualTransformation()
-                },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                trailing = {
-                    PasswordVisibilityToggle(
-                        visible = data.confirmPasswordVisible,
-                        onToggle = onToggleConfirmPasswordVisible,
-                    )
-                },
-            )
-
-            PasswordRequirementsCard(
-                rules = rules,
+            Row(
                 modifier = Modifier.fillMaxWidth(),
-            )
-
-            data.formErrorMessage?.let { msg ->
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Top,
+            ) {
                 MovieText(
-                    text = msg,
-                    variant = MovieTextVariant.TextSmall(),
-                    contentColor = MovieTextColor.Brand,
+                    text = "Create Your Account",
+                    variant = MovieTextVariant.HeadingLarge(FontWeight.Bold),
+                    contentColor = MovieTextColor.High,
+                    modifier = Modifier.fillMaxHeight()
+                )
+            }
+            Spacer(Modifier.height(MovieSpace.Small))
+            MovieDivider(size = MovieDividerSize.Medium)
+            Spacer(Modifier.height(MovieSpace.Large))
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(MovieCornerRadius.Large))
+                    .background(semantic.backgroundSurface)
+                    .padding(MovieSpace.Large),
+                verticalArrangement = Arrangement.spacedBy(MovieSpace.Medium),
+            ) {
+                MovieTextInput(
+                    value = usernameTf,
+                    onValueChange = {
+                        usernameTf = it
+                        onUsernameChange(it.text)
+                    },
+                    label = "Username",
+                    placeholder = "Choose a username",
+                    errorText = data.usernameErrorText,
+                    leading = { MovieIcon(icon = MovieIcons.Person) },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                )
+                MovieTextInput(
+                    value = passwordTf,
+                    onValueChange = {
+                        passwordTf = it
+                        onPasswordChange(it.text)
+                    },
+                    label = "Create Password",
+                    placeholder = "••••••••",
+                    leading = { MovieIcon(icon = MovieIcons.Lock) },
+                    visualTransformation = if (data.passwordVisible) {
+                        VisualTransformation.None
+                    } else {
+                        PasswordVisualTransformation()
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    trailing = {
+                        PasswordVisibilityToggle(
+                            visible = data.passwordVisible,
+                            onToggle = onTogglePasswordVisible,
+                        )
+                    },
+                )
+                MovieTextInput(
+                    value = confirmTf,
+                    onValueChange = {
+                        confirmTf = it
+                        onConfirmPasswordChange(it.text)
+                    },
+                    label = "Confirm Password",
+                    placeholder = "••••••••",
+                    leading = { MovieIcon(icon = MovieIcons.Lock) },
+                    visualTransformation = if (data.confirmPasswordVisible) {
+                        VisualTransformation.None
+                    } else {
+                        PasswordVisualTransformation()
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    trailing = {
+                        PasswordVisibilityToggle(
+                            visible = data.confirmPasswordVisible,
+                            onToggle = onToggleConfirmPasswordVisible,
+                        )
+                    },
+                )
+
+                PasswordRequirementsCard(
+                    rules = rules,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+
+                data.formErrorMessage?.let { msg ->
+                    MovieText(
+                        text = msg,
+                        variant = MovieTextVariant.TextSmall(),
+                        contentColor = MovieTextColor.Brand,
+                    )
+                }
+
+                val canCompleteRegistration = rules.allSatisfied
+                MovieButton(
+                    text = "Complete Registration >",
+                    onClick = onCompleteRegistration,
+                    variant = MovieButtonVariant.Primary,
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = canCompleteRegistration,
+                    isLoading = data.isSubmitting,
+                    loadingText = "Saving…",
                 )
             }
 
-            MovieButton(
-                text = "Complete Registration >",
-                onClick = onCompleteRegistration,
-                variant = MovieButtonVariant.Primary,
-                modifier = Modifier.fillMaxWidth(),
+            Spacer(Modifier.height(MovieSpace.Large))
+            MovieText(
+                text = "By completing registration, you agree to our Terms of Service and Privacy Policy.",
+                variant = MovieTextVariant.TextSmall(),
+                contentColor = MovieTextColor.Medium,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = MovieSpace.Small),
             )
         }
-
-        Spacer(Modifier.height(MovieSpace.Large))
-        MovieText(
-            text = "By completing registration, you agree to our Terms of Service and Privacy Policy.",
-            variant = MovieTextVariant.TextSmall(),
-            contentColor = MovieTextColor.Medium,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = MovieSpace.Small),
-        )
+        MovieSnackbarHost(hostState = snackbarHostState)
     }
 }
 
@@ -287,6 +336,7 @@ private fun PasswordRequirementsCard(
         RuleRow("At least one number", rules.hasDigit)
         RuleRow("At least one letter", rules.hasLetter)
         RuleRow("One special character", rules.hasSpecialChar)
+        RuleRow("Password and confirmation match", rules.hasPasswordsMatch)
     }
 }
 

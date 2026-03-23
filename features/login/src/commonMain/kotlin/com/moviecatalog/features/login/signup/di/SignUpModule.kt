@@ -1,5 +1,6 @@
 package com.moviecatalog.features.login.signup.di
 
+import com.moviecatalog.core.database.LocalDiskStorage
 import com.moviecatalog.features.login.signup.data.repository.MovieSignUpRepositoryImpl
 import com.moviecatalog.features.login.signup.domain.repository.MovieSignUpRepository
 import com.moviecatalog.features.login.signup.domain.usecase.MovieEvaluatePasswordRulesUseCase
@@ -11,7 +12,7 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 public val signUpModule: Module = module {
-    single<MovieSignUpRepository> { MovieSignUpRepositoryImpl() }
+    single<MovieSignUpRepository> { MovieSignUpRepositoryImpl(get<LocalDiskStorage>()) }
     factory { MovieEvaluatePasswordRulesUseCase() }
     factory { MovieValidateSignUpNonEmptyUseCase() }
     factory { MovieRegisterUserUseCase(get(), get(), get()) }

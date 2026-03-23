@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import com.moviecatalog.core.designsystem.tokens.size.MovieSpace
 import com.moviecatalog.core.designsystem.tokens.snackbar.MovieSnackbarPosition
 
-
 @Composable
 public fun BoxScope.MovieSnackbarHost(
     hostState: MovieSnackbarHostState,

@@ -9,14 +9,9 @@ internal data class MovieSignUpUiState(
     val confirmPassword: String = "",
     val passwordVisible: Boolean = false,
     val confirmPasswordVisible: Boolean = false,
-    val passwordRules: MoviePasswordRulesState = MoviePasswordRulesState(
-        hasMinLength = false,
-        hasLetter = false,
-        hasDigit = false,
-        hasSpecialChar = false,
-        hasPasswordsMatch = false,
-    ),
+    val passwordRules: MoviePasswordRulesState = MoviePasswordRulesState(),
     val formErrorMessage: String? = null,
     val usernameErrorText: String? = null,
     val feedbackEvent: MovieSignUpFeedbackEvent? = null,
+    val isSubmitting: Boolean = false,
 ) : UiModelState
