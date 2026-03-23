@@ -40,6 +40,9 @@ kotlin {
             implementation(libs.compose.ui)
             implementation(libs.koin.compose.viewmodel)
         }
+        androidMain.dependencies {
+            implementation(libs.androidx.compose.ui.tooling.preview)
+        }
     }
 }
 
