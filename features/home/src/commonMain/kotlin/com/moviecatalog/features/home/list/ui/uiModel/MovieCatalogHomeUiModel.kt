@@ -8,7 +8,10 @@ import com.moviecatalog.features.home.list.ui.uiModel.state.MovieCatalogHomeStat
 import kotlinx.coroutines.delay
 
 internal class MovieCatalogHomeUiModel(private val movieRepository: MovieRepository) :
-    UiModel<MovieCatalogHomeState>(initialData = MovieCatalogHomeState(), initialMode = UiMode.Loading("Loading movies...")) {
+    UiModel<MovieCatalogHomeState>(
+        initialData = MovieCatalogHomeState(),
+        initialMode = UiMode.Loading(LOADING_MOVIES_MESSAGE),
+    ) {
 
     internal fun getMovies() = setState({
         delay(1000)
@@ -17,5 +20,9 @@ internal class MovieCatalogHomeUiModel(private val movieRepository: MovieReposit
                 copy(items = list.map { it.toListItemUiModel() })
             }
         }
-    }, loadingState = { UiMode.Loading("Loading movies...") })
+    }, loadingState = { UiMode.Loading(LOADING_MOVIES_MESSAGE) })
+
+    private companion object {
+        private const val LOADING_MOVIES_MESSAGE: String = "Loading movies..."
+    }
 }

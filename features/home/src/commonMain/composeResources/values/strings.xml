@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <string name="nav_app_title">CINEGRAPH</string>
     <string name="label_title">Title</string>
     <string name="label_artist">Artist</string>
     <string name="label_date">Date</string>

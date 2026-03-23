@@ -36,7 +36,7 @@ internal class MovieLoginUiModel(
                                 isSubmitting = false,
                                 feedbackEvent =
                                     MovieLoginFeedbackEvent.UnexpectedError(
-                                        e.message?.takeIf { it.isNotBlank() } ?: "Something went wrong.",
+                                        e.message?.takeIf { it.isNotBlank() } ?: UNEXPECTED_ERROR_MESSAGE,
                                     ),
                             )
                         }
@@ -59,7 +59,7 @@ internal class MovieLoginUiModel(
                         updateData {
                             copy(
                                 isSubmitting = false,
-                                usernameErrorText = "Enter your username.",
+                                usernameErrorText = EMPTY_USERNAME_MESSAGE,
                             )
                         }
                     }
@@ -68,13 +68,13 @@ internal class MovieLoginUiModel(
                         updateData {
                             copy(
                                 isSubmitting = false,
-                                passwordErrorText = "Enter your password.",
+                                passwordErrorText = EMPTY_PASSWORD_MESSAGE,
                             )
                         }
                     }
 
                     MovieLoginResult.Failure.UserNotFound -> {
-                        val message = "No account found for this username."
+                        val message = USER_NOT_FOUND_MESSAGE
                         updateData {
                             copy(
                                 isSubmitting = false,
@@ -84,7 +84,7 @@ internal class MovieLoginUiModel(
                     }
 
                     MovieLoginResult.Failure.InvalidPassword -> {
-                        val message = "Incorrect password."
+                        val message = INVALID_PASSWORD_MESSAGE
                         updateData {
                             copy(
                                 isSubmitting = false,
@@ -100,5 +100,13 @@ internal class MovieLoginUiModel(
 
     fun consumeFeedback() {
         updateData { copy(feedbackEvent = null) }
+    }
+
+    private companion object {
+        private const val UNEXPECTED_ERROR_MESSAGE: String = "Something went wrong."
+        private const val EMPTY_USERNAME_MESSAGE: String = "Enter your username."
+        private const val EMPTY_PASSWORD_MESSAGE: String = "Enter your password."
+        private const val USER_NOT_FOUND_MESSAGE: String = "No account found for this username."
+        private const val INVALID_PASSWORD_MESSAGE: String = "Incorrect password."
     }
 }

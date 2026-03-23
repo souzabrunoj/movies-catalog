@@ -26,16 +26,23 @@ import com.moviecatalog.core.navigator.flow.state.collectDataAsState
 import com.moviecatalog.core.navigator.step.Step
 import com.moviecatalog.core.navigator.step.StepNavigationOptions
 import com.moviecatalog.features.home.details.ui.step.MovieCatalogDetailsStep
+import com.moviecatalog.features.home.generated.resources.Res
+import com.moviecatalog.features.home.generated.resources.nav_app_title
 import com.moviecatalog.features.home.list.ui.uiModel.MovieCatalogHomeUiModel
 import com.moviecatalog.features.home.list.ui.uiModel.state.MovieObjectListItemUiModel
-import com.moviecatalog.features.home.shared.ui.EmptyScreenContent
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 internal data object MovieCatalogHomeStep : Step() {
 
     override val navigationOptions: StepNavigationOptions
         @Composable
-        get() = remember { StepNavigationOptions(title = "CINEGRAPH", showNavigationAction = false) }
+        get() {
+            val title = stringResource(Res.string.nav_app_title)
+            return remember(title) {
+                StepNavigationOptions(title = title, showNavigationAction = false)
+            }
+        }
 
     @Composable
     override fun Content() {

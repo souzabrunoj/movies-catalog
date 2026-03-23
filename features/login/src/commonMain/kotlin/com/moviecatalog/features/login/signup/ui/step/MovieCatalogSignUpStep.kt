@@ -56,22 +56,46 @@ import com.moviecatalog.core.navigator.flow.navigator.LocalFlowNavigator
 import com.moviecatalog.core.navigator.flow.state.collectDataAsState
 import com.moviecatalog.core.navigator.step.Step
 import com.moviecatalog.core.navigator.step.StepNavigationOptions
+import com.moviecatalog.features.login.generated.resources.Res
+import com.moviecatalog.features.login.generated.resources.content_desc_hide_password
+import com.moviecatalog.features.login.generated.resources.content_desc_show_password
+import com.moviecatalog.features.login.generated.resources.login_password_placeholder
+import com.moviecatalog.features.login.generated.resources.nav_app_title
+import com.moviecatalog.features.login.generated.resources.navigation_back
+import com.moviecatalog.features.login.generated.resources.signup_complete_registration
+import com.moviecatalog.features.login.generated.resources.signup_confirm_password_label
+import com.moviecatalog.features.login.generated.resources.signup_create_password_label
+import com.moviecatalog.features.login.generated.resources.signup_rule_digit
+import com.moviecatalog.features.login.generated.resources.signup_rule_letter
+import com.moviecatalog.features.login.generated.resources.signup_rule_match
+import com.moviecatalog.features.login.generated.resources.signup_rule_min_length
+import com.moviecatalog.features.login.generated.resources.signup_rule_special
+import com.moviecatalog.features.login.generated.resources.signup_saving
+import com.moviecatalog.features.login.generated.resources.signup_screen_title
+import com.moviecatalog.features.login.generated.resources.signup_terms_notice
+import com.moviecatalog.features.login.generated.resources.signup_username_label
+import com.moviecatalog.features.login.generated.resources.signup_username_placeholder
 import com.moviecatalog.features.login.signup.domain.model.MoviePasswordRulesState
 import com.moviecatalog.features.login.signup.ui.uiModel.MovieSignUpUiModel
 import com.moviecatalog.features.login.signup.ui.uiModel.state.MovieSignUpFeedbackEvent
 import com.moviecatalog.features.login.signup.ui.uiModel.state.MovieSignUpUiState
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 internal data object MovieCatalogSignUpStep : Step() {
 
     override val navigationOptions: StepNavigationOptions
         @Composable
-        get() = remember {
-            StepNavigationOptions(
-                title = "CINEGRAPH",
-                showNavigationAction = true,
-                navigationContentDescription = "Back",
-            )
+        get() {
+            val title = stringResource(Res.string.nav_app_title)
+            val back = stringResource(Res.string.navigation_back)
+            return remember(title, back) {
+                StepNavigationOptions(
+                    title = title,
+                    showNavigationAction = true,
+                    navigationContentDescription = back,
+                )
+            }
         }
 
     @Composable
@@ -110,6 +134,17 @@ private fun SignUpScreen(
     val scroll = rememberScrollState()
     val rules = data.passwordRules
     val snackbarHostState = rememberMovieSnackbarHostState()
+    val screenTitle = stringResource(Res.string.signup_screen_title)
+    val usernameLabel = stringResource(Res.string.signup_username_label)
+    val usernamePlaceholder = stringResource(Res.string.signup_username_placeholder)
+    val createPasswordLabel = stringResource(Res.string.signup_create_password_label)
+    val confirmPasswordLabel = stringResource(Res.string.signup_confirm_password_label)
+    val passwordPlaceholder = stringResource(Res.string.login_password_placeholder)
+    val completeRegistration = stringResource(Res.string.signup_complete_registration)
+    val saving = stringResource(Res.string.signup_saving)
+    val termsNotice = stringResource(Res.string.signup_terms_notice)
+    val hidePassword = stringResource(Res.string.content_desc_hide_password)
+    val showPassword = stringResource(Res.string.content_desc_show_password)
 
     LaunchedEffect(data.feedbackEvent) {
         when (val event = data.feedbackEvent) {
@@ -186,7 +221,7 @@ private fun SignUpScreen(
                 verticalAlignment = Alignment.Top,
             ) {
                 MovieText(
-                    text = "Create Your Account",
+                    text = screenTitle,
                     variant = MovieTextVariant.HeadingLarge(FontWeight.Bold),
                     contentColor = MovieTextColor.High,
                     modifier = Modifier.fillMaxHeight()
@@ -210,8 +245,8 @@ private fun SignUpScreen(
                         usernameTf = it
                         onUsernameChange(it.text)
                     },
-                    label = "Username",
-                    placeholder = "Choose a username",
+                    label = usernameLabel,
+                    placeholder = usernamePlaceholder,
                     errorText = data.usernameErrorText,
                     leading = { MovieIcon(icon = MovieIcons.Person) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -222,8 +257,8 @@ private fun SignUpScreen(
                         passwordTf = it
                         onPasswordChange(it.text)
                     },
-                    label = "Create Password",
-                    placeholder = "••••••••",
+                    label = createPasswordLabel,
+                    placeholder = passwordPlaceholder,
                     leading = { MovieIcon(icon = MovieIcons.Lock) },
                     visualTransformation = if (data.passwordVisible) {
                         VisualTransformation.None
@@ -234,6 +269,8 @@ private fun SignUpScreen(
                     trailing = {
                         PasswordVisibilityToggle(
                             visible = data.passwordVisible,
+                            hideLabel = hidePassword,
+                            showLabel = showPassword,
                             onToggle = onTogglePasswordVisible,
                         )
                     },
@@ -244,8 +281,8 @@ private fun SignUpScreen(
                         confirmTf = it
                         onConfirmPasswordChange(it.text)
                     },
-                    label = "Confirm Password",
-                    placeholder = "••••••••",
+                    label = confirmPasswordLabel,
+                    placeholder = passwordPlaceholder,
                     leading = { MovieIcon(icon = MovieIcons.Lock) },
                     visualTransformation = if (data.confirmPasswordVisible) {
                         VisualTransformation.None
@@ -256,6 +293,8 @@ private fun SignUpScreen(
                     trailing = {
                         PasswordVisibilityToggle(
                             visible = data.confirmPasswordVisible,
+                            hideLabel = hidePassword,
+                            showLabel = showPassword,
                             onToggle = onToggleConfirmPasswordVisible,
                         )
                     },
@@ -264,6 +303,11 @@ private fun SignUpScreen(
                 PasswordRequirementsCard(
                     rules = rules,
                     modifier = Modifier.fillMaxWidth(),
+                    ruleMinLength = stringResource(Res.string.signup_rule_min_length),
+                    ruleDigit = stringResource(Res.string.signup_rule_digit),
+                    ruleLetter = stringResource(Res.string.signup_rule_letter),
+                    ruleSpecial = stringResource(Res.string.signup_rule_special),
+                    ruleMatch = stringResource(Res.string.signup_rule_match),
                 )
 
                 data.formErrorMessage?.let { msg ->
@@ -276,19 +320,19 @@ private fun SignUpScreen(
 
                 val canCompleteRegistration = rules.allSatisfied
                 MovieButton(
-                    text = "Complete Registration >",
+                    text = completeRegistration,
                     onClick = onCompleteRegistration,
                     variant = MovieButtonVariant.Primary,
                     modifier = Modifier.fillMaxWidth(),
                     enabled = canCompleteRegistration,
                     isLoading = data.isSubmitting,
-                    loadingText = "Saving…",
+                    loadingText = saving,
                 )
             }
 
             Spacer(Modifier.height(MovieSpace.Large))
             MovieText(
-                text = "By completing registration, you agree to our Terms of Service and Privacy Policy.",
+                text = termsNotice,
                 variant = MovieTextVariant.TextSmall(),
                 contentColor = MovieTextColor.Medium,
                 textAlign = TextAlign.Center,
@@ -302,7 +346,12 @@ private fun SignUpScreen(
 }
 
 @Composable
-private fun PasswordVisibilityToggle(visible: Boolean, onToggle: () -> Unit) {
+private fun PasswordVisibilityToggle(
+    visible: Boolean,
+    hideLabel: String,
+    showLabel: String,
+    onToggle: () -> Unit,
+) {
     val icon = if (visible) MovieIcons.VisibilityOff else MovieIcons.Visibility
     Box(
         modifier = Modifier.clickable(
@@ -313,7 +362,7 @@ private fun PasswordVisibilityToggle(visible: Boolean, onToggle: () -> Unit) {
     ) {
         MovieIcon(
             icon = icon,
-            contentDescription = if (visible) "Hide password" else "Show password",
+            contentDescription = if (visible) hideLabel else showLabel,
             modifier = Modifier.padding(MovieSpace.Small),
         )
     }
@@ -323,6 +372,11 @@ private fun PasswordVisibilityToggle(visible: Boolean, onToggle: () -> Unit) {
 private fun PasswordRequirementsCard(
     rules: MoviePasswordRulesState,
     modifier: Modifier = Modifier,
+    ruleMinLength: String,
+    ruleDigit: String,
+    ruleLetter: String,
+    ruleSpecial: String,
+    ruleMatch: String,
 ) {
     val semantic = MovieTheme.colors
     Column(
@@ -332,11 +386,11 @@ private fun PasswordRequirementsCard(
             .padding(MovieSpace.Medium),
         verticalArrangement = Arrangement.spacedBy(MovieSpace.Small),
     ) {
-        RuleRow("Minimum 8 characters", rules.hasMinLength)
-        RuleRow("At least one number", rules.hasDigit)
-        RuleRow("At least one letter", rules.hasLetter)
-        RuleRow("One special character", rules.hasSpecialChar)
-        RuleRow("Password and confirmation match", rules.hasPasswordsMatch)
+        RuleRow(ruleMinLength, rules.hasMinLength)
+        RuleRow(ruleDigit, rules.hasDigit)
+        RuleRow(ruleLetter, rules.hasLetter)
+        RuleRow(ruleSpecial, rules.hasSpecialChar)
+        RuleRow(ruleMatch, rules.hasPasswordsMatch)
     }
 }
 

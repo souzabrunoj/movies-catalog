@@ -56,17 +56,35 @@ import com.moviecatalog.core.navigator.step.StepNavigationOptions
 import com.moviecatalog.features.login.auth.ui.uiModel.MovieLoginUiModel
 import com.moviecatalog.features.login.auth.ui.uiModel.state.MovieLoginFeedbackEvent
 import com.moviecatalog.features.login.auth.ui.uiModel.state.MovieLoginUiState
+import com.moviecatalog.features.login.generated.resources.Res
+import com.moviecatalog.features.login.generated.resources.login_action
+import com.moviecatalog.features.login.generated.resources.login_create_account
+import com.moviecatalog.features.login.generated.resources.login_feature_unavailable
+import com.moviecatalog.features.login.generated.resources.login_forgot_password
+import com.moviecatalog.features.login.generated.resources.login_new_user_prompt
+import com.moviecatalog.features.login.generated.resources.login_password_label
+import com.moviecatalog.features.login.generated.resources.login_password_placeholder
+import com.moviecatalog.features.login.generated.resources.login_signing_in
+import com.moviecatalog.features.login.generated.resources.login_username_label
+import com.moviecatalog.features.login.generated.resources.login_username_placeholder
+import com.moviecatalog.features.login.generated.resources.login_welcome_subtitle
+import com.moviecatalog.features.login.generated.resources.login_welcome_title
+import com.moviecatalog.features.login.generated.resources.nav_app_title
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 internal object MovieCatalogLoginStep : Step() {
 
     override val navigationOptions: StepNavigationOptions
         @Composable
-        get() = remember {
-            StepNavigationOptions(
-                title = "CINEGRAPH",
-                showNavigationAction = false,
-            )
+        get() {
+            val title = stringResource(Res.string.nav_app_title)
+            return remember(title) {
+                StepNavigationOptions(
+                    title = title,
+                    showNavigationAction = false,
+                )
+            }
         }
 
     @Composable
@@ -121,6 +139,18 @@ private fun LoginScreen(
     val semantic = MovieTheme.colors
     val scroll = rememberScrollState()
     val snackbarHostState = rememberMovieSnackbarHostState()
+    val welcomeTitle = stringResource(Res.string.login_welcome_title)
+    val welcomeSubtitle = stringResource(Res.string.login_welcome_subtitle)
+    val usernameLabel = stringResource(Res.string.login_username_label)
+    val usernamePlaceholder = stringResource(Res.string.login_username_placeholder)
+    val passwordLabel = stringResource(Res.string.login_password_label)
+    val passwordPlaceholder = stringResource(Res.string.login_password_placeholder)
+    val forgotPassword = stringResource(Res.string.login_forgot_password)
+    val featureUnavailable = stringResource(Res.string.login_feature_unavailable)
+    val loginAction = stringResource(Res.string.login_action)
+    val signingIn = stringResource(Res.string.login_signing_in)
+    val newUserPrompt = stringResource(Res.string.login_new_user_prompt)
+    val createAccount = stringResource(Res.string.login_create_account)
 
     LaunchedEffect(data.feedbackEvent) {
         when (val event = data.feedbackEvent) {
@@ -214,12 +244,12 @@ private fun LoginScreen(
                 verticalArrangement = Arrangement.spacedBy(MovieSpace.Medium),
             ) {
                 MovieText(
-                    text = "Welcome Back",
+                    text = welcomeTitle,
                     variant = MovieTextVariant.HeadingLarge(FontWeight.Bold),
                     contentColor = MovieTextColor.High,
                 )
                 MovieText(
-                    text = "Continue your curated cinematic journey.",
+                    text = welcomeSubtitle,
                     variant = MovieTextVariant.TextMedium(),
                     contentColor = MovieTextColor.Medium,
                 )
@@ -230,8 +260,8 @@ private fun LoginScreen(
                         usernameTf = it
                         onUsernameChange(it.text)
                     },
-                    label = "Username",
-                    placeholder = "Your username",
+                    label = usernameLabel,
+                    placeholder = usernamePlaceholder,
                     errorText = data.usernameErrorText,
                     leading = { MovieIcon(icon = MovieIcons.Person) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -242,8 +272,8 @@ private fun LoginScreen(
                         passwordTf = it
                         onPasswordChange(it.text)
                     },
-                    label = "Password",
-                    placeholder = "••••••••",
+                    label = passwordLabel,
+                    placeholder = passwordPlaceholder,
                     errorText = data.passwordErrorText,
                     leading = { MovieIcon(icon = MovieIcons.Lock) },
                     visualTransformation = PasswordVisualTransformation(),
@@ -254,7 +284,7 @@ private fun LoginScreen(
                     horizontalArrangement = Arrangement.End,
                 ) {
                     MovieText(
-                        text = "Forgot Password?",
+                        text = forgotPassword,
                         variant = MovieTextVariant.TextSmall(FontWeight.Medium),
                         contentColor = MovieTextColor.Brand,
                         modifier = Modifier.clickable(
@@ -262,7 +292,7 @@ private fun LoginScreen(
                             indication = null,
                             onClick = {
                                 snackbarHostState.show(
-                                    message = "This feature isn't available.",
+                                    message = featureUnavailable,
                                     duration = MovieSnackbarDuration.Short,
                                     variant = MovieSnackbarVariant.Info,
                                 )
@@ -271,13 +301,13 @@ private fun LoginScreen(
                     )
                 }
                 MovieButton(
-                    text = "LOGIN",
+                    text = loginAction,
                     onClick = onLogin,
                     variant = MovieButtonVariant.Primary,
                     modifier = Modifier.fillMaxWidth(),
                     enabled = canSubmit && !data.isSubmitting,
                     isLoading = data.isSubmitting,
-                    loadingText = "Signing in…",
+                    loadingText = signingIn,
                 )
                 Row(
                     modifier = Modifier
@@ -287,13 +317,13 @@ private fun LoginScreen(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     MovieText(
-                        text = "New to CineGraph? ",
+                        text = newUserPrompt,
                         variant = MovieTextVariant.TextSmall(),
                         contentColor = MovieTextColor.Medium,
                         textAlign = TextAlign.Center,
                     )
                     MovieText(
-                        text = "Create an account",
+                        text = createAccount,
                         variant = MovieTextVariant.TextSmall(FontWeight.Bold),
                         contentColor = MovieTextColor.Brand,
                         modifier = Modifier.clickable(

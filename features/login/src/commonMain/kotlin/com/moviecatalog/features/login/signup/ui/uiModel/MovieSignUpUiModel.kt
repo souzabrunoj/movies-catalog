@@ -66,7 +66,7 @@ internal class MovieSignUpUiModel(
                         updateData {
                             copy(
                                 isSubmitting = false,
-                                formErrorMessage = e.message?.takeIf { it.isNotBlank() } ?: "Something went wrong.",
+                                formErrorMessage = e.message?.takeIf { it.isNotBlank() } ?: UNEXPECTED_ERROR_MESSAGE,
                             )
                         }
                         return@registration
@@ -84,7 +84,7 @@ internal class MovieSignUpUiModel(
                                 confirmPassword = "",
                                 passwordRules = evaluatePasswordRules("", ""),
                                 feedbackEvent = MovieSignUpFeedbackEvent.Success(
-                                    message = "Registration completed successfully.",
+                                    message = REGISTRATION_SUCCESS_MESSAGE,
                                 ),
                             )
                         }
@@ -125,19 +125,29 @@ internal class MovieSignUpUiModel(
     private fun MovieRegisterUserResult.toFailureMessage(): String =
         when (this) {
             is MovieRegisterUserResult.Failure -> toFailureDetailMessage()
-            MovieRegisterUserResult.Success -> error("Success has no failure message")
+            MovieRegisterUserResult.Success -> error(SUCCESS_HAS_NO_FAILURE_MESSAGE)
         }
 
     private fun MovieRegisterUserResult.Failure.toFailureDetailMessage(): String =
         when (this) {
-            MovieRegisterUserResult.Failure.EmptyUsername -> "Enter a username."
-            MovieRegisterUserResult.Failure.EmptyPassword -> "Enter a password."
-            MovieRegisterUserResult.Failure.EmptyConfirmPassword -> "Confirm your password."
-            MovieRegisterUserResult.Failure.PasswordMismatch -> "Passwords do not match."
-            MovieRegisterUserResult.Failure.PasswordRulesNotMet ->
-                "Password must be at least 8 characters and include a letter, a number, and a special character."
-
-            MovieRegisterUserResult.Failure.UsernameTaken ->
-                "This username is already registered."
+            MovieRegisterUserResult.Failure.EmptyUsername -> EMPTY_USERNAME_MESSAGE
+            MovieRegisterUserResult.Failure.EmptyPassword -> EMPTY_PASSWORD_MESSAGE
+            MovieRegisterUserResult.Failure.EmptyConfirmPassword -> EMPTY_CONFIRM_PASSWORD_MESSAGE
+            MovieRegisterUserResult.Failure.PasswordMismatch -> PASSWORD_MISMATCH_MESSAGE
+            MovieRegisterUserResult.Failure.PasswordRulesNotMet -> PASSWORD_RULES_NOT_MET_MESSAGE
+            MovieRegisterUserResult.Failure.UsernameTaken -> USERNAME_TAKEN_MESSAGE
         }
+
+    private companion object {
+        private const val UNEXPECTED_ERROR_MESSAGE: String = "Something went wrong."
+        private const val REGISTRATION_SUCCESS_MESSAGE: String = "Registration completed successfully."
+        private const val SUCCESS_HAS_NO_FAILURE_MESSAGE: String = "Success has no failure message"
+        private const val EMPTY_USERNAME_MESSAGE: String = "Enter a username."
+        private const val EMPTY_PASSWORD_MESSAGE: String = "Enter a password."
+        private const val EMPTY_CONFIRM_PASSWORD_MESSAGE: String = "Confirm your password."
+        private const val PASSWORD_MISMATCH_MESSAGE: String = "Passwords do not match."
+        private const val PASSWORD_RULES_NOT_MET_MESSAGE: String =
+            "Password must be at least 8 characters and include a letter, a number, and a special character."
+        private const val USERNAME_TAKEN_MESSAGE: String = "This username is already registered."
+    }
 }
