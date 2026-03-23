@@ -25,6 +25,7 @@ data class MovieSemanticColors(
     val fillPrimaryDisabled: Color,
     val fillProgressTrack: Color,
     val contentOnSaturated: Color,
+    val transparent: Color,
 ) {
     companion object {
         fun darkDefault(): MovieSemanticColors {
@@ -50,6 +51,7 @@ data class MovieSemanticColors(
                 fillPrimaryDisabled = p.BrandFillDisabled,
                 fillProgressTrack = p.ProgressTrack,
                 contentOnSaturated = p.InkOnSaturated,
+                transparent = Color(0x00000000),
             )
         }
     }

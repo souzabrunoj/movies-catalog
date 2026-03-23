@@ -4,19 +4,18 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -30,12 +29,17 @@ import com.moviecatalog.core.designsystem.tokens.type.MovieTextColor
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
 import com.moviecatalog.core.navigator.flow.navigator.LocalFlowNavigator
 import com.moviecatalog.core.navigator.step.Step
+import com.moviecatalog.core.navigator.step.StepNavigationOptions
 import com.moviecatalog.features.home.data.MuseumObject
 import com.moviecatalog.features.home.ui.EmptyScreenContent
 import com.moviecatalog.features.home.ui.detail.MovieCatalogDetailsStep
 import org.koin.compose.viewmodel.koinViewModel
 
 internal data object MovieCatalogHomeStep : Step() {
+
+    override val navigationOptions: StepNavigationOptions
+        @Composable
+        get() = remember { StepNavigationOptions(title = "CINEGRAPH", showNavigationAction = false) }
 
     @Composable
     override fun Content() {

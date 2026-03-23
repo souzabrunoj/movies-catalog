@@ -32,7 +32,10 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(projects.core.designSystem)
+            implementation(libs.compose.foundation)
             implementation(libs.compose.runtime)
+            implementation(libs.compose.ui)
             implementation(libs.koin.core)
             implementation(libs.voyager.core)
             implementation(libs.voyager.navigator)

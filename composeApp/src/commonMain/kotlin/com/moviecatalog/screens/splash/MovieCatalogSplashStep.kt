@@ -38,6 +38,7 @@ import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
 import com.moviecatalog.core.navigator.LoginDestination
 import com.moviecatalog.core.navigator.flow.navigator.LocalFlowNavigator
 import com.moviecatalog.core.navigator.step.Step
+import com.moviecatalog.core.navigator.step.StepNavigationOptions
 import kotlinx.coroutines.delay
 
 private const val SPLASH_PROGRESS_MS = 2000
@@ -51,6 +52,10 @@ private const val SPLASH_LOGO_COMPOSE_PATH =
     "https://souzabrunoj.github.io/movie-catalog-assets/splash/img_splash_logo.webp"
 
 internal data object MovieCatalogSplashStep : Step() {
+
+    override val navigationOptions: StepNavigationOptions
+        @Composable
+        get() = remember { StepNavigationOptions(isVisible = false) }
 
     @Composable
     override fun Content() {

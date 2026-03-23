@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 
-internal class StepBackedScreen(private val step: Step) : Screen {
+internal class StepBackedScreen(internal val step: Step) : Screen {
 
     override val key: ScreenKey
         get() = step.key

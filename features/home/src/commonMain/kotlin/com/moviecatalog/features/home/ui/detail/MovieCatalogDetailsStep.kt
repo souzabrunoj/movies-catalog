@@ -19,6 +19,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -29,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
+import com.moviecatalog.core.designsystem.components.image.MovieImage
 import com.moviecatalog.core.designsystem.components.text.MovieText
 import com.moviecatalog.core.designsystem.theme.MovieTheme
 import com.moviecatalog.core.designsystem.tokens.size.MovieComponentSize
@@ -38,9 +40,11 @@ import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
 import com.moviecatalog.core.navigator.flow.navigator.LocalFlowNavigator
 import com.moviecatalog.core.navigator.step.Step
 import com.moviecatalog.core.navigator.step.StepKey
+import com.moviecatalog.core.navigator.step.StepNavigationOptions
 import com.moviecatalog.features.home.data.MuseumObject
 import com.moviecatalog.features.home.generated.resources.Res
 import com.moviecatalog.features.home.generated.resources.back
+import com.moviecatalog.features.home.generated.resources.details_screen_title
 import com.moviecatalog.features.home.generated.resources.label_artist
 import com.moviecatalog.features.home.generated.resources.label_credits
 import com.moviecatalog.features.home.generated.resources.label_date
@@ -57,15 +61,27 @@ internal data class MovieCatalogDetailsStep(val movieId: Int) : Step() {
 
     override val key: StepKey = "MovieCatalogDetailsStep-$movieId"
 
+    override val navigationOptions: StepNavigationOptions
+        @Composable
+        get() {
+            val barTitle = stringResource(Res.string.details_screen_title)
+            val backLabel = stringResource(Res.string.back)
+            return remember(movieId, barTitle, backLabel) {
+                StepNavigationOptions(
+                    title = barTitle,
+                    showNavigationAction = true,
+                    navigationContentDescription = backLabel,
+                )
+            }
+        }
+
     @Composable
     override fun Content() {
         val viewModel = koinViewModel<MovieCatalogDetailsViewModel>()
-        val flowNavigator = LocalFlowNavigator.current
-
         val obj by viewModel.getObject(movieId).collectAsStateWithLifecycle(initialValue = null)
         AnimatedContent(obj != null) { objectAvailable ->
             if (objectAvailable) {
-                MovieDetailsDetails(obj!!, onBackClick = { flowNavigator.pop() })
+                MovieDetailsDetails(obj!!)
             } else {
                 EmptyScreenContent(Modifier.fillMaxSize())
             }
@@ -74,65 +90,42 @@ internal data class MovieCatalogDetailsStep(val movieId: Int) : Step() {
 }
 
 @Composable
-private fun MovieDetailsDetails(
-    obj: MuseumObject,
-    onBackClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
+private fun MovieDetailsDetails(obj: MuseumObject, modifier: Modifier = Modifier) {
     val colors = MovieTheme.colors
-    Column(modifier.fillMaxSize()) {
-        Row(
-            Modifier
+    Column(
+        modifier = modifier
+            .verticalScroll(rememberScrollState())
+            .fillMaxWidth(),
+    ) {
+        MovieImage(
+            url = obj.primaryImageSmall,
+            contentDescription = obj.title,
+            contentScale = ContentScale.FillWidth,
+            modifier = Modifier
                 .fillMaxWidth()
-                .background(colors.backgroundSurface)
-                .padding(horizontal = MovieSpace.XSmall2, vertical = MovieSpace.XSmall),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Image(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = stringResource(Res.string.back),
-                modifier = Modifier
-                    .clickable(onClick = onBackClick)
-                    .padding(MovieSpace.Small)
-                    .size(MovieComponentSize.IconMedium),
-                colorFilter = ColorFilter.tint(colors.contentHigh),
-            )
-        }
+                .background(colors.backgroundSurface),
+        )
 
-        Column(
-            Modifier
-                .verticalScroll(rememberScrollState())
-                .fillMaxWidth(),
-        ) {
-            AsyncImage(
-                model = obj.primaryImageSmall,
-                contentDescription = obj.title,
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(colors.backgroundSurface),
-            )
-
-            SelectionContainer {
-                Column(Modifier.padding(MovieSpace.Small)) {
-                    MovieText(
-                        text = obj.title,
-                        variant = MovieTextVariant.HeadingMedium(),
-                        contentColor = MovieTextColor.High,
-                    )
-                    Spacer(Modifier.height(MovieSpace.XSmall2 + MovieSpace.XSmall3))
-                    LabeledInfo(stringResource(Res.string.label_title), obj.title)
-                    LabeledInfo(stringResource(Res.string.label_artist), obj.artistDisplayName)
-                    LabeledInfo(stringResource(Res.string.label_date), obj.objectDate)
-                    LabeledInfo(stringResource(Res.string.label_dimensions), obj.dimensions)
-                    LabeledInfo(stringResource(Res.string.label_medium), obj.medium)
-                    LabeledInfo(stringResource(Res.string.label_department), obj.department)
-                    LabeledInfo(stringResource(Res.string.label_repository), obj.repository)
-                    LabeledInfo(stringResource(Res.string.label_credits), obj.creditLine)
-                }
+        SelectionContainer {
+            Column(Modifier.padding(MovieSpace.Small)) {
+                MovieText(
+                    text = obj.title,
+                    variant = MovieTextVariant.HeadingMedium(),
+                    contentColor = MovieTextColor.High,
+                )
+                Spacer(Modifier.height(MovieSpace.XSmall2 + MovieSpace.XSmall3))
+                LabeledInfo(stringResource(Res.string.label_title), obj.title)
+                LabeledInfo(stringResource(Res.string.label_artist), obj.artistDisplayName)
+                LabeledInfo(stringResource(Res.string.label_date), obj.objectDate)
+                LabeledInfo(stringResource(Res.string.label_dimensions), obj.dimensions)
+                LabeledInfo(stringResource(Res.string.label_medium), obj.medium)
+                LabeledInfo(stringResource(Res.string.label_department), obj.department)
+                LabeledInfo(stringResource(Res.string.label_repository), obj.repository)
+                LabeledInfo(stringResource(Res.string.label_credits), obj.creditLine)
             }
         }
     }
+
 }
 
 @Composable

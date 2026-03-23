@@ -42,8 +42,18 @@ import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
 import com.moviecatalog.core.navigator.HomeDestination
 import com.moviecatalog.core.navigator.flow.navigator.LocalFlowNavigator
 import com.moviecatalog.core.navigator.step.Step
+import com.moviecatalog.core.navigator.step.StepNavigationOptions
 
 internal object MovieCatalogLoginStep : Step() {
+
+    override val navigationOptions: StepNavigationOptions
+        @Composable
+        get() = remember {
+            StepNavigationOptions(
+                title = "CINEGRAPH",
+                showNavigationAction = false,
+            )
+        }
 
     @Composable
     override fun Content() {
@@ -79,12 +89,6 @@ private fun MovieCatalogLoginContent(
             .verticalScroll(scroll)
             .padding(horizontal = MovieSpace.Medium, vertical = MovieSpace.XLarge),
     ) {
-        MovieText(
-            text = "CINEGRAPH",
-            variant = MovieTextVariant.DisplayMedium(FontWeight.Bold),
-            contentColor = MovieTextColor.Brand,
-        )
-        Spacer(modifier = Modifier.height(MovieSpace.XLarge2))
         Column(
             modifier = Modifier
                 .fillMaxWidth()
