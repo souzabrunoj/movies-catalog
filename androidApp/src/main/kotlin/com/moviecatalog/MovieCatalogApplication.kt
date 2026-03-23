@@ -13,8 +13,8 @@ class MovieCatalogApplication : Application() {
                 androidContext(this@MovieCatalogApplication)
                 modules(movieCatalogKoinModules())
             }
-        } catch (e: KoinApplicationAlreadyStartedException) {
-            e.printStackTrace()
+        } catch (_: KoinApplicationAlreadyStartedException) {
+            // Koin is already started, ignore the exception
         }
     }
 }
