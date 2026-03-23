@@ -2,7 +2,10 @@ package com.moviecatalog.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.moviecatalog.core.designsystem.theme.MovieTheme
@@ -20,10 +23,16 @@ fun MovieCatalogApp() {
                 .fillMaxSize()
                 .background(MovieTheme.colors.backgroundBody),
         ) {
-            AppNavigationHost(
-                initialStep = MovieCatalogSplashStep,
-                destinationRegistry = destinationRegistry,
-            )
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .windowInsetsPadding(WindowInsets.safeDrawing),
+            ) {
+                AppNavigationHost(
+                    initialStep = MovieCatalogSplashStep,
+                    destinationRegistry = destinationRegistry,
+                )
+            }
         }
     }
 }
