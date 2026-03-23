@@ -35,5 +35,8 @@ include(":core:navigator")
 include(":core:design-system")
 include(":core:ui-model")
 
+include(":features:login")
+include(":features:home")
+
 include(":composeApp")
 include(":androidApp")

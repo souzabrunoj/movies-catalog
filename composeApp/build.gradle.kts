@@ -6,7 +6,6 @@ plugins {
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.platform.detekt)
     alias(libs.plugins.platform.ktlint)
 }
@@ -46,16 +45,15 @@ kotlin {
     }
 
     sourceSets {
-        androidMain.dependencies {
-            implementation(libs.ktor.client.okhttp)
-        }
-        iosMain.dependencies {
-            implementation(libs.ktor.client.darwin)
+        commonTest.dependencies {
+            implementation(kotlin("test"))
         }
         commonMain.dependencies {
             implementation(projects.core.navigator)
             implementation(projects.core.designSystem)
             implementation(projects.core.uiModel)
+            implementation(projects.features.login)
+            implementation(projects.features.home)
 
             implementation(libs.compose.runtime)
             implementation(libs.compose.animation)
@@ -64,21 +62,12 @@ kotlin {
             implementation(libs.compose.components.resources)
             implementation(libs.compose.ui.tooling.preview)
 
-            implementation(libs.navigation.compose)
             implementation(libs.lifecycle.runtime.compose)
             implementation(libs.material.icons.core)
 
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.kotlinx.json)
-
             implementation(libs.coil.compose)
-            implementation(libs.coil.network.ktor)
             implementation(libs.koin.core)
             implementation(libs.koin.compose.viewmodel)
-        }
-        commonTest.dependencies {
-            implementation(kotlin("test"))
         }
     }
 }

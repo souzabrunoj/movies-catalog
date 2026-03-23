@@ -16,8 +16,12 @@ kotlin {
     }
 
     dependencies {
+        implementation(projects.core.navigator)
         implementation(projects.composeApp)
+        implementation(projects.features.login)
+        implementation(projects.features.home)
         implementation(libs.androidx.activity.compose)
+        implementation(libs.androidx.core.splashscreen)
         implementation(libs.androidx.compose.ui.tooling.preview)
     }
 }

@@ -362,7 +362,7 @@ private fun MovieTextInputFooter(
     val hasError = !errorText.isNullOrBlank()
     val message =
         when {
-            hasError -> errorText!!
+            hasError -> errorText
             else -> supportText
         }
     if (message == null && !showCounter) return
