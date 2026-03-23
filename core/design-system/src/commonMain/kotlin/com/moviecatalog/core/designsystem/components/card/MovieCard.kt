@@ -5,10 +5,10 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -17,25 +17,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import com.moviecatalog.core.designsystem.components.image.MovieImage
-import com.moviecatalog.core.designsystem.components.text.MovieText
 import com.moviecatalog.core.designsystem.tokens.card.MovieCardVariant
-import com.moviecatalog.core.designsystem.tokens.type.MovieTextColor
-import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
 
 @Composable
 public fun MovieCard(
-    title: String,
-    subtitle: String,
     imageUrl: String,
     contentDescription: String?,
     onClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     type: MovieCardVariant = MovieCardVariant.Default,
-    showMetadata: Boolean = true,
     posterAspectRatioOverride: Float? = null,
+    content: @Composable ColumnScope.() -> Unit = {},
 ) {
     val t = type.tokens
     val posterAspectRatio = posterAspectRatioOverride ?: t.posterAspectRatio
@@ -77,7 +70,7 @@ public fun MovieCard(
                     contentDescription = contentDescription,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .matchParentSize()
+                        .fillMaxSize()
                         .clip(posterShape)
                         .border(
                             width = t.posterBorderWidth,
@@ -87,23 +80,6 @@ public fun MovieCard(
                 )
             }
         }
-        if (showMetadata) {
-            Spacer(Modifier.height(t.titleToPosterGap))
-            MovieText(
-                text = title,
-                variant = MovieTextVariant.TextMedium(FontWeight.Bold),
-                contentColor = MovieTextColor.High,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-            )
-            Spacer(Modifier.height(t.subtitleToTitleGap))
-            MovieText(
-                text = subtitle,
-                variant = MovieTextVariant.TextSmall(),
-                contentColor = MovieTextColor.Medium,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-            )
-        }
+        content()
     }
 }

@@ -12,13 +12,9 @@ internal fun MovieDetailHeroSection(
     modifier: Modifier = Modifier,
 ) {
     MovieCard(
-        title = "",
-        subtitle = "",
         imageUrl = imageUrl,
         contentDescription = contentDescription,
-        onClick = {},
         modifier = modifier,
-        showMetadata = false,
         posterAspectRatioOverride = MovieDetailConfigs.HeroImageAspectRatio,
     )
 }
