@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import coil3.compose.AsyncImage
+import com.moviecatalog.core.designsystem.components.image.MovieImage
 import com.moviecatalog.core.designsystem.components.text.MovieText
 import com.moviecatalog.core.designsystem.tokens.card.MovieCardVariant
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextColor
@@ -31,18 +31,27 @@ public fun MovieCard(
     subtitle: String,
     imageUrl: String,
     contentDescription: String?,
-    onClick: () -> Unit,
+    onClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     type: MovieCardVariant = MovieCardVariant.Default,
+    showMetadata: Boolean = true,
+    posterAspectRatioOverride: Float? = null,
 ) {
     val t = type.tokens
+    val posterAspectRatio = posterAspectRatioOverride ?: t.posterAspectRatio
     val posterShape = RoundedCornerShape(t.posterImageCorner)
     val holderShape = RoundedCornerShape(t.posterHolderCorner)
 
     Column(
         modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick),
+            .then(
+                if (onClick != null) {
+                    Modifier.clickable(onClick = onClick)
+                } else {
+                    Modifier
+                },
+            ),
     ) {
         Box(
             Modifier
@@ -54,7 +63,7 @@ public fun MovieCard(
             Box(
                 Modifier
                     .fillMaxWidth()
-                    .aspectRatio(t.posterAspectRatio)
+                    .aspectRatio(posterAspectRatio)
                     .shadow(
                         elevation = t.posterShadowElevation,
                         shape = posterShape,
@@ -63,8 +72,8 @@ public fun MovieCard(
                         ambientColor = Color.Black.copy(alpha = 0.12f),
                     ),
             ) {
-                AsyncImage(
-                    model = imageUrl,
+                MovieImage(
+                    url = imageUrl,
                     contentDescription = contentDescription,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -78,21 +87,23 @@ public fun MovieCard(
                 )
             }
         }
-        Spacer(Modifier.height(t.titleToPosterGap))
-        MovieText(
-            text = title,
-            variant = MovieTextVariant.TextMedium(FontWeight.Bold),
-            contentColor = MovieTextColor.High,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-        )
-        Spacer(Modifier.height(t.subtitleToTitleGap))
-        MovieText(
-            text = subtitle,
-            variant = MovieTextVariant.TextSmall(),
-            contentColor = MovieTextColor.Medium,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-        )
+        if (showMetadata) {
+            Spacer(Modifier.height(t.titleToPosterGap))
+            MovieText(
+                text = title,
+                variant = MovieTextVariant.TextMedium(FontWeight.Bold),
+                contentColor = MovieTextColor.High,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Spacer(Modifier.height(t.subtitleToTitleGap))
+            MovieText(
+                text = subtitle,
+                variant = MovieTextVariant.TextSmall(),
+                contentColor = MovieTextColor.Medium,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
     }
 }
