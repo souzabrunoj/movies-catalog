@@ -5,13 +5,11 @@ import androidx.compose.ui.unit.Dp
 import com.moviecatalog.core.designsystem.tokens.size.MovieSpace
 import com.moviecatalog.core.designsystem.tokens.size.MovieStrokeWidth
 
-
 @Immutable
 public data class MovieDividerDimensionTokens(
     public val horizontalThickness: Dp,
     public val verticalThickness: Dp,
 )
-
 
 public sealed class MovieDividerSize(public val dimensions: MovieDividerDimensionTokens) {
     public data object Small : MovieDividerSize(SmallMovieDividerDimensions)

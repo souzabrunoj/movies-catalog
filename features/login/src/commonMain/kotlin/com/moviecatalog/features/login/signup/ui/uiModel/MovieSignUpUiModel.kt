@@ -5,6 +5,7 @@ import com.moviecatalog.core.uimodel.UiModel
 import com.moviecatalog.features.login.signup.domain.model.MovieRegisterUserResult
 import com.moviecatalog.features.login.signup.domain.usecase.MovieEvaluatePasswordRulesUseCase
 import com.moviecatalog.features.login.signup.domain.usecase.MovieRegisterUserUseCase
+import com.moviecatalog.features.login.signup.ui.uiModel.state.MovieSignUpFeedbackEvent
 import com.moviecatalog.features.login.signup.ui.uiModel.state.MovieSignUpUiState
 
 internal class MovieSignUpUiModel(
@@ -14,7 +15,7 @@ internal class MovieSignUpUiModel(
 
      fun onUsernameChange(value: String) {
         updateData {
-            copy(username = value, formErrorMessage = null)
+            copy(username = value, formErrorMessage = null, usernameErrorText = null)
         }
     }
 
@@ -22,7 +23,7 @@ internal class MovieSignUpUiModel(
         updateData {
             copy(
                 password = value,
-                passwordRules = evaluatePasswordRules(value),
+                passwordRules = evaluatePasswordRules(value, confirmPassword),
                 formErrorMessage = null,
             )
         }
@@ -30,7 +31,11 @@ internal class MovieSignUpUiModel(
 
      fun onConfirmPasswordChange(value: String) {
         updateData {
-            copy(confirmPassword = value, formErrorMessage = null)
+            copy(
+                confirmPassword = value,
+                passwordRules = evaluatePasswordRules(password, value),
+                formErrorMessage = null,
+            )
         }
     }
 
@@ -46,7 +51,7 @@ internal class MovieSignUpUiModel(
         }
     }
 
-     fun completeRegistration(onSuccess: () -> Unit) {
+     fun completeRegistration() {
         setState(
             block = {
                 when (
@@ -60,18 +65,36 @@ internal class MovieSignUpUiModel(
                         updateData {
                             copy(
                                 formErrorMessage = null,
+                                usernameErrorText = null,
                                 username = "",
                                 password = "",
                                 confirmPassword = "",
-                                passwordRules = evaluatePasswordRules(""),
+                                passwordRules = evaluatePasswordRules("", ""),
+                                feedbackEvent = MovieSignUpFeedbackEvent.Success(
+                                    message = "Cadastro concluído com sucesso!",
+                                ),
                             )
                         }
-                        onSuccess()
+                    }
+
+                    MovieRegisterUserResult.Failure.UsernameTaken -> {
+                        val message = result.toFailureMessage()
+                        updateData {
+                            copy(
+                                formErrorMessage = null,
+                                usernameErrorText = message,
+                                feedbackEvent = MovieSignUpFeedbackEvent.UsernameTaken(message),
+                            )
+                        }
                     }
 
                     is MovieRegisterUserResult.Failure -> {
                         updateData {
-                            copy(formErrorMessage = result.toMessage())
+                            copy(
+                                formErrorMessage = result.toFailureMessage(),
+                                usernameErrorText = null,
+                                feedbackEvent = null,
+                            )
                         }
                     }
                 }
@@ -80,7 +103,17 @@ internal class MovieSignUpUiModel(
         )
     }
 
-    private fun MovieRegisterUserResult.Failure.toMessage(): String =
+    fun consumeFeedback() {
+        updateData { copy(feedbackEvent = null) }
+    }
+
+    private fun MovieRegisterUserResult.toFailureMessage(): String =
+        when (this) {
+            is MovieRegisterUserResult.Failure -> toFailureDetailMessage()
+            MovieRegisterUserResult.Success -> error("Success has no failure message")
+        }
+
+    private fun MovieRegisterUserResult.Failure.toFailureDetailMessage(): String =
         when (this) {
             MovieRegisterUserResult.Failure.EmptyUsername -> "Enter a username."
             MovieRegisterUserResult.Failure.EmptyPassword -> "Enter a password."
@@ -88,6 +121,7 @@ internal class MovieSignUpUiModel(
             MovieRegisterUserResult.Failure.PasswordMismatch -> "Passwords do not match."
             MovieRegisterUserResult.Failure.PasswordRulesNotMet ->
                 "Password must be at least 8 characters and include a letter, a number, and a special character."
-            MovieRegisterUserResult.Failure.UsernameTaken -> "This username is already registered."
+            MovieRegisterUserResult.Failure.UsernameTaken ->
+                "Este nome de usuário já está cadastrado."
         }
 }

@@ -14,6 +14,9 @@ internal data class MovieSignUpUiState(
         hasLetter = false,
         hasDigit = false,
         hasSpecialChar = false,
+        hasPasswordsMatch = false,
     ),
     val formErrorMessage: String? = null,
+    val usernameErrorText: String? = null,
+    val feedbackEvent: MovieSignUpFeedbackEvent? = null,
 ) : UiModelState

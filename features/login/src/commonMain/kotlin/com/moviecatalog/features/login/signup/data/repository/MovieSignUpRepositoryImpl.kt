@@ -8,14 +8,13 @@ internal class MovieSignUpRepositoryImpl : MovieSignUpRepository {
     private val mutex = Mutex()
     private val users = mutableMapOf<String, String>()
 
-    override suspend fun countUsersWithUsername(normalizedUsername: String): Long =
+    override suspend fun registerIfAbsent(normalizedUsername: String, password: String): Boolean =
         mutex.withLock {
-            if (users.containsKey(normalizedUsername)) 1L else 0L
+            if (users.containsKey(normalizedUsername)) {
+                false
+            } else {
+                users[normalizedUsername] = password
+                true
+            }
         }
-
-    override suspend fun insertUser(normalizedUsername: String, password: String) {
-        mutex.withLock {
-            users[normalizedUsername] = password
-        }
-    }
 }

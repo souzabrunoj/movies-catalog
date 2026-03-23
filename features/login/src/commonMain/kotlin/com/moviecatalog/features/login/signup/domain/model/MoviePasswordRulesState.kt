@@ -5,7 +5,12 @@ internal data class MoviePasswordRulesState(
     val hasLetter: Boolean,
     val hasDigit: Boolean,
     val hasSpecialChar: Boolean,
+    val hasPasswordsMatch: Boolean,
 ) {
     internal val allSatisfied: Boolean
-        get() = hasMinLength && hasLetter && hasDigit && hasSpecialChar
+        get() = hasMinLength &&
+            hasLetter &&
+            hasDigit &&
+            hasSpecialChar &&
+            hasPasswordsMatch
 }

@@ -3,7 +3,6 @@ package com.moviecatalog.core.designsystem.tokens.type
 import androidx.compose.ui.graphics.Color
 import com.moviecatalog.core.designsystem.tokens.color.MovieSemanticColors
 
-
 public enum class MovieColor {
     High,
     Medium,

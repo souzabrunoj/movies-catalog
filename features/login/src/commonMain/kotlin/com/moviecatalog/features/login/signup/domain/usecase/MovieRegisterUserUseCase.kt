@@ -6,7 +6,6 @@ import com.moviecatalog.features.login.signup.domain.repository.MovieSignUpRepos
 internal class MovieRegisterUserUseCase(
     private val validateSignUpNonEmpty: MovieValidateSignUpNonEmptyUseCase,
     private val evaluatePasswordRules: MovieEvaluatePasswordRulesUseCase,
-    private val checkUsernameAvailability: MovieCheckUsernameAvailabilityUseCase,
     private val repository: MovieSignUpRepository,
 ) {
     suspend operator fun invoke(
@@ -16,18 +15,19 @@ internal class MovieRegisterUserUseCase(
     ): MovieRegisterUserResult {
         validateSignUpNonEmpty(usernameRaw, password, confirmPassword)?.let { return it }
 
-        if (password != confirmPassword) return MovieRegisterUserResult.Failure.PasswordMismatch
-
-        if (!evaluatePasswordRules(password).allSatisfied) {
-            return MovieRegisterUserResult.Failure.PasswordRulesNotMet
+        val passwordRules = evaluatePasswordRules(password, confirmPassword)
+        if (!passwordRules.allSatisfied) {
+            return if (!passwordRules.hasPasswordsMatch) {
+                MovieRegisterUserResult.Failure.PasswordMismatch
+            } else {
+                MovieRegisterUserResult.Failure.PasswordRulesNotMet
+            }
         }
 
         val normalized = usernameRaw.trim().lowercase()
-        if (!checkUsernameAvailability(normalized)) {
+        if (!repository.registerIfAbsent(normalized, password)) {
             return MovieRegisterUserResult.Failure.UsernameTaken
         }
-
-        repository.insertUser(normalized, password)
         return MovieRegisterUserResult.Success
     }
 }
