@@ -8,16 +8,17 @@ import com.moviecatalog.features.home.data.KtorMuseumApi
 import com.moviecatalog.features.home.data.MuseumApi
 import com.moviecatalog.features.home.data.MuseumRepository
 import com.moviecatalog.features.home.data.MuseumStorage
-import com.moviecatalog.features.home.ui.detail.MovieCatalogDetailsViewModel
-import com.moviecatalog.features.home.ui.list.MovieCatalogHomeViewModel
+import com.moviecatalog.features.home.ui.detail.MovieCatalogDetailsUiModel
 import com.moviecatalog.features.home.ui.list.MovieCatalogHomeStep
+import com.moviecatalog.features.home.ui.list.MovieCatalogHomeUiModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.http.ContentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.core.module.Module
-import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.viewModel
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 private val homeScreenFactories: Map<HomeDestination, () -> Step> = mapOf(
@@ -25,8 +26,13 @@ private val homeScreenFactories: Map<HomeDestination, () -> Step> = mapOf(
 )
 
 public val homeFeatureModule: Module = module {
-    factoryOf(::MovieCatalogHomeViewModel)
-    factoryOf(::MovieCatalogDetailsViewModel)
+    viewModelOf(::MovieCatalogHomeUiModel)
+    viewModel { params ->
+        MovieCatalogDetailsUiModel(
+            museumRepository = get(),
+            movieId = params.get<Int>(),
+        )
+    }
     importDestinations(homeScreenFactories)
 
     single {

@@ -1,6 +1,6 @@
 package com.moviecatalog.core.uimodel
 
-/**
- * Base marker for screen / feature UI state (immutable data for presentation).
- */
-interface UiState
+public data class UiState<T : UiModelState>(
+    public val data: T,
+    public val mode: UiMode = UiMode.Content,
+)

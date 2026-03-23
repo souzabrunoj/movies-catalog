@@ -1,6 +1,5 @@
 package com.moviecatalog.features.home.ui.detail
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,19 +14,19 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.moviecatalog.core.designsystem.components.text.MovieText
 import com.moviecatalog.core.designsystem.theme.MovieTheme
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextColor
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
+import com.moviecatalog.core.navigator.flow.state.collectDataAsState
 import com.moviecatalog.core.navigator.step.Step
 import com.moviecatalog.core.navigator.step.StepKey
 import com.moviecatalog.core.navigator.step.StepNavigationOptions
-import com.moviecatalog.features.home.data.MuseumObject
 import com.moviecatalog.features.home.generated.resources.Res
 import com.moviecatalog.features.home.generated.resources.back
 import com.moviecatalog.features.home.generated.resources.details_screen_title
@@ -45,6 +44,7 @@ import com.moviecatalog.features.home.ui.detail.componentes.detailsRow.MovieDeta
 import com.moviecatalog.features.home.ui.detail.componentes.section.MovieDetailHeroSection
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 internal data class MovieCatalogDetailsStep(val movieId: Int) : Step() {
 
@@ -66,22 +66,25 @@ internal data class MovieCatalogDetailsStep(val movieId: Int) : Step() {
 
     @Composable
     override fun Content() {
-        val viewModel = koinViewModel<MovieCatalogDetailsViewModel>()
-        val obj by viewModel.getObject(movieId).collectAsStateWithLifecycle(initialValue = null)
-        AnimatedContent(obj != null) { objectAvailable ->
-            if (objectAvailable) {
-                MovieDetailsContent(obj!!)
-            } else {
-                EmptyScreenContent(Modifier.fillMaxSize())
-            }
+        val uiModel = koinViewModel<MovieCatalogDetailsUiModel>(parameters = { parametersOf(movieId) })
+
+        LaunchedEffect(movieId) {
+            uiModel.getMovieDetails()
+        }
+
+        val data by uiModel.collectDataAsState()
+        val detail = data.detail
+        if (detail != null) {
+            MovieDetailsContent(detail)
+        } else {
+            EmptyScreenContent(Modifier.fillMaxSize())
         }
     }
 }
 
 @Composable
-private fun MovieDetailsContent(obj: MuseumObject, modifier: Modifier = Modifier) {
+private fun MovieDetailsContent(obj: MuseumObjectDetailUiModel, modifier: Modifier = Modifier) {
     val colors = MovieTheme.colors
-    val heroUrl = obj.primaryImage.ifBlank { obj.primaryImageSmall }
 
     Column(
         modifier
@@ -90,7 +93,7 @@ private fun MovieDetailsContent(obj: MuseumObject, modifier: Modifier = Modifier
             .verticalScroll(rememberScrollState()),
     ) {
         MovieDetailHeroSection(
-            imageUrl = heroUrl,
+            imageUrl = obj.heroImageUrl,
             contentDescription = obj.title,
             modifier = Modifier
                 .fillMaxWidth()

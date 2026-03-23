@@ -33,9 +33,14 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.core.designSystem)
+            implementation(projects.core.uiModel)
+
             implementation(libs.compose.foundation)
+            implementation(libs.compose.material3)
             implementation(libs.compose.runtime)
             implementation(libs.compose.ui)
+            implementation(libs.lifecycle.runtime.compose)
+            implementation(libs.lifecycle.viewmodel)
             implementation(libs.koin.core)
             implementation(libs.voyager.core)
             implementation(libs.voyager.navigator)

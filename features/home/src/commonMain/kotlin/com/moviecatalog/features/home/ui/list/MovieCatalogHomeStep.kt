@@ -1,6 +1,5 @@
 package com.moviecatalog.features.home.ui.list
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -10,12 +9,12 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.moviecatalog.core.designsystem.components.card.MovieCard
 import com.moviecatalog.core.designsystem.components.text.MovieText
 import com.moviecatalog.core.designsystem.tokens.card.MovieCardVariant
@@ -23,9 +22,9 @@ import com.moviecatalog.core.designsystem.tokens.size.MovieSpace
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextColor
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
 import com.moviecatalog.core.navigator.flow.navigator.LocalFlowNavigator
+import com.moviecatalog.core.navigator.flow.state.collectDataAsState
 import com.moviecatalog.core.navigator.step.Step
 import com.moviecatalog.core.navigator.step.StepNavigationOptions
-import com.moviecatalog.features.home.data.MuseumObject
 import com.moviecatalog.features.home.ui.EmptyScreenContent
 import com.moviecatalog.features.home.ui.detail.MovieCatalogDetailsStep
 import org.koin.compose.viewmodel.koinViewModel
@@ -38,26 +37,26 @@ internal data object MovieCatalogHomeStep : Step() {
 
     @Composable
     override fun Content() {
-        val viewModel = koinViewModel<MovieCatalogHomeViewModel>()
-        val objects by viewModel.objects.collectAsStateWithLifecycle()
+        val uiModel = koinViewModel<MovieCatalogHomeUiModel>()
+        val data by uiModel.collectDataAsState()
         val flowNavigator = LocalFlowNavigator.current
 
-        AnimatedContent(objects.isNotEmpty()) { objectsAvailable ->
-            if (objectsAvailable) {
-                MovieCatalogGrid(
-                    objects = objects,
-                    onObjectClick = { id -> flowNavigator.push(MovieCatalogDetailsStep(movieId = id)) },
-                )
-            } else {
-                EmptyScreenContent(Modifier.fillMaxSize())
-            }
+        LaunchedEffect(key1 = Unit) { uiModel.getMovies() }
+
+        if (data.items.isNotEmpty()) {
+            MovieCatalogGrid(
+                items = data.items,
+                onObjectClick = { id -> flowNavigator.push(MovieCatalogDetailsStep(movieId = id)) },
+            )
+        } else {
+            EmptyScreenContent(Modifier.fillMaxSize())
         }
     }
 }
 
 @Composable
 private fun MovieCatalogGrid(
-    objects: List<MuseumObject>,
+    items: List<MuseumObjectListItemUiModel>,
     onObjectClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -68,11 +67,11 @@ private fun MovieCatalogGrid(
         horizontalArrangement = Arrangement.spacedBy(MovieSpace.Small),
         verticalArrangement = Arrangement.spacedBy(MovieSpace.XLarge),
     ) {
-        items(objects, key = { it.objectID }) { obj ->
+        items(items, key = { it.objectId }) { obj ->
             MovieCard(
-                imageUrl = obj.primaryImageSmall,
+                imageUrl = obj.posterImageUrl,
                 contentDescription = obj.title,
-                onClick = { onObjectClick(obj.objectID) },
+                onClick = { onObjectClick(obj.objectId) },
             ) {
                 val t = MovieCardVariant.Default.tokens
                 Spacer(Modifier.height(t.titleToPosterGap))
@@ -85,7 +84,7 @@ private fun MovieCatalogGrid(
                 )
                 Spacer(Modifier.height(t.subtitleToTitleGap))
                 MovieText(
-                    text = obj.cardSubtitleLine(),
+                    text = obj.cardSubtitle,
                     variant = MovieTextVariant.TextSmall(),
                     contentColor = MovieTextColor.Medium,
                     maxLines = 2,
@@ -93,14 +92,5 @@ private fun MovieCatalogGrid(
                 )
             }
         }
-    }
-}
-
-private fun MuseumObject.cardSubtitleLine(): String {
-    val parts = listOf(department, medium).map { it.trim() }.filter { it.isNotEmpty() }
-    return if (parts.isNotEmpty()) {
-        parts.joinToString(" • ")
-    } else {
-        artistDisplayName
     }
 }
