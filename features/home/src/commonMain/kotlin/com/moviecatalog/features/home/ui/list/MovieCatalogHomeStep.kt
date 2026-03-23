@@ -30,7 +30,7 @@ internal data object MovieCatalogHomeStep : Step() {
 
     @Composable
     override fun Content() {
-        val viewModel = koinViewModel<ListViewModel>()
+        val viewModel = koinViewModel<MovieCatalogHomeViewModel>()
         val objects by viewModel.objects.collectAsStateWithLifecycle()
         val flowNavigator = LocalFlowNavigator.current
 

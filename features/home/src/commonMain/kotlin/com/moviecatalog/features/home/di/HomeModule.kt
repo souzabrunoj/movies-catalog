@@ -9,7 +9,7 @@ import com.moviecatalog.features.home.data.MuseumApi
 import com.moviecatalog.features.home.data.MuseumRepository
 import com.moviecatalog.features.home.data.MuseumStorage
 import com.moviecatalog.features.home.ui.detail.MovieCatalogDetailsViewModel
-import com.moviecatalog.features.home.ui.list.ListViewModel
+import com.moviecatalog.features.home.ui.list.MovieCatalogHomeViewModel
 import com.moviecatalog.features.home.ui.list.MovieCatalogHomeStep
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -25,7 +25,7 @@ private val homeScreenFactories: Map<HomeDestination, () -> Step> = mapOf(
 )
 
 public val homeFeatureModule: Module = module {
-    factoryOf(::ListViewModel)
+    factoryOf(::MovieCatalogHomeViewModel)
     factoryOf(::MovieCatalogDetailsViewModel)
     importDestinations(homeScreenFactories)
 

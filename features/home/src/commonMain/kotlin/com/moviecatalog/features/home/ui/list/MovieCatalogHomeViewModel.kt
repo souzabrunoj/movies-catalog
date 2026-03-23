@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 
-public class ListViewModel(museumRepository: MuseumRepository) : ViewModel() {
+public class MovieCatalogHomeViewModel(museumRepository: MuseumRepository) : ViewModel() {
     public val objects: StateFlow<List<MuseumObject>> =
         museumRepository.getObjects()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
