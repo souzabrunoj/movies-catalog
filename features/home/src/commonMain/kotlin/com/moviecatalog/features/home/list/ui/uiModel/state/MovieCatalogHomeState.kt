@@ -1,4 +1,4 @@
-package com.moviecatalog.features.home.list.ui
+package com.moviecatalog.features.home.list.ui.uiModel.state
 
 import com.moviecatalog.core.uimodel.UiModelState
 

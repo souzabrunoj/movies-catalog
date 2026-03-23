@@ -1,9 +1,10 @@
-package com.moviecatalog.features.home.list.ui
+package com.moviecatalog.features.home.list.ui.uiModel
 
 import com.moviecatalog.core.uimodel.UiMode
 import com.moviecatalog.core.uimodel.UiModel
+import com.moviecatalog.features.home.list.domain.mapper.toListItemUiModel
 import com.moviecatalog.features.home.list.domain.repository.MovieRepository
-import com.moviecatalog.features.home.list.ui.mapper.toListItemUiModel
+import com.moviecatalog.features.home.list.ui.uiModel.state.MovieCatalogHomeState
 import kotlinx.coroutines.delay
 
 internal class MovieCatalogHomeUiModel(private val movieRepository: MovieRepository) :

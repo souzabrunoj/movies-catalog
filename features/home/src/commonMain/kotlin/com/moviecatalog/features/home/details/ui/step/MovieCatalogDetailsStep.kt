@@ -26,10 +26,10 @@ import com.moviecatalog.core.navigator.flow.state.collectDataAsState
 import com.moviecatalog.core.navigator.step.Step
 import com.moviecatalog.core.navigator.step.StepKey
 import com.moviecatalog.core.navigator.step.StepNavigationOptions
-import com.moviecatalog.features.home.details.ui.uiModel.MovieCatalogDetailsUiModel
 import com.moviecatalog.features.home.details.ui.componentes.MovieDetailConfigs
 import com.moviecatalog.features.home.details.ui.componentes.detailsRow.MovieDetailMetadataRow
 import com.moviecatalog.features.home.details.ui.componentes.section.MovieDetailHeroSection
+import com.moviecatalog.features.home.details.ui.uiModel.MovieCatalogDetailsUiModel
 import com.moviecatalog.features.home.details.ui.uiModel.state.MovieObjectDetailUiModel
 import com.moviecatalog.features.home.generated.resources.Res
 import com.moviecatalog.features.home.generated.resources.back

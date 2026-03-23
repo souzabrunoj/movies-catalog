@@ -9,8 +9,8 @@ import com.moviecatalog.features.home.list.data.remote.MovieApi
 import com.moviecatalog.features.home.list.data.remote.MovieApiImpl
 import com.moviecatalog.features.home.list.data.repository.MovieRepositoryImpl
 import com.moviecatalog.features.home.list.domain.repository.MovieRepository
-import com.moviecatalog.features.home.list.ui.MovieCatalogHomeStep
-import com.moviecatalog.features.home.list.ui.MovieCatalogHomeUiModel
+import com.moviecatalog.features.home.list.ui.step.MovieCatalogHomeStep
+import com.moviecatalog.features.home.list.ui.uiModel.MovieCatalogHomeUiModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.http.ContentType

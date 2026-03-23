@@ -1,6 +1,6 @@
-package com.moviecatalog.features.home.list.ui.mapper
+package com.moviecatalog.features.home.list.domain.mapper
 
-import com.moviecatalog.features.home.list.ui.MovieObjectListItemUiModel
+import com.moviecatalog.features.home.list.ui.uiModel.state.MovieObjectListItemUiModel
 import com.moviecatalog.features.home.shared.domain.model.MovieObject
 
 internal fun MovieObject.toListItemUiModel(): MovieObjectListItemUiModel =
