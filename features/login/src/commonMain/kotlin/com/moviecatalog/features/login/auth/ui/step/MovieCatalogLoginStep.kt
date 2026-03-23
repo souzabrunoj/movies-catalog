@@ -83,7 +83,6 @@ internal object MovieCatalogLoginStep : Step() {
             onConsumeFeedback = uiModel::consumeFeedback,
             onNavigateHome = { navigator.replaceAll(HomeDestination.Home) },
             onSignUp = { navigator.push(LoginDestination.SignUp) },
-            onForgotPassword = { },
         )
     }
 
@@ -96,7 +95,6 @@ internal object MovieCatalogLoginStep : Step() {
         onConsumeFeedback: () -> Unit = {},
         onNavigateHome: () -> Unit = {},
         onSignUp: () -> Unit = {},
-        onForgotPassword: () -> Unit = {},
     ) {
         LoginScreen(
             data = data,
@@ -106,7 +104,6 @@ internal object MovieCatalogLoginStep : Step() {
             onConsumeFeedback = onConsumeFeedback,
             onNavigateHome = onNavigateHome,
             onSignUp = onSignUp,
-            onForgotPassword = onForgotPassword,
         )
     }
 }
@@ -120,7 +117,6 @@ private fun LoginScreen(
     onConsumeFeedback: () -> Unit,
     onNavigateHome: () -> Unit,
     onSignUp: () -> Unit,
-    onForgotPassword: () -> Unit,
 ) {
     val semantic = MovieTheme.colors
     val scroll = rememberScrollState()
@@ -264,7 +260,13 @@ private fun LoginScreen(
                         modifier = Modifier.clickable(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = null,
-                            onClick = onForgotPassword,
+                            onClick = {
+                                snackbarHostState.show(
+                                    message = "This feature isn't available.",
+                                    duration = MovieSnackbarDuration.Short,
+                                    variant = MovieSnackbarVariant.Info,
+                                )
+                            },
                         ),
                     )
                 }
