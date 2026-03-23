@@ -35,6 +35,7 @@ keystore.properties
 # .idea/*
 # !.idea/codeInsightSettings.xml
 
+
 # --- macOS ---
 .DS_Store
 .AppleDouble

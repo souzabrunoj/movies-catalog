@@ -9,6 +9,6 @@ import com.moviecatalog.features.login.navigation.MovieCatalogLoginStep
 @Composable
 private fun MovieCatalogLoginStepPreview() {
     MovieTheme {
-        MovieCatalogLoginStep.StepContent(onLogin = {}, onSignUp = {}, onForgotPassword = {},)
+        MovieCatalogLoginStep.StepContent()
     }
 }

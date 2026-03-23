@@ -3,6 +3,7 @@ package com.moviecatalog.features.login.di
 import com.moviecatalog.core.navigator.LoginDestination
 import com.moviecatalog.core.navigator.importDestinations
 import com.moviecatalog.core.navigator.step.Step
+import com.moviecatalog.features.login.auth.di.authModule
 import com.moviecatalog.features.login.navigation.MovieCatalogLoginStep
 import com.moviecatalog.features.login.signup.di.signUpModule
 import com.moviecatalog.features.login.signup.ui.step.MovieCatalogSignUpStep
@@ -15,6 +16,6 @@ private val loginScreenFactories: Map<LoginDestination, () -> Step> = mapOf(
 )
 
 public val loginFeatureModule: Module = module {
-    includes(signUpModule)
+    includes(signUpModule, authModule)
     importDestinations(loginScreenFactories)
 }
