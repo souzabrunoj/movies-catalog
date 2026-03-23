@@ -25,7 +25,7 @@ internal class MovieLoginUiModel(
     fun login() {
         if (currentData.isSubmitting) return
         setState(
-            block = loginBlock@ {
+            block = loginBlock@{
                 updateData { copy(isSubmitting = true, usernameErrorText = null, passwordErrorText = null) }
                 val result =
                     runCatching {

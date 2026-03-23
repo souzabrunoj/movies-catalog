@@ -1,4 +1,4 @@
-package com.moviecatalog.features.login.navigation
+package com.moviecatalog.features.login.auth.ui.step
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

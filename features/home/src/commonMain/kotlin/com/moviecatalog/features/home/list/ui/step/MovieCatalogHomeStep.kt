@@ -45,14 +45,10 @@ internal data object MovieCatalogHomeStep : Step() {
 
         LaunchedEffect(key1 = Unit) { data.items.ifEmpty { uiModel.getMovies() } }
 
-        if (data.items.isNotEmpty()) {
-            MovieCatalogGrid(
-                items = data.items,
-                onMovieClick = { id -> flowNavigator.push(MovieCatalogDetailsStep(movieId = id)) },
-            )
-        } else {
-            EmptyScreenContent(Modifier.fillMaxSize())
-        }
+        MovieCatalogGrid(
+            items = data.items,
+            onMovieClick = { id -> flowNavigator.push(MovieCatalogDetailsStep(movieId = id)) },
+        )
     }
 }
 

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -20,6 +19,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.transitions.SlideTransition
 import com.moviecatalog.core.designsystem.components.appbar.MovieStepTopAppBar
+import com.moviecatalog.core.designsystem.components.progress.MovieCircularProgressIndicator
 import com.moviecatalog.core.designsystem.components.text.MovieText
 import com.moviecatalog.core.designsystem.theme.MovieTheme
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextColor
@@ -83,7 +83,7 @@ private fun StepSurfaceOverlay(mode: UiMode) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.padding(24.dp),
                 ) {
-                    CircularProgressIndicator(color = colors.contentBrand)
+                    MovieCircularProgressIndicator()
                     val message = mode.message
                     if (message != null) {
                         Spacer(Modifier.height(16.dp))
