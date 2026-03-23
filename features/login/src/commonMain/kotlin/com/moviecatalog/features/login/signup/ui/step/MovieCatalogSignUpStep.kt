@@ -34,12 +34,14 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import com.moviecatalog.core.designsystem.components.button.MovieButton
+import com.moviecatalog.core.designsystem.components.divider.MovieDivider
 import com.moviecatalog.core.designsystem.components.icon.MovieIcon
 import com.moviecatalog.core.designsystem.components.input.MovieTextInput
 import com.moviecatalog.core.designsystem.components.text.MovieText
 import com.moviecatalog.core.designsystem.icons.MovieIcons
 import com.moviecatalog.core.designsystem.theme.MovieTheme
 import com.moviecatalog.core.designsystem.tokens.button.MovieButtonVariant
+import com.moviecatalog.core.designsystem.tokens.divider.MovieDividerSize
 import com.moviecatalog.core.designsystem.tokens.size.MovieCornerRadius
 import com.moviecatalog.core.designsystem.tokens.size.MovieSpace
 import com.moviecatalog.core.designsystem.tokens.type.MovieIconColor
@@ -149,15 +151,7 @@ private fun SignUpScreen(
             )
         }
         Spacer(Modifier.height(MovieSpace.Small))
-//        LinearProgressIndicator(
-//            progress = { 1f },
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .height(3.dp)
-//                .clip(RoundedCornerShape(2.dp)),
-//            color = semantic.contentBrand,
-//            trackColor = semantic.fillProgressTrack,
-//        )
+        MovieDivider(size = MovieDividerSize.Medium)
         Spacer(Modifier.height(MovieSpace.Large))
 
         Column(
