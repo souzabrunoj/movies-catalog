@@ -1,15 +1,9 @@
 package com.moviecatalog.features.home.ui.list
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -17,16 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil3.compose.AsyncImage
-import com.moviecatalog.core.designsystem.components.text.MovieText
-import com.moviecatalog.core.designsystem.theme.MovieTheme
+import com.moviecatalog.core.designsystem.components.card.MovieCard
 import com.moviecatalog.core.designsystem.tokens.size.MovieSpace
-import com.moviecatalog.core.designsystem.tokens.type.MovieTextColor
-import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
 import com.moviecatalog.core.navigator.flow.navigator.LocalFlowNavigator
 import com.moviecatalog.core.navigator.step.Step
 import com.moviecatalog.core.navigator.step.StepNavigationOptions
@@ -49,7 +36,7 @@ internal data object MovieCatalogHomeStep : Step() {
 
         AnimatedContent(objects.isNotEmpty()) { objectsAvailable ->
             if (objectsAvailable) {
-                ObjectGrid(
+                MovieCatalogGrid(
                     objects = objects,
                     onObjectClick = { id -> flowNavigator.push(MovieCatalogDetailsStep(movieId = id)) },
                 )
@@ -59,62 +46,37 @@ internal data object MovieCatalogHomeStep : Step() {
         }
     }
 }
+
 @Composable
-private fun ObjectGrid(
+private fun MovieCatalogGrid(
     objects: List<MuseumObject>,
     onObjectClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(180.dp),
+        columns = GridCells.Fixed(2),
         modifier = modifier.fillMaxSize(),
+        contentPadding = PaddingValues(MovieSpace.Medium),
+        horizontalArrangement = Arrangement.spacedBy(MovieSpace.Small),
+        verticalArrangement = Arrangement.spacedBy(MovieSpace.XLarge),
     ) {
         items(objects, key = { it.objectID }) { obj ->
-            ObjectFrame(
-                obj = obj,
+            MovieCard(
+                title = obj.title,
+                subtitle = obj.cardSubtitleLine(),
+                imageUrl = obj.primaryImageSmall,
+                contentDescription = obj.title,
                 onClick = { onObjectClick(obj.objectID) },
             )
         }
     }
 }
 
-@Composable
-private fun ObjectFrame(
-    obj: MuseumObject,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier
-            .padding(MovieSpace.XSmall)
-            .clickable { onClick() },
-    ) {
-        AsyncImage(
-            model = obj.primaryImageSmall,
-            contentDescription = obj.title,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(1f)
-                .background(MovieTheme.colors.backgroundSurface),
-        )
-
-        Spacer(Modifier.height(MovieSpace.XSmall3))
-
-        MovieText(
-            text = obj.title,
-            variant = MovieTextVariant.TextMedium(FontWeight.Medium),
-            contentColor = MovieTextColor.High,
-        )
-        MovieText(
-            text = obj.artistDisplayName,
-            variant = MovieTextVariant.TextMedium(),
-            contentColor = MovieTextColor.Medium,
-        )
-        MovieText(
-            text = obj.objectDate,
-            variant = MovieTextVariant.TextSmall(),
-            contentColor = MovieTextColor.Low,
-        )
+private fun MuseumObject.cardSubtitleLine(): String {
+    val parts = listOf(department, medium).map { it.trim() }.filter { it.isNotEmpty() }
+    return if (parts.isNotEmpty()) {
+        parts.joinToString(" • ")
+    } else {
+        artistDisplayName
     }
 }
