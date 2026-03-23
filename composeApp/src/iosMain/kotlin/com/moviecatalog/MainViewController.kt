@@ -1,9 +1,9 @@
 package com.moviecatalog
 
 import androidx.compose.ui.window.ComposeUIViewController
-import com.moviecatalog.screens.splash.MovieCatalogApp
+import com.moviecatalog.screens.MovieCatalogApp
 
 fun MainViewController() = ComposeUIViewController {
-    ensureKoinStarted()
+    KoinIos.ensureKoinStarted()
     MovieCatalogApp()
 }

@@ -52,6 +52,8 @@ kotlin {
             implementation(projects.core.navigator)
             implementation(projects.core.designSystem)
             implementation(projects.core.uiModel)
+            implementation(projects.features.login)
+            implementation(projects.features.home)
 
             implementation(libs.compose.runtime)
             implementation(libs.compose.animation)
@@ -66,11 +68,6 @@ kotlin {
             implementation(libs.coil.compose)
             implementation(libs.koin.core)
             implementation(libs.koin.compose.viewmodel)
-        }
-        iosMain.dependencies {
-            implementation(projects.features.login)
-            implementation(projects.features.home)
-            implementation(libs.koin.core)
         }
     }
 }
