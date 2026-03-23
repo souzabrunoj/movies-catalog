@@ -34,11 +34,13 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.core.designSystem)
             implementation(projects.core.navigator)
-
+            implementation(projects.core.uiModel)
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.ui)
             implementation(libs.koin.compose.viewmodel)
+            implementation(libs.koin.core)
+            implementation(libs.kotlinx.coroutines.core)
         }
         androidMain.dependencies {
             implementation(libs.androidx.compose.ui.tooling.preview)

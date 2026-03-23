@@ -40,6 +40,7 @@ import com.moviecatalog.core.designsystem.tokens.size.MovieSpace
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextColor
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
 import com.moviecatalog.core.navigator.HomeDestination
+import com.moviecatalog.core.navigator.LoginDestination
 import com.moviecatalog.core.navigator.flow.navigator.LocalFlowNavigator
 import com.moviecatalog.core.navigator.step.Step
 import com.moviecatalog.core.navigator.step.StepNavigationOptions
@@ -60,7 +61,7 @@ internal object MovieCatalogLoginStep : Step() {
         val navigator = LocalFlowNavigator.current
         MovieCatalogLoginContent(
             onLogin = { navigator.replaceAll(HomeDestination.Home) },
-            onSignUp = { },
+            onSignUp = { navigator.push(LoginDestination.SignUp) },
             onForgotPassword = { },
         )
     }

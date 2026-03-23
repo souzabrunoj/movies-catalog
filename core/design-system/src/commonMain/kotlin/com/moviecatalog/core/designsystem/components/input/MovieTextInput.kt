@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
@@ -93,7 +94,11 @@ fun MovieTextInput(
         }
     }
     val cropped = remember(value, maxLength) {
-        value.copy(text = value.text.take(maxLength))
+        val newText = value.text.take(maxLength)
+        val maxIdx = newText.length
+        val start = value.selection.start.coerceIn(0, maxIdx)
+        val end = value.selection.end.coerceIn(0, maxIdx)
+        value.copy(text = newText, selection = TextRange(start, end))
     }
     val showCounter = remember(hideCounter, maxLength) {
         !hideCounter && maxLength != Int.MAX_VALUE
