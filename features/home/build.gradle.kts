@@ -66,6 +66,7 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
         }
         androidMain.dependencies {
+            implementation(libs.androidx.compose.ui.tooling.preview)
             implementation(libs.ktor.client.okhttp)
         }
         iosMain.dependencies {

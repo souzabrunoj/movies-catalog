@@ -1,9 +1,9 @@
 package com.moviecatalog.features.home.details.ui.uiModel
 
+import com.moviecatalog.core.tests.runViewModelTest
 import com.moviecatalog.core.uimodel.UiMode
 import com.moviecatalog.features.home.details.ui.uiModel.state.MovieObjectDetailUiModel
 import com.moviecatalog.features.home.test.FakeMovieDetailsRepository
-import com.moviecatalog.core.tests.runViewModelTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle

@@ -27,7 +27,8 @@ internal class MovieRepositoryImpl(
         movieStorage.saveMovies(
             newMovies = Movies(
                 hasMore = responses.hasMore,
-                movies = responses.movies.map { it.toDomain() })
+                movies = responses.movies.map { it.toDomain() }
+            )
         )
     }
 

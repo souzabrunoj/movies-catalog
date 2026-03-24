@@ -1,8 +1,8 @@
 package com.moviecatalog.features.home.list.ui.uiModel
 
+import com.moviecatalog.core.tests.runViewModelTest
 import com.moviecatalog.core.uimodel.UiMode
 import com.moviecatalog.features.home.test.FakeMovieRepository
-import com.moviecatalog.core.tests.runViewModelTest
 import com.moviecatalog.features.home.test.sampleMovieObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf

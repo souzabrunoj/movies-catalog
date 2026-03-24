@@ -1,11 +1,11 @@
 package com.moviecatalog.features.login.signup.ui.uiModel
 
+import com.moviecatalog.core.tests.runViewModelTest
 import com.moviecatalog.features.login.signup.domain.usecase.MovieEvaluatePasswordRulesUseCase
 import com.moviecatalog.features.login.signup.domain.usecase.MovieRegisterUserUseCase
 import com.moviecatalog.features.login.signup.domain.usecase.MovieValidateSignUpNonEmptyUseCase
 import com.moviecatalog.features.login.signup.ui.uiModel.state.MovieSignUpFeedbackEvent
 import com.moviecatalog.features.login.test.FakeMovieSignUpRepository
-import com.moviecatalog.core.tests.runViewModelTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle

@@ -104,7 +104,7 @@ internal data object MovieCatalogSignUpStep : Step() {
         val data by uiModel.collectDataAsState()
         val navigator = LocalFlowNavigator.current
 
-        SignUpScreen(
+        StepContent(
             data = data,
             onUsernameChange = uiModel::onUsernameChange,
             onPasswordChange = uiModel::onPasswordChange,
@@ -114,6 +114,31 @@ internal data object MovieCatalogSignUpStep : Step() {
             onCompleteRegistration = uiModel::completeRegistration,
             onConsumeFeedback = uiModel::consumeFeedback,
             onAfterSuccessfulRegistration = { navigator.pop() },
+        )
+    }
+
+    @Composable
+    internal fun StepContent(
+        data: MovieSignUpUiState = MovieSignUpUiState(),
+        onUsernameChange: (String) -> Unit = {},
+        onPasswordChange: (String) -> Unit = {},
+        onConfirmPasswordChange: (String) -> Unit = {},
+        onTogglePasswordVisible: () -> Unit = {},
+        onToggleConfirmPasswordVisible: () -> Unit = {},
+        onCompleteRegistration: () -> Unit = {},
+        onConsumeFeedback: () -> Unit = {},
+        onAfterSuccessfulRegistration: () -> Unit = {},
+    ) {
+        SignUpScreen(
+            data = data,
+            onUsernameChange = onUsernameChange,
+            onPasswordChange = onPasswordChange,
+            onConfirmPasswordChange = onConfirmPasswordChange,
+            onTogglePasswordVisible = onTogglePasswordVisible,
+            onToggleConfirmPasswordVisible = onToggleConfirmPasswordVisible,
+            onCompleteRegistration = onCompleteRegistration,
+            onConsumeFeedback = onConsumeFeedback,
+            onAfterSuccessfulRegistration = onAfterSuccessfulRegistration,
         )
     }
 }
