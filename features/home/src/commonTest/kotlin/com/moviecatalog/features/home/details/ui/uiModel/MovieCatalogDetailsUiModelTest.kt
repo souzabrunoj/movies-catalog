@@ -21,8 +21,8 @@ internal class MovieCatalogDetailsUiModelTest {
             FakeMovieDetailsRepository { _ ->
                 flowOf(detail)
             }
-        val vm = MovieCatalogDetailsUiModel(repo, movieId = 1)
-        vm.getMovieDetails()
+        val vm = MovieCatalogDetailsUiModel(repo)
+        vm.getMovieDetails(1)
         advanceUntilIdle()
         assertEquals("Hero", vm.state.value.data.detail.title)
         assertIs<UiMode.Content>(vm.state.value.mode)

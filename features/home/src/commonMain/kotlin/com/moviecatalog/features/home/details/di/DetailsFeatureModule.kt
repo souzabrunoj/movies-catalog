@@ -8,11 +8,6 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 internal val detailsFeatureModule: Module = module {
-    viewModel { params ->
-        MovieCatalogDetailsUiModel(
-            movieDetailsRepository = get(),
-            movieId = params.get<Int>(),
-        )
-    }
+    viewModel { MovieCatalogDetailsUiModel(movieDetailsRepository = get()) }
     single<MovieDetailsRepository> { MovieDetailsRepositoryImpl(get()) }
 }

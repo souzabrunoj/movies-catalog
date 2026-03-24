@@ -7,13 +7,12 @@ import com.moviecatalog.features.home.details.ui.uiModel.state.MovieCatalogDetai
 
 internal class MovieCatalogDetailsUiModel(
     private val movieDetailsRepository: MovieDetailsRepository,
-    private val movieId: Int,
 ) : UiModel<MovieCatalogDetailsState>(
     initialData = MovieCatalogDetailsState(),
     initialMode = UiMode.Loading(),
 ) {
 
-    internal fun getMovieDetails(): Unit = setState({
+    internal fun getMovieDetails(movieId: Int): Unit = setState({
         var firstEmission = true
         movieDetailsRepository.getMovieById(movieId).collect { obj ->
             if (firstEmission) {

@@ -66,10 +66,10 @@ internal data class MovieCatalogDetailsStep(val movieId: Int) : Step() {
 
     @Composable
     override fun Content() {
-        val uiModel = koinViewModel<MovieCatalogDetailsUiModel>(parameters = { parametersOf(movieId) })
+        val uiModel = koinViewModel<MovieCatalogDetailsUiModel>()
 
         LaunchedEffect(movieId) {
-            uiModel.getMovieDetails()
+            uiModel.getMovieDetails(movieId)
         }
 
         val data by uiModel.collectDataAsState()
