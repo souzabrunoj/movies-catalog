@@ -56,8 +56,8 @@ lint: ## ktlintFormat + ktlintCheck
 	$(GRADLE) ktlintFormat ktlintCheck
 
 .PHONY: check
-check: ## detekt + ktlintCheck + jvmTest + assembleDebug
-	$(GRADLE) detekt ktlintCheck :composeApp:jvmTest $(ANDROID_APP):assembleDebug
+check: ## detekt + ktlintCheck + allTests + assembleDebug
+	$(GRADLE) detekt ktlintCheck allTests $(ANDROID_APP):assembleDebug
 
 .PHONY: ci
 ci: ## Same as check (explicit name for pipelines)
@@ -78,9 +78,9 @@ status: ## Gradle daemon status
 	$(GRADLE) --status
 
 .PHONY: test
-test: ## Run JVM/unit tests (all modules)
-	$(GRADLE) test
+test: ## Run unit tests on all modules (KMP: JVM + native targets Gradle schedules)
+	$(GRADLE) allTests
 
 .PHONY: build
-build: ## Alias: same as check (detekt + ktlint + jvmTest)
+build: ## Alias: same as check (detekt + ktlint + allTests + assembleDebug)
 	@$(MAKE) check

@@ -35,6 +35,7 @@ include(":core:navigator")
 include(":core:design-system")
 include(":core:ui-model")
 include(":core:data-base")
+include(":core:tests")
 
 include(":features:login")
 include(":features:home")

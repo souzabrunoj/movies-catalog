@@ -33,5 +33,8 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.lifecycle.viewmodel)
         }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+        }
     }
 }
