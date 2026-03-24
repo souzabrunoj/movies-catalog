@@ -36,6 +36,8 @@ include(":core:design-system")
 include(":core:ui-model")
 include(":core:data-base")
 include(":core:tests")
+include(":core:ui-tests")
+project(":core:ui-tests").projectDir = file("core/ui-tests")
 
 include(":features:login")
 include(":features:home")
