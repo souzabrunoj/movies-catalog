@@ -66,10 +66,16 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
         }
         androidMain.dependencies {
+            implementation(libs.androidx.compose.ui.tooling.preview)
             implementation(libs.ktor.client.okhttp)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
+        }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(projects.core.tests)
         }
     }
 }

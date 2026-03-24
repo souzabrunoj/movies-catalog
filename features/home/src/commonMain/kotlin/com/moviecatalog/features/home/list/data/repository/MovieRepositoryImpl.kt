@@ -4,7 +4,7 @@ import com.moviecatalog.features.home.list.data.local.MovieStorage
 import com.moviecatalog.features.home.list.data.mapper.toDomain
 import com.moviecatalog.features.home.list.data.remote.MovieApi
 import com.moviecatalog.features.home.list.domain.repository.MovieRepository
-import com.moviecatalog.features.home.shared.domain.model.MovieObject
+import com.moviecatalog.features.home.shared.domain.model.Movies
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
@@ -24,8 +24,13 @@ internal class MovieRepositoryImpl(
 
     override suspend fun refresh() {
         val responses = movieApi.getMovies()
-        movieStorage.saveMovies(responses.map { it.toDomain() })
+        movieStorage.saveMovies(
+            newMovies = Movies(
+                hasMore = responses.hasMore,
+                movies = responses.movies.map { it.toDomain() }
+            )
+        )
     }
 
-    override fun getMovies(): Flow<List<MovieObject>> = movieStorage.getMovies()
+    override fun getMovies(): Flow<Movies> = movieStorage.getMovies()
 }

@@ -3,6 +3,12 @@ package com.moviecatalog.features.home.list.data.dto
 import kotlinx.serialization.Serializable
 
 @Serializable
+internal data class MoviesResponse(
+    val hasMore: Boolean,
+    val movies: List<MovieObjectResponse>,
+)
+
+@Serializable
 internal data class MovieObjectResponse(
     val objectID: Int,
     val title: String,

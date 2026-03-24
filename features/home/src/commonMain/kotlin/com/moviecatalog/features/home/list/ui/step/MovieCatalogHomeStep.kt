@@ -57,6 +57,14 @@ internal data object MovieCatalogHomeStep : Step() {
             onMovieClick = { id -> flowNavigator.push(MovieCatalogDetailsStep(movieId = id)) },
         )
     }
+
+    @Composable
+    internal fun StepContent(
+        items: List<MovieObjectListItemUiModel> = emptyList(),
+        onMovieClick: (Int) -> Unit = {},
+    ) {
+        MovieCatalogGrid(items = items, onMovieClick = onMovieClick)
+    }
 }
 
 @Composable

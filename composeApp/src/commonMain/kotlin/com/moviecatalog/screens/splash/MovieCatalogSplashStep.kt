@@ -82,69 +82,99 @@ internal data object MovieCatalogSplashStep : Step() {
             navigator.replaceAll(LoginDestination.Login)
         }
 
-        Box(
-            modifier = Modifier.fillMaxSize().background(splashVerticalGradient(semantic)),
-            contentAlignment = Alignment.Center,
+        SplashStepLayout(
+            semantic = semantic,
+            brandName = brandName,
+            tagline = tagline,
+            loadingLabel = loadingLabel,
+            progress = animatedProgress,
+        )
+    }
+
+    @Composable
+    internal fun StepContent(progress: Float = 0.55f) {
+        val semantic = MovieTheme.colors
+        SplashStepLayout(
+            semantic = semantic,
+            brandName = stringResource(Res.string.splash_brand_name),
+            tagline = stringResource(Res.string.splash_tagline),
+            loadingLabel = stringResource(Res.string.splash_loading_label),
+            progress = progress,
+        )
+    }
+}
+
+@Composable
+private fun SplashStepLayout(
+    semantic: MovieSemanticColors,
+    brandName: String,
+    tagline: String,
+    loadingLabel: String,
+    progress: Float,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier.fillMaxSize().background(splashVerticalGradient(semantic)),
+        contentAlignment = Alignment.Center,
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
+            Box(
+                modifier = Modifier.size(LogoTileSize).clip(RoundedCornerShape(LogoCornerDp))
+                    .background(semantic.backgroundSurface),
+                contentAlignment = Alignment.Center,
             ) {
+                MovieImage(
+                    url = SPLASH_LOGO_COMPOSE_PATH,
+                    modifier = Modifier.fillMaxSize(),
+                )
                 Box(
-                    modifier = Modifier.size(LogoTileSize).clip(RoundedCornerShape(LogoCornerDp))
-                        .background(semantic.backgroundSurface),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    MovieImage(
-                        url = SPLASH_LOGO_COMPOSE_PATH,
-                        modifier = Modifier.fillMaxSize(),
-                    )
-                    Box(
-                        modifier = Modifier.matchParentSize().background(
-                            Brush.radialGradient(
-                                colors = listOf(
-                                    semantic.contentBrand.copy(alpha = 0.15f),
-                                    Color.Transparent,
-                                ),
+                    modifier = Modifier.matchParentSize().background(
+                        Brush.radialGradient(
+                            colors = listOf(
+                                semantic.contentBrand.copy(alpha = 0.15f),
+                                Color.Transparent,
                             ),
                         ),
-                    )
-                }
-
-                Spacer(Modifier.height(MovieSpace.XLarge2))
-
-                MovieText(
-                    text = brandName,
-                    variant = MovieTextVariant.DisplayMedium(FontWeight.Bold),
-                    contentColor = MovieTextColor.High,
-                    textAlign = TextAlign.Center,
-                )
-
-                MovieText(
-                    text = tagline,
-                    variant = MovieTextVariant.Overline(FontWeight.Medium),
-                    contentColor = MovieTextColor.Medium,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(top = MovieSpace.XSmall),
+                    ),
                 )
             }
 
-            Column(
-                modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = BottomLoadingPadding),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                MovieText(
-                    text = loadingLabel,
-                    variant = MovieTextVariant.Overline(FontWeight.Bold),
-                    contentColor = MovieTextColor.Medium,
-                    textAlign = TextAlign.Center,
-                )
-                Spacer(Modifier.height(MovieSpace.Medium))
-                MovieProgressBar(
-                    progress = animatedProgress,
-                    modifier = Modifier.width(ProgressBarWidth),
-                )
-            }
+            Spacer(Modifier.height(MovieSpace.XLarge2))
+
+            MovieText(
+                text = brandName,
+                variant = MovieTextVariant.DisplayMedium(FontWeight.Bold),
+                contentColor = MovieTextColor.High,
+                textAlign = TextAlign.Center,
+            )
+
+            MovieText(
+                text = tagline,
+                variant = MovieTextVariant.Overline(FontWeight.Medium),
+                contentColor = MovieTextColor.Medium,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = MovieSpace.XSmall),
+            )
+        }
+
+        Column(
+            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = BottomLoadingPadding),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            MovieText(
+                text = loadingLabel,
+                variant = MovieTextVariant.Overline(FontWeight.Bold),
+                contentColor = MovieTextColor.Medium,
+                textAlign = TextAlign.Center,
+            )
+            Spacer(Modifier.height(MovieSpace.Medium))
+            MovieProgressBar(
+                progress = progress,
+                modifier = Modifier.width(ProgressBarWidth),
+            )
         }
     }
 }

@@ -15,9 +15,9 @@ internal class MovieCatalogHomeUiModel(private val movieRepository: MovieReposit
 
     internal fun getMovies() = setState({
         delay(1000)
-        movieRepository.getMovies().collect { list ->
+        movieRepository.getMovies().collect { response ->
             updateData {
-                copy(items = list.map { it.toListItemUiModel() })
+                copy(hasMore = response.hasMore, items = response.movies.map { it.toListItemUiModel() })
             }
         }
     }, loadingState = { UiMode.Loading(LOADING_MOVIES_MESSAGE) })

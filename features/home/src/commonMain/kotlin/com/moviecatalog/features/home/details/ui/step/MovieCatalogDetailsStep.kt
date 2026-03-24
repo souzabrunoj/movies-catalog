@@ -24,7 +24,6 @@ import com.moviecatalog.core.designsystem.tokens.type.MovieTextColor
 import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
 import com.moviecatalog.core.navigator.flow.state.collectDataAsState
 import com.moviecatalog.core.navigator.step.Step
-import com.moviecatalog.core.navigator.step.StepKey
 import com.moviecatalog.core.navigator.step.StepNavigationOptions
 import com.moviecatalog.features.home.details.ui.componentes.MovieDetailConfigs
 import com.moviecatalog.features.home.details.ui.componentes.detailsRow.MovieDetailMetadataRow
@@ -44,11 +43,8 @@ import com.moviecatalog.features.home.generated.resources.label_repository
 import com.moviecatalog.features.home.generated.resources.label_title
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.parameter.parametersOf
 
 internal data class MovieCatalogDetailsStep(val movieId: Int) : Step() {
-
-    override val key: StepKey = "MovieCatalogDetailsStep-$movieId"
 
     override val navigationOptions: StepNavigationOptions
         @Composable
@@ -66,19 +62,24 @@ internal data class MovieCatalogDetailsStep(val movieId: Int) : Step() {
 
     @Composable
     override fun Content() {
-        val uiModel = koinViewModel<MovieCatalogDetailsUiModel>(parameters = { parametersOf(movieId) })
+        val uiModel = koinViewModel<MovieCatalogDetailsUiModel>()
 
         LaunchedEffect(movieId) {
-            uiModel.getMovieDetails()
+            uiModel.getMovieDetails(movieId)
         }
 
         val data by uiModel.collectDataAsState()
         MovieDetailsContent(data.detail)
     }
+
+    @Composable
+    internal fun StepContent(detail: MovieObjectDetailUiModel) {
+        MovieDetailsContent(obj = detail)
+    }
 }
 
 @Composable
-private fun MovieDetailsContent(obj: MovieObjectDetailUiModel, modifier: Modifier = Modifier) {
+internal fun MovieDetailsContent(obj: MovieObjectDetailUiModel, modifier: Modifier = Modifier) {
     val colors = MovieTheme.colors
 
     Column(

@@ -11,4 +11,5 @@ internal data class MovieObjectListItemUiModel(
 
 internal data class MovieCatalogHomeState(
     val items: List<MovieObjectListItemUiModel> = emptyList(),
+    val hasMore: Boolean = false,
 ) : UiModelState
