@@ -34,6 +34,7 @@ dependencyResolutionManagement {
 include(":core:navigator")
 include(":core:design-system")
 include(":core:ui-model")
+include(":core:data-base")
 
 include(":features:login")
 include(":features:home")

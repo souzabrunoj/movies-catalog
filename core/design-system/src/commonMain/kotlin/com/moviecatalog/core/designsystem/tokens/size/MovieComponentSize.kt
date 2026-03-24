@@ -11,4 +11,6 @@ object MovieComponentSize {
     val IconLarge: Dp = 32.dp
     val ButtonSpinnerDiameter: Dp = 18.dp
     val ButtonSpinnerStrokeWidth: Dp = 2.dp
+    val CircularProgressIndicatorDiameter: Dp = 40.dp
+    val CircularProgressIndicatorStrokeWidth: Dp = 4.dp
 }

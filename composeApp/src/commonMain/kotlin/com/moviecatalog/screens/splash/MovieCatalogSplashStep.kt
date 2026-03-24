@@ -38,7 +38,13 @@ import com.moviecatalog.core.designsystem.tokens.type.MovieTextVariant
 import com.moviecatalog.core.navigator.LoginDestination
 import com.moviecatalog.core.navigator.flow.navigator.LocalFlowNavigator
 import com.moviecatalog.core.navigator.step.Step
+import com.moviecatalog.core.navigator.step.StepNavigationOptions
+import com.moviecatalog.generated.resources.Res
+import com.moviecatalog.generated.resources.splash_brand_name
+import com.moviecatalog.generated.resources.splash_loading_label
+import com.moviecatalog.generated.resources.splash_tagline
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.stringResource
 
 private const val SPLASH_PROGRESS_MS = 2000
 private const val SPLASH_HOLD_AFTER_PROGRESS_MS = 500L
@@ -52,10 +58,17 @@ private const val SPLASH_LOGO_COMPOSE_PATH =
 
 internal data object MovieCatalogSplashStep : Step() {
 
+    override val navigationOptions: StepNavigationOptions
+        @Composable
+        get() = remember { StepNavigationOptions(isVisible = false) }
+
     @Composable
     override fun Content() {
         val navigator = LocalFlowNavigator.current
         val semantic = MovieTheme.colors
+        val brandName = stringResource(Res.string.splash_brand_name)
+        val tagline = stringResource(Res.string.splash_tagline)
+        val loadingLabel = stringResource(Res.string.splash_loading_label)
         var targetProgress by remember { mutableFloatStateOf(0f) }
         val animatedProgress by animateFloatAsState(
             targetValue = targetProgress,
@@ -101,14 +114,14 @@ internal data object MovieCatalogSplashStep : Step() {
                 Spacer(Modifier.height(MovieSpace.XLarge2))
 
                 MovieText(
-                    text = "Cinegraph",
+                    text = brandName,
                     variant = MovieTextVariant.DisplayMedium(FontWeight.Bold),
                     contentColor = MovieTextColor.High,
                     textAlign = TextAlign.Center,
                 )
 
                 MovieText(
-                    text = "YOUR CURATED CINEMATIC JOURNEY",
+                    text = tagline,
                     variant = MovieTextVariant.Overline(FontWeight.Medium),
                     contentColor = MovieTextColor.Medium,
                     textAlign = TextAlign.Center,
@@ -121,7 +134,7 @@ internal data object MovieCatalogSplashStep : Step() {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 MovieText(
-                    text = "CURATING CONTENT",
+                    text = loadingLabel,
                     variant = MovieTextVariant.Overline(FontWeight.Bold),
                     contentColor = MovieTextColor.Medium,
                     textAlign = TextAlign.Center,

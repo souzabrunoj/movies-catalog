@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="splash_brand_name">Cinegraph</string>
+    <string name="splash_tagline">YOUR CURATED CINEMATIC JOURNEY</string>
+    <string name="splash_loading_label">CURATING CONTENT</string>
+</resources>

@@ -42,6 +42,7 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.core.designSystem)
             implementation(projects.core.navigator)
+            implementation(projects.core.uiModel)
 
             implementation(libs.compose.runtime)
             implementation(libs.compose.animation)
@@ -51,6 +52,7 @@ kotlin {
             implementation(libs.compose.ui.tooling.preview)
 
             implementation(libs.lifecycle.runtime.compose)
+            implementation(libs.lifecycle.viewmodel)
             implementation(libs.material.icons.core)
 
             implementation(libs.ktor.client.core)

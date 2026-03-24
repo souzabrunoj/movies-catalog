@@ -5,12 +5,16 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
-import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
 import com.moviecatalog.core.navigator.DestinationRegistry
 import com.moviecatalog.core.navigator.NavDestination
+import com.moviecatalog.core.navigator.step.MovieAppStepHost
 import com.moviecatalog.core.navigator.step.Step
 import com.moviecatalog.core.navigator.step.StepBackedScreen
+import com.moviecatalog.core.uimodel.UiMode
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 public val LocalFlowNavigator: ProvidableCompositionLocal<FlowNavigator> =
     staticCompositionLocalOf { error("FlowNavigator not provided") }
@@ -19,6 +23,14 @@ public class FlowNavigator private constructor(
     private val voyagerNavigator: Navigator,
     private val destinationRegistry: DestinationRegistry,
 ) {
+
+    private val stepSurfaceUiMode = MutableStateFlow<UiMode>(UiMode.Content)
+
+    public val reportedStepUiMode: StateFlow<UiMode> = stepSurfaceUiMode.asStateFlow()
+
+    internal fun reportStepUiMode(mode: UiMode) {
+        stepSurfaceUiMode.value = mode
+    }
 
     public fun push(item: Step) {
         voyagerNavigator.push(StepBackedScreen(item))
@@ -50,6 +62,9 @@ public class FlowNavigator private constructor(
     public val canPop: Boolean
         get() = voyagerNavigator.canPop
 
+    public val currentStep: Step
+        get() = (voyagerNavigator.lastItem as StepBackedScreen).step
+
     public companion object {
 
         internal fun bind(navigator: Navigator, destinationRegistry: DestinationRegistry): FlowNavigator =
@@ -62,7 +77,7 @@ public class FlowNavigator private constructor(
                     FlowNavigator(navigator, destinationRegistry)
                 }
                 CompositionLocalProvider(LocalFlowNavigator provides flowNavigator) {
-                    CurrentScreen()
+                    MovieAppStepHost()
                 }
             }
         }
