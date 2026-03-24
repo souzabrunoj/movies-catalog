@@ -1,5 +1,6 @@
 package com.moviecatalog.features.home.list.data.repository
 
+import com.moviecatalog.features.home.list.data.dto.MoviesResponse
 import com.moviecatalog.features.home.list.data.local.InMemoryMovieStorage
 import com.moviecatalog.features.home.test.FakeMovieApi
 import com.moviecatalog.features.home.test.sampleMovieObjectResponse
@@ -13,13 +14,13 @@ internal class MovieRepositoryImplTest {
     @Test
     fun refresh_persistsMappedMovies() = runTest {
         val dto = sampleMovieObjectResponse(id = 1, title = "A")
-        val api = FakeMovieApi(listOf(dto))
+        val api = FakeMovieApi(MoviesResponse(hasMore = false, movies = listOf(dto)))
         val storage = InMemoryMovieStorage()
         val repo = MovieRepositoryImpl(api, storage)
         repo.refresh()
         val stored = storage.getMovies().first()
-        assertEquals(1, stored.size)
-        assertEquals(1, stored.first().id)
-        assertEquals("A", stored.first().title)
+        assertEquals(1, stored.movies.size)
+        assertEquals(1, stored.movies.first().id)
+        assertEquals("A", stored.movies.first().title)
     }
 }

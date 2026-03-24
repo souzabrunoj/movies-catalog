@@ -2,6 +2,7 @@ package com.moviecatalog.features.home.list.ui.uiModel
 
 import com.moviecatalog.core.tests.runViewModelTest
 import com.moviecatalog.core.uimodel.UiMode
+import com.moviecatalog.features.home.shared.domain.model.Movies
 import com.moviecatalog.features.home.test.FakeMovieRepository
 import com.moviecatalog.features.home.test.sampleMovieObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -18,7 +19,7 @@ internal class MovieCatalogHomeUiModelTest {
     @Test
     fun getMovies_populatesItemsAfterDelay() = runViewModelTest {
         val movie = sampleMovieObject(title = "Listed")
-        val repo = FakeMovieRepository(flowOf(listOf(movie)))
+        val repo = FakeMovieRepository(flowOf(Movies(movies = listOf(movie))))
         val vm = MovieCatalogHomeUiModel(repo)
         vm.getMovies()
         advanceTimeBy(1_100)

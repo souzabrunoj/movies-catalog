@@ -1,6 +1,7 @@
 package com.moviecatalog.features.home.details.data.repository
 
 import com.moviecatalog.features.home.list.data.local.InMemoryMovieStorage
+import com.moviecatalog.features.home.shared.domain.model.Movies
 import com.moviecatalog.features.home.test.sampleMovieObject
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -13,7 +14,7 @@ internal class MovieDetailsRepositoryImplTest {
     fun mapsMovieFromStorage() = runTest {
         val movie = sampleMovieObject(id = 5, title = "Detail Title")
         val storage = InMemoryMovieStorage()
-        storage.saveMovies(listOf(movie))
+        storage.saveMovies(Movies(movies = listOf(movie)))
         val repo = MovieDetailsRepositoryImpl(storage)
         val detail = repo.getMovieById(5).first()
         assertEquals("Detail Title", detail.title)
